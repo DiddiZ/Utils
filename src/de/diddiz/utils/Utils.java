@@ -1,0 +1,570 @@
+package de.diddiz.utils;
+
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+import java.awt.Desktop;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.security.GeneralSecurityException;
+import java.security.Key;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import javax.crypto.Cipher;
+import javax.swing.JFrame;
+
+public class Utils
+{
+	public static final String newline = System.getProperty("line.separator");
+	public static final String tab = "\t";
+	public static final NumberFormat percentFormat = NumberFormat.getPercentInstance();
+	public static final Random rnd = new Random();
+
+	public static String alphaNum(int len) {
+		final char[] dict = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+		final char[] alphaNum = new char[len];
+		for (int i = 0; i < len; i++)
+			alphaNum[i] = dict[(int)(Math.random() * dict.length)];
+		return new String(alphaNum);
+	}
+
+	public static int ceil(float f) {
+		if (f == (int)f)
+			return (int)f;
+		if (f > 0)
+			return (int)f + 1;
+		return (int)f - 1;
+	}
+
+	public static void copy(InputStream in, OutputStream out) throws IOException {
+		copy(in, out, new byte[4096]);
+	}
+
+	public static void copy(InputStream in, OutputStream out, byte[] buffer) throws IOException {
+		int len;
+		while ((len = in.read(buffer)) >= 0)
+			out.write(buffer, 0, len);
+	}
+
+	public static void copy(Reader in, Writer out) throws IOException {
+		final char[] buffer = new char[4096];
+		int len;
+		while ((len = in.read(buffer)) >= 0)
+			out.write(buffer, 0, len);
+	}
+
+	public static void copyFile(File in, File out) throws IOException {
+		out.createNewFile();
+		try (final FileInputStream is = new FileInputStream(in); final FileChannel inChannel = is.getChannel(); final FileOutputStream os = new FileOutputStream(out); final FileChannel outChannel = os.getChannel()) {
+			inChannel.transferTo(0, inChannel.size(), outChannel);
+		}
+		out.setLastModified(in.lastModified());
+	}
+
+	public static String decryptPassword(String encrypted, Key key) throws GeneralSecurityException {
+		final Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, key);
+		return new String(cipher.doFinal(Utils.fromHex(encrypted)));
+	}
+
+	public static void deleteFiles(Iterable<File> files) {
+		for (final File file : files) {
+			if (file.exists())
+				file.delete();
+			if (file.exists())
+				file.deleteOnExit();
+		}
+	}
+
+	public static void download(URL url, File file) throws IOException {
+		if (!file.getParentFile().exists())
+			file.getParentFile().mkdir();
+		if (file.exists())
+			file.delete();
+		file.createNewFile();
+		try (InputStream in = url.openStream(); OutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
+			copy(in, out);
+		}
+	}
+
+	public static void echo(Object... objs) {
+		final StringBuilder builder = new StringBuilder(toString(objs[0]));
+		for (int i = 1; i < objs.length; i++)
+			builder.append('|' + toString(objs[i]));
+		echo(builder.toString());
+	}
+
+	public static void echo(String msg) {
+		System.out.println(msg);
+	}
+
+	public static String encryptPassword(String password, Key key) throws GeneralSecurityException {
+		final Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, key);
+		return toHex(cipher.doFinal(password.getBytes()));
+	}
+
+	public static void errorMessageBox(String msg) {
+		final JFrame jf = new JFrame("tmp");
+		jf.setLocationRelativeTo(null);
+		jf.setSize(0, 0);
+		jf.setUndecorated(true);
+		jf.setVisible(true);
+		jf.setAlwaysOnTop(true);
+		jf.setAlwaysOnTop(false);
+
+		showMessageDialog(jf, msg, "Error", ERROR_MESSAGE);
+		jf.dispose();
+	}
+
+	public static void errorMessageBox(String msg, Throwable ex) {
+		errorMessageBox(msg + ":" + newline + newline + toString(ex));
+	}
+
+	public static String fillWithSpacesLeft(int i, int len) {
+		return spaces(len - String.valueOf(i).length()) + i;
+	}
+
+	public static String fillWithSpacesLeft(long i, int len) {
+		return spaces(len - String.valueOf(i).length()) + i;
+	}
+
+	public static String fillWithSpacesLeft(String str, int len) {
+		return spaces(len - str.length()) + str;
+	}
+
+	public static List<File> findFilesRecursive(File start, FileFilter filter) {
+		final List<File> files = new ArrayList<>();
+		findFilesRecursive(start, filter, files);
+		return files;
+	}
+
+	public static String format(Throwable thrown, String nl, String t) {
+		final StringBuilder sb = new StringBuilder();
+		format(thrown, sb, nl, t);
+		if (thrown.getCause() != null)
+			formatCause(thrown.getCause(), sb, nl, t);
+		return sb.toString();
+	}
+
+	public static String formatBytes(long bytes) {
+		if (bytes < 1024)
+			return bytes + " bytes";
+		if (bytes < 10240)
+			return round(bytes / 1024D, 2) + " kB";
+		if (bytes < 102400)
+			return round(bytes / 1024D, 1) + " kB";
+		if (bytes < 1048576)
+			return bytes / 1024 + " kB";
+		if (bytes < 10485760)
+			return round(bytes / 1048576D, 2) + " mB";
+		if (bytes < 104857600)
+			return round(bytes / 1048576D, 1) + " mB";
+		if (bytes < 1073741824)
+			return bytes / 1048576 + " mB";
+		if (bytes < 10737418240L)
+			return round(bytes / 1073741824D, 2) + " gB";
+		if (bytes < 107374182400L)
+			return round(bytes / 1073741824D, 1) + " gB";
+		return bytes / 1073741824 + " gB";
+	}
+
+	public static String formatTime(int seconds) {
+		String str = "";
+		if (seconds / 86400 > 0)
+			str += seconds / 86400 + "d ";
+		if (seconds / 3600 > 0)
+			str += seconds / 3600 % 24 + "h ";
+		if (seconds / 60 > 0)
+			str += seconds / 60 % 60 + "m ";
+		str += seconds % 60 + "s ";
+		return str;
+	}
+
+	public static byte[] fromHex(String hex) {
+		final int len = hex.length() / 2;
+		final byte[] data = new byte[len];
+		int pos = 0;
+		for (int i = 0; i < len; i++)
+			data[i] = (byte)((hexValue(hex.charAt(pos++)) << 4) + hexValue(hex.charAt(pos++)));
+		return data;
+	}
+
+	public static int get2Fold(int fold) {
+		int ret = 2;
+		while (ret < fold)
+			ret *= 2;
+		return ret;
+	}
+
+	public static String getFileExtension(String fileName) {
+		return getFileExtension(fileName, true);
+	}
+
+	public static String getFileExtension(String fileName, boolean withDot) {
+		final int idx = fileName.lastIndexOf('.');
+		return idx >= 0 ? fileName.substring(withDot ? idx : idx + 1, fileName.length()) : "";
+	}
+
+	public static String getMacAddress() throws SocketException {
+		for (final NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+			final byte[] hardwareAddress = ni.getHardwareAddress();
+			if (hardwareAddress != null)
+				return Utils.toHex(hardwareAddress);
+		}
+		return null;
+	}
+
+	public static <T> T getRandom(List<T> list) {
+		return list.get(rnd.nextInt(list.size()));
+	}
+
+	public static int hexValue(char c) {
+		switch (c) {
+			case '1':
+				return 1;
+			case '2':
+				return 2;
+			case '3':
+				return 3;
+			case '4':
+				return 4;
+			case '5':
+				return 5;
+			case '6':
+				return 6;
+			case '7':
+				return 7;
+			case '8':
+				return 8;
+			case '9':
+				return 9;
+			case 'A':
+				return 10;
+			case 'B':
+				return 11;
+			case 'C':
+				return 12;
+			case 'D':
+				return 13;
+			case 'E':
+				return 14;
+			case 'F':
+				return 15;
+			default:
+				return 0;
+		}
+	}
+
+	public static boolean isDouble(String str) {
+		try {
+			Double.parseDouble(str);
+			return true;
+		} catch (final NumberFormatException ex) {}
+		return false;
+	}
+
+	public static boolean isInt(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch (final NumberFormatException ex) {}
+		return false;
+	}
+
+	public static String join(String[] s, int offset, String delimiter) {
+		if (s == null || s.length == 0 || s.length < offset)
+			return "";
+		final int len = s.length;
+		final StringBuffer buffer = new StringBuffer(s[offset]);
+		for (int i = offset + 1; i < len; i++)
+			if (s[i].length() > 0)
+				buffer.append(delimiter).append(s[i]);
+		return buffer.toString();
+	}
+
+	public static String join(String[] s, String delimiter) {
+		return join(s, 0, delimiter);
+	}
+
+	public static String listing(String[] entries, String delimiter, String finalDelimiter) {
+		final int len = entries.length;
+		if (len == 0)
+			return "";
+		if (len == 1)
+			return entries[0];
+		final StringBuilder builder = new StringBuilder(entries[0]);
+		for (int i = 1; i < len - 1; i++)
+			builder.append(delimiter + entries[i]);
+		builder.append(finalDelimiter + entries[len - 1]);
+		return builder.toString();
+	}
+
+	public static Map<String, Object> map(String[] keys, Object... values) {
+		final Map<String, Object> map = new HashMap<>();
+		final int len = Math.min(keys.length, values.length);
+		for (int i = 0; i < len; i++)
+			map.put(keys[i], values[i]);
+		return map;
+	}
+
+	public static int maxStringLength(int... ints) {
+		int max = 0;
+		for (final int i : ints) {
+			final int len = String.valueOf(i).length();
+			if (len > max)
+				max = len;
+		}
+		return max;
+	}
+
+	public static int maxStringLength(long... ints) {
+		int max = 0;
+		for (final long l : ints) {
+			final int len = String.valueOf(l).length();
+			if (len > max)
+				max = len;
+		}
+		return max;
+	}
+
+	public static int maxStringLength(String... strs) {
+		int max = 0;
+		for (final String str : strs) {
+			final int len = str.length();
+			if (len > max)
+				max = len;
+		}
+		return max;
+	}
+
+	public static float min(float... args) {
+		float min = Float.MAX_VALUE;
+		for (final float f : args)
+			if (f < min)
+				min = f;
+		return min;
+	}
+
+	public static void openBrowser(URI uri) throws IOException {
+		if (Desktop.isDesktopSupported()) {
+			final Desktop desktop = Desktop.getDesktop();
+			if (desktop.isSupported(Desktop.Action.BROWSE))
+				desktop.browse(uri);
+		}
+	}
+
+	public static String readFile(File file) throws IOException {
+		try (Reader reader = new FileReader(file)) {
+			return readFile(reader);
+		}
+	}
+
+	public static String readFile(Reader reader) throws IOException {
+		final StringBuilder content = new StringBuilder();
+		final char[] buffer = new char[1024];
+		int len;
+		while ((len = reader.read(buffer)) >= 0)
+			content.append(buffer, 0, len);
+		return content.toString();
+	}
+
+	public static String readFile(URL url) throws IOException {
+		try (Reader reader = new InputStreamReader(url.openStream())) {
+			return readFile(reader);
+		}
+	}
+
+	/**
+	 * Repeats a char
+	 */
+	public static String repeat(char c, int times) {
+		final char[] chars = new char[times];
+		Arrays.fill(chars, c);
+		return new String(chars);
+	}
+
+	/**
+	 * Repeats a String. Repeat(char, int) is much faster.
+	 */
+	public static String repeat(CharSequence str, int times) {
+		final StringBuilder sb = new StringBuilder(str.length() * times);
+		sb.append(new char[]{});
+		for (int i = 0; i < times; i++)
+			sb.append(str);
+		return sb.toString();
+	}
+
+	public static void restart(Class<?> mainClass) throws IOException {
+		restart(mainClass, null);
+	}
+
+	public static void restart(Class<?> mainClass, String args) throws IOException {
+		final StringBuilder cmd = new StringBuilder();
+		final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+		cmd.append('"' + System.getProperty("java.home") + File.separator + "bin" + File.separator + "java\" ");
+		for (final String jvmArg : runtimeMXBean.getInputArguments())
+			cmd.append(jvmArg + ' ');
+		cmd.append("-cp ").append('"' + runtimeMXBean.getClassPath() + '"').append(' ');
+		cmd.append(mainClass.getName()).append(' ');
+		if (args != null)
+			cmd.append(args);
+		// showMessageDialog(null, new JTextField(cmd.toString()));
+		Runtime.getRuntime().exec(cmd.toString());
+		System.exit(0);
+	}
+
+	public static double round(double d, double decimals) {
+		final double exp = Math.pow(10, decimals);
+		return (int)(d * exp) / exp;
+	}
+
+	public static <T extends Comparable<T>> List<T> sort(Collection<T> col) {
+		final List<T> list = new ArrayList<>(col);
+		Collections.sort(list);
+		return list;
+	}
+
+	public static <T> List<T> sort(Collection<T> col, Comparator<T> comparator) {
+		final List<T> list = new ArrayList<>(col);
+		Collections.sort(list, comparator);
+		return list;
+	}
+
+	public static <T extends Comparable<T>> List<T> sort(List<T> list) {
+		Collections.sort(list);
+		return list;
+	}
+
+	public static <T> List<T> sort(List<T> list, Comparator<T> comparator) {
+		Collections.sort(list, comparator);
+		return list;
+	}
+
+	/**
+	 * Repeats space chars
+	 */
+	public static String spaces(int times) {
+		return repeat(' ', times);
+	}
+
+	public static float sum(float[] arr) {
+		float sum = 0;
+		for (final float f : arr)
+			sum += f;
+		return sum;
+	}
+
+	public static int sum(int[] arr) {
+		int sum = 0;
+		for (final int i : arr)
+			sum += i;
+		return sum;
+	}
+
+	public static String toBinary(byte b) {
+		final char[] binary = new char[8];
+		for (int i = 0; i < 8; i++)
+			binary[i] = (b & 1 << 7 - i) > 0 ? '1' : '0';
+		return new String(binary);
+	}
+
+	public static String toHex(byte[] data) {
+		final char[] chars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+		final char[] hex = new char[data.length * 2];
+		int pos = 0;
+		for (final byte b : data) {
+			hex[pos++] = chars[(b & 0xF0) >> 4];
+			hex[pos++] = chars[b & 0x0F];
+		}
+		return new String(hex);
+	}
+
+	/**
+	 * @return Integer value or 0 if str isn't an integer.
+	 */
+	public static int toInt(String str) {
+		try {
+			return Integer.valueOf(str);
+		} catch (final NumberFormatException ex) {}
+		return 0;
+	}
+
+	public static String toString(Object obj) {
+		if (obj == null)
+			return "null";
+		if (obj instanceof String)
+			return (String)obj;
+		if (obj instanceof String[])
+			return listing((String[])obj, ", ", ", ");
+		if (obj instanceof Throwable)
+			return toString((Throwable)obj);
+		if (obj instanceof byte[])
+			return toHex((byte[])obj);
+		if (obj.getClass().isArray())
+			return Arrays.toString((Object[])obj);
+		return obj.toString();
+	}
+
+	public static String toString(Throwable thrown) {
+		return format(thrown, newline, tab);
+	}
+
+	public static String uppercaseFirstLetter(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	public static void writeFile(String path, String content) throws IOException {
+		try (Writer writer = new FileWriter(path);) {
+			writer.write(content);
+		}
+	}
+
+	private static void findFilesRecursive(File file, FileFilter filter, List<File> files) {
+		if (file.isDirectory())
+			for (final File f : file.listFiles())
+				findFilesRecursive(f, filter, files);
+		else if (filter.accept(file))
+			files.add(file);
+	}
+
+	private static StringBuilder format(Throwable thrown, StringBuilder sb, String nl, String t) {
+		sb.append(thrown.getClass().getName() + ": " + thrown.getLocalizedMessage() + nl);
+		for (final StackTraceElement traceElement : thrown.getStackTrace())
+			sb.append(t + "at " + traceElement + nl);
+		return sb;
+	}
+
+	private static StringBuilder formatCause(Throwable cause, StringBuilder sb, String nl, String t) {
+		sb.append("Caused by:" + nl);
+		format(cause, sb, nl, t);
+		if (cause.getCause() != null)
+			formatCause(cause.getCause(), sb, nl, t);
+		return sb;
+	}
+}

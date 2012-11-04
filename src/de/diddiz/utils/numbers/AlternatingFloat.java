@@ -4,16 +4,12 @@ public class AlternatingFloat extends IncrementingFloat
 {
 	protected float dir = 1;
 
-	public AlternatingFloat(float min, float max, float step, float initialValue) {
-		super(min, max, step, initialValue);
-	}
-
 	public AlternatingFloat(float min, float max, float step) {
 		super(min, max, step);
 	}
 
-	public AlternatingFloat(float min, float max) {
-		super(min, max);
+	public AlternatingFloat(float min, float max, float step, float initialValue) {
+		super(min, max, step, initialValue);
 	}
 
 	@Override

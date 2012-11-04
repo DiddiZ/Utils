@@ -2,14 +2,14 @@ package de.diddiz.utils.numbers;
 
 public class IncrementingInt extends IntNumber
 {
-	protected final int min, max, step, range;
+	protected final int min, max, step;
 
 	public IncrementingInt(int min, int max) {
 		this(min, max, 1);
 	}
 
-	public IncrementingInt(int lower, int upper, int step) {
-		this(lower, upper, step, lower + rnd.nextInt(upper - lower + 1));
+	public IncrementingInt(int min, int max, int step) {
+		this(min, max, step, min);
 	}
 
 	public IncrementingInt(int min, int max, int step, int initialValue) {
@@ -17,7 +17,6 @@ public class IncrementingInt extends IntNumber
 		this.min = Math.min(min, max);
 		this.max = Math.max(min, max);
 		this.step = step;
-		range = max - min;
 	}
 
 	@Override

@@ -2,14 +2,10 @@ package de.diddiz.utils.numbers;
 
 public class IncrementingFloat extends FloatNumber
 {
-	protected final float min, max, step, range;
+	protected final float min, max, step;
 
-	public IncrementingFloat(float min, float max) {
-		this(min, max, 1);
-	}
-
-	public IncrementingFloat(float lower, float upper, float step) {
-		this(lower, upper, step, lower + rnd.nextFloat() * Math.abs(upper - lower));
+	public IncrementingFloat(float min, float max, float step) {
+		this(min, max, step, min);
 	}
 
 	public IncrementingFloat(float min, float max, float step, float initialValue) {
@@ -17,7 +13,6 @@ public class IncrementingFloat extends FloatNumber
 		this.min = Math.min(min, max);
 		this.max = Math.max(min, max);
 		this.step = step;
-		range = max - min;
 	}
 
 	@Override

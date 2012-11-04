@@ -3,28 +3,27 @@ package de.diddiz.utils.iter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class StringIterator implements Iterable<Character>
+public class CharSequenceIterator implements Iterable<Character>
 {
 	private final CharSequence chars;
 
-	public StringIterator(CharSequence chars) {
+	public CharSequenceIterator(CharSequence chars) {
 		this.chars = chars;
 	}
 
 	@Override
 	public Iterator<Character> iterator() {
 		return new Iterator<Character>() {
-			private final int len = chars.length();
 			private int pos = 0;
 
 			@Override
 			public boolean hasNext() {
-				return pos < len;
+				return pos < chars.length();
 			}
 
 			@Override
 			public Character next() throws NoSuchElementException {
-				if (pos < len)
+				if (pos < chars.length())
 					return chars.charAt(pos++);
 				throw new NoSuchElementException();
 			}

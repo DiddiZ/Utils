@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<taskdef name="compression" classname="de.diddiz.ant.Compression"/>
+	
+	<target name="build">
+		<ivy:resolve />
+		
+		<jar destfile="utils.jar">
+			<fileset dir="bin" excludes="**/tests/**"/>
+		</jar>
+		<jar destfile="utils-src.jar">
+			<fileset dir="src" excludes="**/tests/**"/>
+		</jar>
+
+		<compression file="utils.jar" mode="jar"/>
+		<compression file="utils-src.jar" mode="jar"/>
+
+		<ivy:publish resolver="local" pubrevision="1.0" overwrite="true" update="true">
+			<artifacts pattern="[artifact].[ext]"/>
+		</ivy:publish>
+		
+		<delete file="utils.jar"/>
+		<delete file="utils-src.jar"/>
+	</target>
+</project>

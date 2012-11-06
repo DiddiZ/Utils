@@ -1,0 +1,7 @@
+<ivy-module version="2.0">
+	<info organisation="de.diddiz" module="utils"/>
+	<publications>
+		<artifact name="utils" type="jar"/>
+		<artifact name="utils-src" type="source" ext="jar"/>
+	</publications>
+</ivy-module>

@@ -25,6 +25,7 @@ import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.security.GeneralSecurityException;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,6 +114,19 @@ public class Utils
 			if (file.exists())
 				file.deleteOnExit();
 		}
+	}
+
+	public static String digest(File file, byte[] buffer, MessageDigest md) throws IOException {
+		try (InputStream is = new FileInputStream(file)) {
+			return digest(is, buffer, md);
+		}
+	}
+
+	public static String digest(InputStream is, byte[] buffer, MessageDigest md) throws IOException {
+		int len = 0;
+		while ((len = is.read(buffer)) > 0)
+			md.update(buffer, 0, len);
+		return toHex(md.digest());
 	}
 
 	/**
@@ -553,8 +567,14 @@ public class Utils
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
-	public static void writeFile(String path, String content) throws IOException {
-		try (Writer writer = new FileWriter(path);) {
+	public static void write(File file, String content) throws IOException {
+		try (Writer writer = new FileWriter(file);) {
+			writer.write(content);
+		}
+	}
+
+	public static void write(String file, String content) throws IOException {
+		try (Writer writer = new FileWriter(file);) {
 			writer.write(content);
 		}
 	}

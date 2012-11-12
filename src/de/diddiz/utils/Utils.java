@@ -41,8 +41,8 @@ import javax.swing.JFrame;
 
 public class Utils
 {
-	public static final String newline = System.getProperty("line.separator");
-	public static final String tab = "\t";
+	public static final String newline = System.getProperty("line.separator"), tab = "\t";
+	public static final char QOUTE = '\"';
 	public static final NumberFormat percentFormat = NumberFormat.getPercentInstance();
 	public static final Random rnd = new Random();
 

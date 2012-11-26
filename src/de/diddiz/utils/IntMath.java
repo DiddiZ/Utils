@@ -24,6 +24,10 @@ public class IntMath
 		return ival + signum(f);
 	}
 
+	public static int floor(double val) {
+		return (int)val;
+	}
+
 	public static int floor(float val) {
 		return (int)val;
 	}
@@ -37,6 +41,18 @@ public class IntMath
 				idx = i;
 			}
 		return idx;
+	}
+
+	public static int round(double d) {
+		if (d > 0D)
+			return (int)(d + 0.5);
+		return (int)(d - 0.5);
+	}
+
+	public static int round(float f) {
+		if (f > 0f)
+			return (int)(f + 0.5f);
+		return (int)(f - 0.5f);
 	}
 
 	public static int signum(double d) {

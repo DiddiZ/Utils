@@ -2,14 +2,6 @@ package de.diddiz.utils;
 
 public class IntMath
 {
-	public static int border(int val, int min, int max) {
-		if (val < min)
-			return min;
-		if (val > max)
-			return max;
-		return val;
-	}
-
 	public static int ceil(double d) {
 		final int ival = (int)d;
 		if (d == ival)
@@ -22,6 +14,20 @@ public class IntMath
 		if (f == ival)
 			return ival;
 		return ival + signum(f);
+	}
+
+	/**
+	 * @param val
+	 * @param min
+	 * @param max
+	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself. This is equavalien to {@code Math.max(Math.min(value, max), min)} but faster and doesn't require a local variable for value.
+	 */
+	public static int fence(int val, int min, int max) {
+		if (val < min)
+			return min;
+		if (val > max)
+			return max;
+		return val;
 	}
 
 	public static int floor(double val) {

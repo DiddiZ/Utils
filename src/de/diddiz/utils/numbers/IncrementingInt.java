@@ -19,6 +19,18 @@ public class IncrementingInt extends IntNumber
 		this.step = step;
 	}
 
+	public int getMax() {
+		return max;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public int getStep() {
+		return step;
+	}
+
 	@Override
 	public void next() {
 		value += step;

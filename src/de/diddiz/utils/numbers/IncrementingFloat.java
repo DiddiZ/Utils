@@ -15,6 +15,18 @@ public class IncrementingFloat extends FloatNumber
 		this.step = step;
 	}
 
+	public float getMax() {
+		return max;
+	}
+
+	public float getMin() {
+		return min;
+	}
+
+	public float getStep() {
+		return step;
+	}
+
 	@Override
 	public void next() {
 		value += step;

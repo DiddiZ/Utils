@@ -30,7 +30,7 @@ public class NumbersTests
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLinear() {
-		final FloatNumber number = new ModifiedAlternatingFloat(0f, 100f, 1f, 0f, SpeedModifiers.CUBIC);
+		final FloatNumber number = new ModifiedAlternatingFloat(0f, 100f, 1f, 0f, SpeedModifiers.QUADRATIC);
 		for (int i = 0; i < 3; i++) {
 			for (float f = 0f; f < 100f; f++) {
 				if (Math.abs(number.get() - f / 100f * f) > 0.0001f)

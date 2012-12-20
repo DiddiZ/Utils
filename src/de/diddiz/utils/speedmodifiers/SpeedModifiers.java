@@ -7,10 +7,16 @@ public enum SpeedModifiers implements SpeedModifier {
 			return factor;
 		}
 	},
-	CUBIC {
+	QUADRATIC {
 		@Override
 		public float modify(float factor) {
 			return factor * factor;
+		}
+	},
+	CUBIC {
+		@Override
+		public float modify(float factor) {
+			return factor * factor * factor;
 		}
 	},
 	GENTLE_START_STOP {

@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -64,6 +65,18 @@ public class Utils
 		if (f > 0)
 			return (int)f + 1;
 		return (int)f - 1;
+	}
+
+	/**
+	 * Adds {@code Strings} to a {@code String array}.
+	 * 
+	 * @return New {@code String array} containing all {@code Strings}.
+	 */
+	public static String[] concat(String[] arr1, String... arr2) {
+		final String[] narr = new String[arr1.length + arr2.length];
+		System.arraycopy(arr1, 0, narr, 0, arr1.length);
+		System.arraycopy(arr2, 0, narr, arr1.length, arr2.length);
+		return narr;
 	}
 
 	/**
@@ -279,6 +292,13 @@ public class Utils
 		return idx >= 0 ? fileName.substring(withDot ? idx : idx + 1, fileName.length()) : "";
 	}
 
+	/**
+	 * Returns the last element in the array.
+	 */
+	public static <T> T getLast(T[] arr) {
+		return arr[arr.length - 1];
+	}
+
 	public static String getMacAddress() throws SocketException {
 		for (final NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
 			final byte[] hardwareAddress = ni.getHardwareAddress();
@@ -379,6 +399,17 @@ public class Utils
 	}
 
 	/**
+	 * Calls {@link #slice(String[], int, int)} with {@code arr}, {@code 0}, {@code length}
+	 * 
+	 * @param length Strings to copy. May be nagative, position is then assumed to be indexed from right. i.e {@code -2} uses the position of the second last String ({@code arr.length - 2}).
+	 */
+	public static String[] left(String[] arr, int length) {
+		if (length < 0)
+			length += arr.length;
+		return slice(arr, 0, length);
+	}
+
+	/**
 	 * @param arr Must not be {@code null} or contain nulls.
 	 * @return Length of all {@code Strings} summed up.
 	 */
@@ -395,11 +426,12 @@ public class Utils
 			return "";
 		if (len == 1)
 			return entries[0];
-		final StringBuilder builder = new StringBuilder(entries[0]);
+		final StringBuilder sb = new StringBuilder(length(entries) + delimiter.length() * (len - 2) + finalDelimiter.length());
+		sb.append(entries[0]);
 		for (int i = 1; i < len - 1; i++)
-			builder.append(delimiter + entries[i]);
-		builder.append(finalDelimiter + entries[len - 1]);
-		return builder.toString();
+			sb.append(delimiter).append(entries[i]);
+		sb.append(finalDelimiter).append(entries[len - 1]);
+		return sb.toString();
 	}
 
 	public static Map<String, Object> map(String[] keys, Object... values) {
@@ -453,6 +485,16 @@ public class Utils
 			final Desktop desktop = Desktop.getDesktop();
 			if (desktop.isSupported(Desktop.Action.BROWSE))
 				desktop.browse(uri);
+		}
+	}
+
+	/**
+	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content. The {@code InputStream} never gets closed.
+	 */
+	public static String read(InputStream is) throws IOException {
+		try (final Reader reader = new InputStreamReader(is); final StringWriter writer = new StringWriter(is.available() / 2)) {
+			Utils.copy(reader, writer);
+			return writer.toString();
 		}
 	}
 
@@ -519,6 +561,20 @@ public class Utils
 	public static double round(double d, double decimals) {
 		final double exp = Math.pow(10, decimals);
 		return (int)(d * exp) / exp;
+	}
+
+	/**
+	 * Slices a part out from an array.
+	 * 
+	 * @return Copied array, not a view.
+	 */
+	public static String[] slice(String[] arr, int beginIndex, int endIndex) {
+		if (beginIndex < 0 || endIndex > arr.length || endIndex < beginIndex)
+			throw new ArrayIndexOutOfBoundsException("Array (length: " + arr.length + ") doesn't contains both " + beginIndex + " and " + endIndex);
+		final int len = endIndex - beginIndex;
+		final String[] narr = new String[len];
+		System.arraycopy(arr, beginIndex, narr, 0, len);
+		return narr;
 	}
 
 	public static <T extends Comparable<T>> List<T> sort(Collection<T> col) {

@@ -15,4 +15,42 @@ public class FloatMath
 			return max;
 		return val;
 	}
+
+	public static float max(float... args) {
+		float max = Float.MIN_VALUE;
+		for (final float f : args)
+			if (f > max)
+				max = f;
+		return max;
+	}
+
+	public static float max(float a, float b, float c) {
+		if (a > b) {
+			if (a > c)
+				return a;
+			return b > c ? b : c;
+		}
+		if (b > c)
+			return b;
+		return a > c ? a : c;
+	}
+
+	public static float min(float... args) {
+		float min = Float.MAX_VALUE;
+		for (final float f : args)
+			if (f < min)
+				min = f;
+		return min;
+	}
+
+	public static float min(float a, float b, float c) {
+		if (a < b) {
+			if (a < c)
+				return a;
+			return b < c ? b : c;
+		}
+		if (b < c)
+			return b;
+		return a < c ? a : c;
+	}
 }

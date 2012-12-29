@@ -59,14 +59,6 @@ public class Utils
 		return new String(alphaNum);
 	}
 
-	public static int ceil(float f) {
-		if (f == (int)f)
-			return (int)f;
-		if (f > 0)
-			return (int)f + 1;
-		return (int)f - 1;
-	}
-
 	/**
 	 * Adds {@code Strings} to a {@code String array}.
 	 * 
@@ -470,14 +462,6 @@ public class Utils
 				max = len;
 		}
 		return max;
-	}
-
-	public static float min(float... args) {
-		float min = Float.MAX_VALUE;
-		for (final float f : args)
-			if (f < min)
-				min = f;
-		return min;
 	}
 
 	public static void openBrowser(URI uri) throws IOException {

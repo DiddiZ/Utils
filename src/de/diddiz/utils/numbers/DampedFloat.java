@@ -1,6 +1,6 @@
 package de.diddiz.utils.numbers;
 
-import de.diddiz.utils.FloatMath;
+import static de.diddiz.utils.FloatMath.clamp;
 
 public class DampedFloat extends FloatNumber
 {
@@ -14,7 +14,7 @@ public class DampedFloat extends FloatNumber
 
 	@Override
 	public void next() {
-		value += FloatMath.fence(target - value, -speed, speed);
+		value += clamp(target - value, -speed, speed);
 	}
 
 	/**

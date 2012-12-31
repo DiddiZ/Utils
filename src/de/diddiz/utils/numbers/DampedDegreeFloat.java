@@ -1,6 +1,6 @@
 package de.diddiz.utils.numbers;
 
-import de.diddiz.utils.FloatMath;
+import static de.diddiz.utils.FloatMath.clamp;
 
 public class DampedDegreeFloat extends DampedFloat
 {
@@ -13,6 +13,6 @@ public class DampedDegreeFloat extends DampedFloat
 		float angle = ((target - value) % 360f + 360f) % 360f;
 		if (angle > 180f)
 			angle -= 360f;
-		value += FloatMath.fence(angle, -speed, speed);
+		value += clamp(angle, -speed, speed);
 	}
 }

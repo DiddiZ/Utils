@@ -8,7 +8,7 @@ public class FloatMath
 	 * @param max
 	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself. This is equavalien to {@code Math.max(Math.min(value, max), min)} but faster and doesn't require a local variable for value.
 	 */
-	public static float fence(float val, float min, float max) {
+	public static float clamp(float val, float min, float max) {
 		if (val < min)
 			return min;
 		if (val > max)

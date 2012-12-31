@@ -611,6 +611,17 @@ public class Utils
 		return new String(binary);
 	}
 
+	/**
+	 * @return Float value or {@code 0f} if str isn't a float.
+	 */
+	public static float toFloat(String str) {
+		if (str != null)
+			try {
+				return Float.parseFloat(str);
+			} catch (final NumberFormatException ex) {}
+		return 0f;
+	}
+
 	public static String toHex(byte[] data) {
 		final char[] chars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 		final char[] hex = new char[data.length * 2];
@@ -623,12 +634,13 @@ public class Utils
 	}
 
 	/**
-	 * @return Integer value or 0 if str isn't an integer.
+	 * @return Integer value or {@code 0} if str isn't an integer.
 	 */
 	public static int toInt(String str) {
-		try {
-			return Integer.valueOf(str);
-		} catch (final NumberFormatException ex) {}
+		if (str != null)
+			try {
+				return Integer.parseInt(str);
+			} catch (final NumberFormatException ex) {}
 		return 0;
 	}
 

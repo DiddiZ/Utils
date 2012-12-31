@@ -25,7 +25,7 @@ public enum SpeedModifiers implements SpeedModifier {
 			if (factor <= 0.2f)
 				return factor * factor * 2.5f;
 			else if (factor < 0.8f)
-				return (float)(0.5 + (factor - 0.5) * (0.4 / 0.3));
+				return 0.5f + (factor - 0.5f) * 1.3333333f;
 			else
 				return 1 - (factor - 1) * (factor - 1) * 2.5f;
 		}

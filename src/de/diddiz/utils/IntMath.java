@@ -49,6 +49,44 @@ public class IntMath
 		return idx;
 	}
 
+	public static float max(int... arr) {
+		int max = Integer.MIN_VALUE;
+		for (final int i : arr)
+			if (i > max)
+				max = i;
+		return max;
+	}
+
+	public static int max(int a, int b, int c) {
+		if (a > b) {
+			if (a > c)
+				return a;
+			return b > c ? b : c;
+		}
+		if (b > c)
+			return b;
+		return a > c ? a : c;
+	}
+
+	public static int min(int... arr) {
+		int min = Integer.MAX_VALUE;
+		for (final int i : arr)
+			if (i < min)
+				min = i;
+		return min;
+	}
+
+	public static int min(int a, int b, int c) {
+		if (a < b) {
+			if (a < c)
+				return a;
+			return b < c ? b : c;
+		}
+		if (b < c)
+			return b;
+		return a < c ? a : c;
+	}
+
 	public static int round(double d) {
 		if (d > 0D)
 			return (int)(d + 0.5);

@@ -37,8 +37,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import javax.crypto.Cipher;
 import javax.swing.JFrame;
+import de.diddiz.utils.UtilsClasses.BytesFormat;
 
 public class Utils
 {
@@ -69,6 +71,16 @@ public class Utils
 		System.arraycopy(arr1, 0, narr, 0, arr1.length);
 		System.arraycopy(arr2, 0, narr, arr1.length, arr2.length);
 		return narr;
+	}
+
+	/**
+	 * @return true if {@code set} contains at lest one element of {@code values}.
+	 */
+	public static boolean containsAny(Set<?> set, Iterable<?> values) {
+		for (final Object value : values)
+			if (set.contains(value))
+				return true;
+		return false;
 	}
 
 	/**
@@ -226,25 +238,7 @@ public class Utils
 	}
 
 	public static String formatBytes(long bytes) {
-		if (bytes < 1024)
-			return bytes + " bytes";
-		if (bytes < 10240)
-			return round(bytes / 1024D, 2) + " kB";
-		if (bytes < 102400)
-			return round(bytes / 1024D, 1) + " kB";
-		if (bytes < 1048576)
-			return bytes / 1024 + " kB";
-		if (bytes < 10485760)
-			return round(bytes / 1048576D, 2) + " mB";
-		if (bytes < 104857600)
-			return round(bytes / 1048576D, 1) + " mB";
-		if (bytes < 1073741824)
-			return bytes / 1048576 + " mB";
-		if (bytes < 10737418240L)
-			return round(bytes / 1073741824D, 2) + " gB";
-		if (bytes < 107374182400L)
-			return round(bytes / 1073741824D, 1) + " gB";
-		return bytes / 1073741824 + " gB";
+		return BytesFormat.INSTANCE.formatBytes(bytes);
 	}
 
 	public static String formatTime(int seconds) {
@@ -540,11 +534,6 @@ public class Utils
 		// showMessageDialog(null, new JTextField(cmd.toString()));
 		Runtime.getRuntime().exec(cmd.toString());
 		System.exit(0);
-	}
-
-	public static double round(double d, double decimals) {
-		final double exp = Math.pow(10, decimals);
-		return (int)(d * exp) / exp;
 	}
 
 	/**

@@ -262,13 +262,6 @@ public class Utils
 		return data;
 	}
 
-	public static int get2Fold(int fold) {
-		int ret = 2;
-		while (ret < fold)
-			ret *= 2;
-		return ret;
-	}
-
 	public static String getFileExtension(String fileName) {
 		return getFileExtension(fileName, true);
 	}
@@ -651,6 +644,16 @@ public class Utils
 
 	public static String toString(Throwable thrown) {
 		return format(thrown, newline, tab);
+	}
+
+	/**
+	 * Calculates the next power of two.
+	 */
+	public static int twoFold(int number) {
+		int ret = 2;
+		while (ret < number)
+			ret *= 2;
+		return ret;
 	}
 
 	public static String uppercaseFirstLetter(String str) {

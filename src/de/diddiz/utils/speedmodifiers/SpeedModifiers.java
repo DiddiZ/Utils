@@ -30,12 +30,15 @@ public enum SpeedModifiers implements SpeedModifier {
 				return 1 - (factor - 1) * (factor - 1) * 2.5f;
 		}
 	},
+	/**
+	 * <pre>
+	 * x²(3 - 2x) = 3x² - 2x³
+	 * </pre>
+	 */
 	GENTLE {
 		@Override
 		public float modify(float factor) {
-			if (factor <= 0.5f)
-				return factor * factor * 2;
-			return 1 - (factor - 1) * (factor - 1) * 2;
+			return factor * factor * (3f - 2f * factor);
 		}
 	},
 	START_GENTLE {

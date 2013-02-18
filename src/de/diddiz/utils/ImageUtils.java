@@ -1,19 +1,45 @@
 package de.diddiz.utils;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 public class ImageUtils
 {
 	/**
+	 * Tries to get width and height from the image file.
+	 * 
+	 * @return {@code Dimension} or null
+	 */
+	public static Dimension getImageSize(File file) throws IOException {
+		try (final ImageInputStream in = ImageIO.createImageInputStream(file)) {
+			final Iterator<ImageReader> readers = ImageIO.getImageReaders(in);
+			if (readers.hasNext()) {
+				final ImageReader reader = readers.next();
+				try {
+					reader.setInput(in);
+					return new Dimension(reader.getWidth(0), reader.getHeight(0));
+				} finally {
+					reader.dispose();
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Creates a new resized BufferedImage with the supplied size for the longer edge
 	 * 
-	 * @param img
-	 * BufferedImage to resize
-	 * @param size
-	 * Length of the longer edge
+	 * @param img BufferedImage to resize
+	 * @param size Length of the longer edge
 	 * @return A new resized image
 	 */
 	public static BufferedImage resize(BufferedImage img, int size) {

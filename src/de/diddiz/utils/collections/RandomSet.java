@@ -1,5 +1,6 @@
 package de.diddiz.utils.collections;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Random;
 
@@ -11,8 +12,8 @@ public class RandomSet<T>
 	private T last;
 
 	@SuppressWarnings("unchecked")
-	public RandomSet(Collection<T> col) {
-		this(col.toArray((T[])new Object[col.size()]));
+	public RandomSet(Collection<T> col, Class<T> clazz) {
+		this(col.toArray((T[])Array.newInstance(clazz, col.size())));
 	}
 
 	@SafeVarargs

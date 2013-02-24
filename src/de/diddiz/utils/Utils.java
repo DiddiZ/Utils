@@ -336,6 +336,14 @@ public class Utils
 		return false;
 	}
 
+	public static boolean isFloat(String str) {
+		try {
+			Float.parseFloat(str);
+			return true;
+		} catch (final NumberFormatException ex) {}
+		return false;
+	}
+
 	public static boolean isInt(String str) {
 		try {
 			Integer.parseInt(str);
@@ -594,14 +602,91 @@ public class Utils
 	}
 
 	/**
-	 * @return Float value or {@code 0f} if str isn't a float.
+	 * Uses {@code false} as default value.
+	 * 
+	 * @see #toBoolean(Object, boolean)
 	 */
-	public static float toFloat(String str) {
-		if (str != null)
+	public static boolean toBoolean(Object obj) {
+		return toBoolean(obj, false);
+	}
+
+	/**
+	 * Tries to get a {@code boolean} from {@code obj}.
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code Boolean} it returns its value.
+	 * </p>
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code String} it returns {@code Boolean.valueOf(obj)}.
+	 * </p>
+	 */
+	public static boolean toBoolean(Object obj, boolean def) {
+		if (obj instanceof Boolean)
+			return (Boolean)obj;
+		if (obj instanceof String)
+			return Boolean.valueOf((String)obj);
+		return def;
+	}
+
+	/**
+	 * Uses {@code 0D} as default value.
+	 * 
+	 * @see #toDouble(Object, double)
+	 */
+	public static double toDouble(Object obj) {
+		return toDouble(obj, 0D);
+	}
+
+	/**
+	 * Tries to get a {@code double} from {@code obj}.
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code Number} it returns its {@code doubleValue()}.
+	 * </p>
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code String} it tries to return {@code Double.parseDouble(obj)}.
+	 * </p>
+	 */
+	public static double toDouble(Object obj, double def) {
+		if (obj instanceof Number)
+			return ((Number)obj).doubleValue();
+		if (obj instanceof String)
 			try {
-				return Float.parseFloat(str);
+				return Double.parseDouble((String)obj);
 			} catch (final NumberFormatException ex) {}
-		return 0f;
+		return def;
+	}
+
+	/**
+	 * Uses {@code 0f} as default value.
+	 * 
+	 * @see #toFloat(Object, float)
+	 */
+	public static float toFloat(Object obj) {
+		return toFloat(obj, 0f);
+	}
+
+	/**
+	 * Tries to get a {@code float} from {@code obj}.
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code Number} it returns its {@code floatValue()}.
+	 * </p>
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code String} it tries to return {@code Float.parseFloat(obj)}.
+	 * </p>
+	 */
+	public static float toFloat(Object obj, float def) {
+		if (obj instanceof Number)
+			return ((Number)obj).floatValue();
+		if (obj instanceof String)
+			try {
+				return Float.parseFloat((String)obj);
+			} catch (final NumberFormatException ex) {}
+		return def;
 	}
 
 	public static String toHex(byte[] data) {
@@ -616,14 +701,33 @@ public class Utils
 	}
 
 	/**
-	 * @return Integer value or {@code 0} if str isn't an integer.
+	 * Uses {@code 0} as default value.
+	 * 
+	 * @see #toInt(Object, int)
 	 */
-	public static int toInt(String str) {
-		if (str != null)
+	public static int toInt(Object obj) {
+		return toInt(obj, 0);
+	}
+
+	/**
+	 * Tries to get a {@code int} from {@code obj}.
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code Number} it returns its {@code intValue()}.
+	 * </p>
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code String} it tries to return {@code Integer.parseInt(obj)}.
+	 * </p>
+	 */
+	public static int toInt(Object obj, int def) {
+		if (obj instanceof Number)
+			return ((Number)obj).intValue();
+		if (obj instanceof String)
 			try {
-				return Integer.parseInt(str);
+				return Integer.parseInt((String)obj);
 			} catch (final NumberFormatException ex) {}
-		return 0;
+		return def;
 	}
 
 	public static String toString(Object obj) {

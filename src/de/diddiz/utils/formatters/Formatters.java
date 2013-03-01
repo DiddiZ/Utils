@@ -1,7 +1,23 @@
 package de.diddiz.utils.formatters;
 
+import java.text.MessageFormat;
+
 public class Formatters
 {
+	/**
+	 * Divides each {@code Integer} by {@code max} and returns it in percent format.
+	 */
+	public static Formatter<Integer> normalizingPercentFormatter(final float max) {
+		return new Formatter<Integer>() {
+			private final MessageFormat format = new MessageFormat("{0,number,0.0%}");
+
+			@Override
+			public String format(Integer integer) {
+				return format.format(new Object[]{integer / max});
+			}
+		};
+	}
+
 	/**
 	 * A formatter that simply returns toString().
 	 */

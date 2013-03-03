@@ -194,6 +194,21 @@ public class Utils
 		return toHex(cipher.doFinal(password.getBytes()));
 	}
 
+	/**
+	 * Tests if two {@code CharSequence} have the same length and equal chars.
+	 * 
+	 * @return true if both are equal.
+	 */
+	public static boolean equals(CharSequence a, CharSequence b) {
+		if (a.length() != b.length())
+			return false;
+		final int len = a.length();
+		for (int i = 0; i < len; i++)
+			if (a.charAt(i) != b.charAt(i))
+				return false;
+		return true;
+	}
+
 	public static void errorMessageBox(String msg) {
 		final JFrame jf = new JFrame("tmp");
 		jf.setLocationRelativeTo(null);

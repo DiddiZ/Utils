@@ -49,11 +49,16 @@ public class IntMath
 		return idx;
 	}
 
+	/**
+	 * Computes and returns the largest (nearest to positive infinity) value.
+	 * 
+	 * @throws ArrayIndexOutOfBoundsException When array is empty.
+	 */
 	public static float max(int... arr) {
-		int max = Integer.MIN_VALUE;
-		for (final int i : arr)
-			if (i > max)
-				max = i;
+		int max = arr[0];
+		for (int i = 1; i < arr.length; i++)
+			if (arr[i] > max)
+				max = arr[i];
 		return max;
 	}
 
@@ -68,11 +73,16 @@ public class IntMath
 		return a > c ? a : c;
 	}
 
+	/**
+	 * Computes and returns the smallest (nearest to negative infinity) value.
+	 * 
+	 * @throws ArrayIndexOutOfBoundsException When array is empty.
+	 */
 	public static int min(int... arr) {
 		int min = Integer.MAX_VALUE;
-		for (final int i : arr)
-			if (i < min)
-				min = i;
+		for (int i = 1; i < arr.length; i++)
+			if (arr[i] < min)
+				min = arr[i];
 		return min;
 	}
 

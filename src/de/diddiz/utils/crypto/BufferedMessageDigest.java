@@ -7,16 +7,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import de.diddiz.utils.Utils;
 
-public class MessageDigestWithBuffer
+public class BufferedMessageDigest
 {
 	private final byte[] buffer;
 	private final MessageDigest md;
 
-	public MessageDigestWithBuffer(MessageDigest md) {
+	public BufferedMessageDigest(MessageDigest md) {
 		this(md, 4096);
 	}
 
-	public MessageDigestWithBuffer(MessageDigest md, int bufferSize) {
+	public BufferedMessageDigest(MessageDigest md, int bufferSize) {
 		this.md = md;
 		buffer = new byte[bufferSize];
 	}
@@ -29,7 +29,7 @@ public class MessageDigestWithBuffer
 		return Utils.digest(is, buffer, md);
 	}
 
-	public static MessageDigestWithBuffer createSHA1() throws NoSuchAlgorithmException {
-		return new MessageDigestWithBuffer(MessageDigest.getInstance("SHA-1"));
+	public static BufferedMessageDigest createSHA1() throws NoSuchAlgorithmException {
+		return new BufferedMessageDigest(MessageDigest.getInstance("SHA-1"));
 	}
 }

@@ -32,7 +32,7 @@ public enum SpeedModifiers implements SpeedModifier {
 	},
 	/**
 	 * <pre>
-	 * x²(3 - 2x) = 3x² - 2x³
+	 * xÂ²(3 - 2x) = 3xÂ² - 2xÂ³
 	 * </pre>
 	 */
 	GENTLE {

@@ -4,10 +4,10 @@ import static org.junit.Assert.fail;
 import junit.framework.Assert;
 import org.junit.Test;
 import de.diddiz.utils.Utils;
+import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
-import de.diddiz.utils.speedmodifiers.SpeedModifiers;
 
 @SuppressWarnings("static-method")
 public class Tests
@@ -28,7 +28,7 @@ public class Tests
 
 	@Test
 	public void testLinearAlternatingFloat() {
-		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), SpeedModifiers.LINEAR);
+		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), Modifiers.LINEAR);
 		for (int i = 0; i < 3; i++) {
 			for (float f = 0f; f < 100f; f++) {
 				if (Math.abs(number.get() - f) > 0.00001f)
@@ -45,7 +45,7 @@ public class Tests
 
 	@Test
 	public void testQuadraticAlternatingFloat() {
-		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), SpeedModifiers.QUADRATIC);
+		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), Modifiers.QUADRATIC);
 		for (int i = 0; i < 3; i++) {
 			for (float f = 0f; f < 100f; f++) {
 				if (Math.abs(number.get() - f / 100f * f) > 0.0001f)

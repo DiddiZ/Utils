@@ -1,6 +1,6 @@
-package de.diddiz.utils.speedmodifiers;
+package de.diddiz.utils.modifiers;
 
-public enum SpeedModifiers implements SpeedModifier {
+public enum Modifiers implements Modifier {
 	LINEAR {
 		@Override
 		public float modify(float factor) {
@@ -100,8 +100,8 @@ public enum SpeedModifiers implements SpeedModifier {
 	 * 
 	 * For {@code factors} lesser or equal to {@code stopA}, {@code modifierA} will be used, {@code modifierB} for all others.
 	 */
-	public static SpeedModifier compositeModifier(final SpeedModifier modifierA, final float stopA, final SpeedModifier modifierB) {
-		return new SpeedModifier() {
+	public static Modifier compositeModifier(final Modifier modifierA, final float stopA, final Modifier modifierB) {
+		return new Modifier() {
 			@Override
 			public float modify(float factor) {
 				if (factor <= stopA)
@@ -111,8 +111,8 @@ public enum SpeedModifiers implements SpeedModifier {
 		};
 	}
 
-	public static SpeedModifier flickerIn(final float start, final float stop) {
-		return new SpeedModifier() {
+	public static Modifier flickerIn(final float start, final float stop) {
+		return new Modifier() {
 			@Override
 			public float modify(float factor) {
 				if (factor <= start)
@@ -127,8 +127,8 @@ public enum SpeedModifiers implements SpeedModifier {
 	/**
 	 * Creates a modifier that returns {@code 0f} while {@code factor} is smaller than {@code on} and {@code 1f} afterwards.
 	 */
-	public static SpeedModifier offOn(final float on) {
-		return new SpeedModifier() {
+	public static Modifier offOn(final float on) {
+		return new Modifier() {
 			@Override
 			public float modify(float factor) {
 				if (factor < on)
@@ -141,8 +141,8 @@ public enum SpeedModifiers implements SpeedModifier {
 	/**
 	 * Creates a modifier that returns {@code 1f} while {@code factor} is smaller than {@code off} and {@code 0f} afterwards.
 	 */
-	public static SpeedModifier onOff(final float off) {
-		return new SpeedModifier() {
+	public static Modifier onOff(final float off) {
+		return new Modifier() {
 			@Override
 			public float modify(float factor) {
 				if (factor < off)
@@ -155,8 +155,8 @@ public enum SpeedModifiers implements SpeedModifier {
 	/**
 	 * Creates a modifier that simply returns a static value.
 	 */
-	public static SpeedModifier staticModifier(final float value) {
-		return new SpeedModifier() {
+	public static Modifier staticModifier(final float value) {
+		return new Modifier() {
 			@Override
 			public float modify(float factor) {
 				return value;

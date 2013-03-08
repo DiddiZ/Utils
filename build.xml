@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="publish" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project default="build_raspi" xmlns:ivy="antlib:org.apache.ivy.ant">
 	<target name="compile">
 		<mkdir dir="bin/"/>
 		<javac srcdir="src/" excludes="tests/**" source="1.7" destdir="bin/" target="1.7" debug="true" debuglevel="lines,source" includeantruntime="false"/>
@@ -19,8 +19,11 @@
 		<optimizejar jar="utils-src.jar"/>
 	</target>
 	
-	<target name="publish" depends="optimize">
+	<target name="resolve">
 		<ivy:resolve />
+	</target>
+	
+	<target name="publish" depends="build, resolve">
 		<ivy:publish resolver="shared" pubrevision="1.0" overwrite="true" update="true">
 			<artifacts pattern="[artifact].[ext]"/>
 		</ivy:publish>
@@ -34,4 +37,6 @@
 			</exec>
 		</sequential>
 	</macrodef>
+	
+	<extension-point name="build_raspi" depends="optimize, publish"/>
 </project>

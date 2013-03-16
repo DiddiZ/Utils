@@ -595,20 +595,6 @@ public class Utils
 		return repeat(' ', times);
 	}
 
-	public static float sum(float[] arr) {
-		float sum = 0;
-		for (final float f : arr)
-			sum += f;
-		return sum;
-	}
-
-	public static int sum(int[] arr) {
-		int sum = 0;
-		for (final int i : arr)
-			sum += i;
-		return sum;
-	}
-
 	public static String toBinary(byte b) {
 		final char[] binary = new char[8];
 		for (int i = 0; i < 8; i++)

@@ -101,4 +101,14 @@ public class FloatMath
 			farr[i] = arr[i] / maxf;
 		return farr;
 	}
+
+	/**
+	 * Computes the sum of a {@code float} array.
+	 */
+	public static int sum(float... floats) {
+		int sum = 0;
+		for (final float f : floats)
+			sum += f;
+		return sum;
+	}
 }

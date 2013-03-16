@@ -120,4 +120,14 @@ public class IntMath
 	public static int signum(int i) {
 		return i > 0 ? 1 : i < 0 ? -1 : 0;
 	}
+
+	/**
+	 * Computes the sum of an {@code int} array.
+	 */
+	public static int sum(int... ints) {
+		int sum = 0;
+		for (final int i : ints)
+			sum += i;
+		return sum;
+	}
 }

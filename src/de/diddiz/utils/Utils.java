@@ -742,7 +742,19 @@ public class Utils
 			return toString((Throwable)obj);
 		if (obj instanceof byte[])
 			return toHex((byte[])obj);
-		if (obj.getClass().isArray())
+		if (obj instanceof short[])
+			return Arrays.toString((short[])obj);
+		if (obj instanceof int[])
+			return Arrays.toString((int[])obj);
+		if (obj instanceof long[])
+			return Arrays.toString((long[])obj);
+		if (obj instanceof boolean[])
+			return Arrays.toString((boolean[])obj);
+		if (obj instanceof float[])
+			return Arrays.toString((float[])obj);
+		if (obj instanceof double[])
+			return Arrays.toString((float[])obj);
+		if (obj instanceof Object[])
 			return Arrays.toString((Object[])obj);
 		return obj.toString();
 	}

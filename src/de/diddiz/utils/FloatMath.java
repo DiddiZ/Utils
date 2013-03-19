@@ -105,8 +105,8 @@ public class FloatMath
 	/**
 	 * Computes the sum of a {@code float} array.
 	 */
-	public static int sum(float... floats) {
-		int sum = 0;
+	public static float sum(float... floats) {
+		float sum = 0f;
 		for (final float f : floats)
 			sum += f;
 		return sum;

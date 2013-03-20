@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="build_raspi" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<target name="cleanup">
+		<delete dir="bin/"/>
+		<delete dir="build/"/>
+	</target>
+	
 	<target name="compile">
 		<mkdir dir="bin/"/>
 		<javac srcdir="src/" excludes="tests/**" source="1.7" destdir="bin/" target="1.7" debug="true" debuglevel="lines,source" includeantruntime="false"/>
 	</target>
 
 	<target name="build" depends="compile">
-		<jar destfile="utils.jar">
+		<mkdir dir="build/"/>
+		<jar destfile="build/utils.jar">
 			<fileset dir="bin"/>
 		</jar>
-		<jar destfile="utils-src.jar">
+		<jar destfile="build/utils-src.jar">
 			<fileset dir="src" excludes="**/tests/**"/>
 		</jar>
 	</target>
 	
 	<target name="optimize" depends="build">
-		<optimizejar jar="utils.jar"/>
-		<optimizejar jar="utils-src.jar"/>
+		<macrodef name="advzip">
+			<attribute name="file"/>
+			<sequential>
+				<exec executable="advzip">
+					<arg line="-z -4 @{file}"/>
+				</exec>
+			</sequential>
+		</macrodef>
+		
+		<advzip file="build/utils.jar"/>
+		<advzip file="build/utils-src.jar"/>
 	</target>
 	
 	<target name="resolve">
@@ -25,18 +40,9 @@
 	
 	<target name="publish" depends="build, resolve">
 		<ivy:publish resolver="shared" pubrevision="1.0" overwrite="true" update="true">
-			<artifacts pattern="[artifact].[ext]"/>
+			<artifacts pattern="build/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>
 	
-	<macrodef name="optimizejar">
-		<attribute name="jar"/>
-		<sequential>
-			<exec executable="advzip">
-				<arg line="-z -4 @{jar}"/>
-			</exec>
-		</sequential>
-	</macrodef>
-	
-	<extension-point name="build_raspi" depends="optimize, publish"/>
+	<extension-point name="build_raspi" depends="cleanup, optimize, publish"/>
 </project>

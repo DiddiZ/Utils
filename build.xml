@@ -44,5 +44,5 @@
 		</ivy:publish>
 	</target>
 	
-	<extension-point name="build_raspi" depends="cleanup, optimize, publish"/>
+	<extension-point name="build_raspi" depends="cleanup, build, publish"/>
 </project>

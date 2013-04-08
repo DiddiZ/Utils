@@ -553,9 +553,14 @@ public class Utils
 	}
 
 	/**
-	 * Slices a part out from an array.
+	 * Slices a part out of an array.
 	 * 
-	 * @return Copied array, not a view.
+	 * @param arr Array to be sliced.
+	 * @param beginIndex must be equal or greater {@code 0}.
+	 * @param endIndex must be equal or greater {@code beginIndex} and not greater than {@code arr.length}.
+	 * 
+	 * @return a new array, not a view. The length is equal to {@code endIndex - beginIndex}.
+	 * @throws ArrayIndexOutOfBoundsException if prementioned index requirements aren't met.
 	 */
 	public static String[] slice(String[] arr, int beginIndex, int endIndex) {
 		if (beginIndex < 0 || endIndex > arr.length || endIndex < beginIndex)

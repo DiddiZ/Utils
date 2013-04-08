@@ -2,6 +2,8 @@ package tests;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.modifiers.Modifiers;
@@ -93,5 +95,27 @@ public class Tests
 
 		pattern = WildcardPatterns.compile("H*l*o*W*l*!");
 		assertEquals(true, pattern.match("Hallo Welt!"));
+	}
+
+	@Test
+	public void testWildcardPatternsMatchAll() {
+		final List<WildcardPattern> patterns = new ArrayList<>();
+		patterns.add(WildcardPatterns.compile("*.sha"));
+		patterns.add(WildcardPatterns.compile("checksum*"));
+
+		assertEquals(true, WildcardPatterns.matchAll(patterns, "checksum.sha"));
+		assertEquals(false, WildcardPatterns.matchAll(patterns, "checksum.md5"));
+		assertEquals(false, WildcardPatterns.matchAll(patterns, "checksum.txt"));
+	}
+
+	@Test
+	public void testWildcardPatternsMatchAny() {
+		final List<WildcardPattern> patterns = new ArrayList<>();
+		patterns.add(WildcardPatterns.compile("*.sha"));
+		patterns.add(WildcardPatterns.compile("*.md5"));
+
+		assertEquals(true, WildcardPatterns.matchAny(patterns, "checksum.sha"));
+		assertEquals(true, WildcardPatterns.matchAny(patterns, "checksum.md5"));
+		assertEquals(false, WildcardPatterns.matchAny(patterns, "checksum.txt"));
 	}
 }

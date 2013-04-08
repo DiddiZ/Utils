@@ -135,6 +135,18 @@ public class Utils
 		out.setLastModified(in.lastModified());
 	}
 
+	/**
+	 * Counts how many time a {@code char} occurs in a {@code String}.
+	 */
+	public static int countOccurrences(String haystack, char needle)
+	{
+		int count = 0;
+		for (int i = 0; i < haystack.length(); i++)
+			if (haystack.charAt(i) == needle)
+				count++;
+		return count;
+	}
+
 	public static String decryptPassword(String encrypted, Key key) throws GeneralSecurityException {
 		final Cipher cipher = Cipher.getInstance("AES");
 		cipher.init(Cipher.DECRYPT_MODE, key);

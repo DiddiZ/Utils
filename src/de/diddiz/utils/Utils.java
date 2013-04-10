@@ -84,10 +84,12 @@ public class Utils
 	}
 
 	/**
+	 * Uses {@code 4096} as buffer size.
+	 * 
 	 * @return Number of bytes copied
 	 */
 	public static int copy(InputStream in, OutputStream out) throws IOException {
-		return copy(in, out, new byte[4096]);
+		return copy(in, out, 4096);
 	}
 
 	/**
@@ -103,6 +105,13 @@ public class Utils
 			written += len;
 		}
 		return written;
+	}
+
+	/**
+	 * @return Number of bytes copied
+	 */
+	public static int copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
+		return copy(in, out, new byte[bufferSize]);
 	}
 
 	/**

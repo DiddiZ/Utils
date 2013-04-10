@@ -107,6 +107,21 @@ public class Utils
 	}
 
 	/**
+	 * Calls the listener after each chunk. Preferably choose a large buffer.
+	 * 
+	 * @param buffer Byte array that will be used as buffer.
+	 * @return Number of bytes copied
+	 */
+	public static int copy(InputStream in, OutputStream out, byte[] buffer, ProgressListener listener) throws IOException {
+		int len, written = 0;
+		while ((len = in.read(buffer)) >= 0) {
+			out.write(buffer, 0, len);
+			listener.onProgress(written += len);
+		}
+		return written;
+	}
+
+	/**
 	 * @return Number of bytes copied
 	 */
 	public static int copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
@@ -180,9 +195,18 @@ public class Utils
 	}
 
 	public static String digest(InputStream is, byte[] buffer, MessageDigest md) throws IOException {
-		int len = 0;
+		int len;
 		while ((len = is.read(buffer)) > 0)
 			md.update(buffer, 0, len);
+		return toHex(md.digest());
+	}
+
+	public static String digest(InputStream is, byte[] buffer, MessageDigest md, ProgressListener listener) throws IOException {
+		int len, position = 0;
+		while ((len = is.read(buffer)) > 0) {
+			md.update(buffer, 0, len);
+			listener.onProgress(position += len);
+		}
 		return toHex(md.digest());
 	}
 

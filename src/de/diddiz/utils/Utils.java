@@ -686,14 +686,18 @@ public class Utils
 	 * </p>
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code String} it returns {@code Boolean.valueOf(obj)}.
+	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Otherwise the default value is returned.
 	 * </p>
 	 */
 	public static boolean toBoolean(Object obj, boolean def) {
 		if (obj instanceof Boolean)
 			return (Boolean)obj;
 		if (obj instanceof String)
-			return Boolean.valueOf((String)obj);
+			return ((String)obj).equalsIgnoreCase("true");
 		return def;
 	}
 
@@ -710,11 +714,15 @@ public class Utils
 	 * Tries to get a {@code double} from {@code obj}.
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@code doubleValue()}.
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#doubleValue() doubleValue()}.
 	 * </p>
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code String} it tries to return {@code Double.parseDouble(obj)}.
+	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Double#parseDouble(String) Double.parseDouble(obj)}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Otherwise the default value is returned.
 	 * </p>
 	 */
 	public static double toDouble(Object obj, double def) {
@@ -740,11 +748,15 @@ public class Utils
 	 * Tries to get a {@code float} from {@code obj}.
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@code floatValue()}.
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#floatValue() floatValue()}.
 	 * </p>
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code String} it tries to return {@code Float.parseFloat(obj)}.
+	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Float#parseFloat(String) Float.parseFloat(obj)}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Otherwise the default value is returned.
 	 * </p>
 	 */
 	public static float toFloat(Object obj, float def) {
@@ -781,11 +793,15 @@ public class Utils
 	 * Tries to get a {@code int} from {@code obj}.
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@code intValue()}.
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#intValue() intValue()}.
 	 * </p>
 	 * 
 	 * <p>
-	 * If {@code obj} is a {@code String} it tries to return {@code Integer.parseInt(obj)}.
+	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Integer#parseInt(String) Integer.parseInt(obj)}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Otherwise the default value is returned.
 	 * </p>
 	 */
 	public static int toInt(Object obj, int def) {
@@ -794,6 +810,40 @@ public class Utils
 		if (obj instanceof String)
 			try {
 				return Integer.parseInt((String)obj);
+			} catch (final NumberFormatException ex) {}
+		return def;
+	}
+
+	/**
+	 * Uses {@code 0L} as default value.
+	 * 
+	 * @see #toLong(Object, long)
+	 */
+	public static long toLong(Object obj) {
+		return toLong(obj, 0L);
+	}
+
+	/**
+	 * Tries to get a {@code int} from {@code obj}.
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#longValue() longValue()}.
+	 * </p>
+	 * 
+	 * <p>
+	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Long#parseLong(String) Long.parseLong(obj)}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Otherwise the default value is returned.
+	 * </p>
+	 */
+	public static long toLong(Object obj, long def) {
+		if (obj instanceof Number)
+			return ((Number)obj).longValue();
+		if (obj instanceof String)
+			try {
+				return Long.parseLong((String)obj);
 			} catch (final NumberFormatException ex) {}
 		return def;
 	}

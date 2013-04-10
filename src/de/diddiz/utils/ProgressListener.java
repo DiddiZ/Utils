@@ -5,5 +5,5 @@ public interface ProgressListener
 	/**
 	 * @param position Current position in the task. Upper bound is not necessarily known.
 	 */
-	public void onProgress(int position);
+	public void onProgress(long position);
 }

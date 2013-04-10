@@ -85,69 +85,87 @@ public class Utils
 	/**
 	 * Uses {@code 4096} as buffer size.
 	 * 
-	 * @return Number of bytes copied
+	 * @see #copy(InputStream, OutputStream, int)
 	 */
-	public static int copy(InputStream in, OutputStream out) throws IOException {
-		return copy(in, out, 4096);
+	public static void copy(InputStream in, OutputStream out) throws IOException {
+		copy(in, out, 4096);
 	}
 
 	/**
-	 * Use this method in cases when you want to perform a lot of copy actions, but don't want to pollute the heap with lots of buffer arrays.
+	 * Use this method when you want to perform a lot of copy actions, so you can recycle the buffer.
 	 * 
 	 * @param buffer Byte array that will be used as buffer.
-	 * @return Number of bytes copied
 	 */
-	public static int copy(InputStream in, OutputStream out, byte[] buffer) throws IOException {
-		int len, written = 0;
-		while ((len = in.read(buffer)) >= 0) {
+	public static void copy(InputStream in, OutputStream out, byte[] buffer) throws IOException {
+		int len;
+		while ((len = in.read(buffer)) >= 0)
 			out.write(buffer, 0, len);
-			written += len;
-		}
-		return written;
 	}
 
 	/**
-	 * Calls the listener after each chunk. Preferably choose a large buffer.
+	 * Calls the listener after each chunk. Preferably choose a large buffer to keep the overhead minimal.
 	 * 
 	 * @param buffer Byte array that will be used as buffer.
-	 * @return Number of bytes copied
 	 */
-	public static int copy(InputStream in, OutputStream out, byte[] buffer, ProgressListener listener) throws IOException {
-		int len, written = 0;
+	public static void copy(InputStream in, OutputStream out, byte[] buffer, ProgressListener listener) throws IOException {
+		long written = 0;
+		int len;
 		while ((len = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, len);
 			listener.onProgress(written += len);
 		}
-		return written;
 	}
 
 	/**
-	 * @return Number of bytes copied
+	 * Creates a new byte array with desired length as buffer.
+	 * 
+	 * @see #copy(InputStream, OutputStream, byte[])
 	 */
-	public static int copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
-		return copy(in, out, new byte[bufferSize]);
+	public static void copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
+		copy(in, out, new byte[bufferSize]);
 	}
 
 	/**
-	 * @return Number of bytes copied
+	 * Uses {@code 4096} as buffer size.
+	 * 
+	 * @see #copy(InputStream, OutputStream, int)
 	 */
-	public static int copy(Reader in, Writer out) throws IOException {
-		return copy(in, out, new char[4096]);
+	public static void copy(Reader in, Writer out) throws IOException {
+		copy(in, out, 4096);
 	}
 
 	/**
-	 * Use this method in cases when you want to perform a lot of copy actions, but don't want to pollute the heap with lots of buffer arrays.
+	 * Use this method when you want to perform a lot of copy actions, so you can recycle the buffer.
 	 * 
 	 * @param buffer Char array that will be used as buffer.
-	 * @return Number of bytes copied
 	 */
-	public static int copy(Reader in, Writer out, char[] buffer) throws IOException {
-		int len, written = 0;
+	public static void copy(Reader in, Writer out, char[] buffer) throws IOException {
+		int len;
+		while ((len = in.read(buffer)) >= 0)
+			out.write(buffer, 0, len);
+	}
+
+	/**
+	 * Calls the listener after each chunk. Preferably choose a large buffer to keep the overhead minimal.
+	 * 
+	 * @param buffer Char array that will be used as buffer.
+	 */
+	public static void copy(Reader in, Writer out, char[] buffer, ProgressListener listener) throws IOException {
+		long written = 0;
+		int len;
 		while ((len = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, len);
-			written += len;
+			listener.onProgress(written += len);
 		}
-		return written;
+	}
+
+	/**
+	 * Creates a new char array with desired length as buffer.
+	 * 
+	 * @see #copy(Reader, Writer, char[])
+	 */
+	public static void copy(Reader in, Writer out, int bufferSize) throws IOException {
+		copy(in, out, new char[bufferSize]);
 	}
 
 	public static void copyFile(File in, File out) throws IOException {
@@ -202,7 +220,8 @@ public class Utils
 	}
 
 	public static String digest(InputStream is, byte[] buffer, MessageDigest md, ProgressListener listener) throws IOException {
-		int len, position = 0;
+		long position = 0;
+		int len;
 		while ((len = is.read(buffer)) > 0) {
 			md.update(buffer, 0, len);
 			listener.onProgress(position += len);

@@ -771,6 +771,8 @@ public class Utils
 			return Arrays.toString((float[])obj);
 		if (obj instanceof double[])
 			return Arrays.toString((float[])obj);
+		if (obj instanceof char[])
+			return Arrays.toString((char[])obj);
 		if (obj instanceof Object[])
 			return Arrays.toString((Object[])obj);
 		return obj.toString();

@@ -179,8 +179,7 @@ public class Utils
 	/**
 	 * Counts how many time a {@code char} occurs in a {@code String}.
 	 */
-	public static int countOccurrences(String haystack, char needle)
-	{
+	public static int countOccurrences(CharSequence haystack, char needle) {
 		int count = 0;
 		for (int i = 0; i < haystack.length(); i++)
 			if (haystack.charAt(i) == needle)

@@ -3,7 +3,6 @@ package de.diddiz.utils;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import java.awt.Desktop;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -193,7 +192,7 @@ public class Utils
 	public static void download(URL url, File file) throws IOException {
 		if (!file.getParentFile().exists())
 			file.getParentFile().mkdir();
-		try (InputStream in = url.openStream(); OutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
+		try (InputStream in = url.openStream(); OutputStream out = new FileOutputStream(file)) {
 			copy(in, out);
 		}
 	}

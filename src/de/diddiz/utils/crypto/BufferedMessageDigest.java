@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import de.diddiz.utils.ProgressListener;
 import de.diddiz.utils.Utils;
 
 public class BufferedMessageDigest
@@ -29,7 +30,15 @@ public class BufferedMessageDigest
 		return Utils.digest(is, buffer, md);
 	}
 
-	public static BufferedMessageDigest createSHA1() throws NoSuchAlgorithmException {
-		return new BufferedMessageDigest(MessageDigest.getInstance("SHA-1"));
+	public String digest(InputStream is, ProgressListener listener) throws IOException {
+		return Utils.digest(is, buffer, md, listener);
+	}
+
+	public static BufferedMessageDigest createSHA1() {
+		try {
+			return new BufferedMessageDigest(MessageDigest.getInstance("SHA-1"));
+		} catch (final NoSuchAlgorithmException ex) {
+			throw new AssertionError(ex);
+		}
 	}
 }

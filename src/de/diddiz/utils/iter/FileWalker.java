@@ -64,9 +64,12 @@ public class FileWalker implements Iterable<File>
 		}
 
 		private File computeNext() {
-			while (files.size() == 0 && folders.size() > 0)
-				for (final File file : folders.poll().listFiles())
-					add(file);
+			while (files.size() == 0 && folders.size() > 0) {
+				final File[] subFiles = folders.poll().listFiles();
+				if (subFiles != null && subFiles.length > 0) // listFiles may return null.
+					for (final File file : subFiles)
+						add(file);
+			}
 			if (files.size() > 0)
 				return files.poll();
 			return null;

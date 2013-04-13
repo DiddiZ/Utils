@@ -213,7 +213,7 @@ public class Utils
 
 	public static String digest(InputStream is, byte[] buffer, MessageDigest md) throws IOException {
 		int len;
-		while ((len = is.read(buffer)) > 0)
+		while ((len = is.read(buffer)) >= 0)
 			md.update(buffer, 0, len);
 		return toHex(md.digest());
 	}
@@ -221,7 +221,7 @@ public class Utils
 	public static String digest(InputStream is, byte[] buffer, MessageDigest md, ProgressListener listener) throws IOException {
 		long position = 0;
 		int len;
-		while ((len = is.read(buffer)) > 0) {
+		while ((len = is.read(buffer)) >= 0) {
 			md.update(buffer, 0, len);
 			listener.onProgress(position += len);
 		}

@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class Utils
 {
 	public static final String newline = System.getProperty("line.separator"), tab = "\t";
 	public static final char QOUTE = '\"';
-	public static final NumberFormat percentFormat = NumberFormat.getPercentInstance();
+	public static final NumberFormat percentFormat = NumberFormat.getPercentInstance(Locale.US);
 	public static final Random rnd = new Random();
 
 	/**

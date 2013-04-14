@@ -1,10 +1,12 @@
 package tests;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
@@ -62,6 +64,21 @@ public class Tests
 				number.next();
 			}
 		}
+	}
+
+	@Test
+	public void testTimeSpecParser() throws ParseException {
+		assertEquals(99, TimeSpecParser.parseTimeSpec("99"));
+		assertEquals(5, TimeSpecParser.parseTimeSpec("5m"));
+
+		assertEquals(13144, TimeSpecParser.parseTimeSpec("1w2d3h4m"));
+		assertEquals(0, TimeSpecParser.parseTimeSpec("0m"));
+		assertEquals(240, TimeSpecParser.parseTimeSpec("2h120m"));
+		assertEquals(5, TimeSpecParser.parseTimeSpec("5m"));
+
+		assertEquals(123, TimeSpecParser.parseTimeSpec("123", "mins"));
+
+		assertEquals(5, TimeSpecParser.parseTimeSpec("1m", "1m", "1m", "1m", "1m"));
 	}
 
 	@Test

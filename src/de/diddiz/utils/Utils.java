@@ -431,6 +431,21 @@ public class Utils
 	}
 
 	/**
+	 * Joins {@code Strings} without a delimiter.
+	 * 
+	 * @param arr Strings to join
+	 * @return Concatenated {@code String} or an empty {@code String} if arr is {@code null} or empty.
+	 */
+	public static String join(String... arr) {
+		if (arr == null || arr.length == 0)
+			return "";
+		final StringBuilder sb = new StringBuilder(length(arr));
+		for (int i = 0; i < arr.length; i++)
+			sb.append(arr[i]);
+		return sb.toString();
+	}
+
+	/**
 	 * @param arr Strings to join
 	 * @param delimiter
 	 * @return Concatenated {@code String} or an empty {@code String} if arr is {@code null} or empty.

@@ -5,6 +5,8 @@ import de.diddiz.utils.Utils;
 public final class WildcardPatterns
 {
 	/**
+	 * Has various optimizations for patterns with no or just one wildcard.
+	 * 
 	 * @param text {@code String} with an arbitrary number of wildcards (*).
 	 * 
 	 * @see WildcardPattern
@@ -13,8 +15,10 @@ public final class WildcardPatterns
 		final int wildcards = Utils.countOccurrences(pattern, '*');
 		if (wildcards == 0) // The pattern contains no wildcard, we can use equals to match.
 			return new EqualsPattern(pattern);
-		if (wildcards == 1)
-			if (pattern.startsWith("*")) { //
+		else if (wildcards == 1)
+			if (pattern.length() == 1) // Pattern exists only of the wildcard.
+				return EverythingPattern.INSTANCE;
+			else if (pattern.startsWith("*")) { //
 				final String suffix = pattern.substring(1);
 				return new EndsWithPattern(suffix);
 			} else if (pattern.endsWith("*")) {
@@ -80,6 +84,19 @@ public final class WildcardPatterns
 		@Override
 		public boolean match(String text) {
 			return equal.equals(text);
+		}
+	}
+
+	/**
+	 * Simple pattern that returns true.
+	 */
+	private static class EverythingPattern implements WildcardPattern
+	{
+		public static final WildcardPattern INSTANCE = new EverythingPattern();
+
+		@Override
+		public boolean match(String text) {
+			return true;
 		}
 	}
 

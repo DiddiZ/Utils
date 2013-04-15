@@ -112,6 +112,11 @@ public class Tests
 
 		pattern = WildcardPatterns.compile("H*l*o*W*l*!");
 		assertEquals(true, pattern.match("Hallo Welt!"));
+
+		pattern = WildcardPatterns.compile("*");
+		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(true, pattern.match("checksum.sha"));
+		assertEquals(true, pattern.match("checksum.md5"));
 	}
 
 	@Test

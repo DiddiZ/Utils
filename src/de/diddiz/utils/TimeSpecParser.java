@@ -14,7 +14,10 @@ public class TimeSpecParser
 	/**
 	 * Accepts various time formats.
 	 * 
+	 * Mentionable are: Plain integer ({@code "5"}), integer and unit ({@code "3", "hours"}), wdhm format ({@code "1w3d6h15m"}), dates ({@code "21.08.1992"}), times ({@code "12:30:45"}), and datetimes ({@code "21.08.1992", "12:30:45"}).
+	 * 
 	 * @return specified minutes or difference from now to specified time stamp in minutes.
+	 * @throws ParseException if unable to parse time spec.
 	 */
 	public static int parseTimeSpec(String... spec) throws ParseException {
 		if (spec == null || spec.length < 1)
@@ -22,7 +25,7 @@ public class TimeSpecParser
 
 		// If we just get one value without unit we assume it's minutes
 		if (spec.length == 1 && isInt(spec[0]))
-			return Integer.valueOf(spec[0]);
+			return Integer.parseInt(spec[0]);
 
 		// If we get a single time we assume it's today
 		if (spec.length == 1 && spec[0].contains(":"))

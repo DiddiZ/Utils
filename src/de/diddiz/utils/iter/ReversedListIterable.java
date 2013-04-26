@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Iterates a list in reversed order. Doesn't support remove or changes to this list.
+ */
 public class ReversedListIterable<T> implements Iterable<T>
 {
 	private final List<T> list;

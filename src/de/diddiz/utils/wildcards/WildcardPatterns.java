@@ -34,26 +34,6 @@ public final class WildcardPatterns
 	}
 
 	/**
-	 * @return true if the text matches all patterns.
-	 */
-	public static boolean matchAll(Iterable<WildcardPattern> patterns, String text) {
-		for (final WildcardPattern pattern : patterns)
-			if (!pattern.match(text))
-				return false;
-		return true;
-	}
-
-	/**
-	 * @return true if the text matches at least one pattern.
-	 */
-	public static boolean matchAny(Iterable<WildcardPattern> patterns, String text) {
-		for (final WildcardPattern pattern : patterns)
-			if (pattern.match(text))
-				return true;
-		return false;
-	}
-
-	/**
 	 * Simple pattern that checks if the supplied text matches the suffix.
 	 */
 	private static class EndsWithPattern implements WildcardPattern

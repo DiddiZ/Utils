@@ -3,8 +3,6 @@ package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Test;
 import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Utils;
@@ -12,6 +10,8 @@ import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
+import de.diddiz.utils.wildcards.PatternSet;
+import de.diddiz.utils.wildcards.PatternSets;
 import de.diddiz.utils.wildcards.WildcardPattern;
 import de.diddiz.utils.wildcards.WildcardPatterns;
 
@@ -121,23 +121,23 @@ public class Tests
 
 	@Test
 	public void testWildcardPatternsMatchAll() {
-		final List<WildcardPattern> patterns = new ArrayList<>();
-		patterns.add(WildcardPatterns.compile("*.sha"));
-		patterns.add(WildcardPatterns.compile("checksum*"));
+		final PatternSet patternSet = PatternSets.createPatternSet(
+				WildcardPatterns.compile("*.sha"),
+				WildcardPatterns.compile("checksum*"));
 
-		assertEquals(true, WildcardPatterns.matchAll(patterns, "checksum.sha"));
-		assertEquals(false, WildcardPatterns.matchAll(patterns, "checksum.md5"));
-		assertEquals(false, WildcardPatterns.matchAll(patterns, "checksum.txt"));
+		assertEquals(true, patternSet.matchAll("checksum.sha"));
+		assertEquals(false, patternSet.matchAll("checksum.md5"));
+		assertEquals(false, patternSet.matchAll("checksum.txt"));
 	}
 
 	@Test
 	public void testWildcardPatternsMatchAny() {
-		final List<WildcardPattern> patterns = new ArrayList<>();
-		patterns.add(WildcardPatterns.compile("*.sha"));
-		patterns.add(WildcardPatterns.compile("*.md5"));
+		final PatternSet patternSet = PatternSets.createPatternSet(
+				WildcardPatterns.compile("*.sha"),
+				WildcardPatterns.compile("*.md5"));
 
-		assertEquals(true, WildcardPatterns.matchAny(patterns, "checksum.sha"));
-		assertEquals(true, WildcardPatterns.matchAny(patterns, "checksum.md5"));
-		assertEquals(false, WildcardPatterns.matchAny(patterns, "checksum.txt"));
+		assertEquals(true, patternSet.matchAny("checksum.sha"));
+		assertEquals(true, patternSet.matchAny("checksum.md5"));
+		assertEquals(false, patternSet.matchAny("checksum.txt"));
 	}
 }

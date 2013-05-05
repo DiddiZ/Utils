@@ -31,6 +31,7 @@ public class FileWalker implements Iterable<File>
 
 		public FileWalkerIterator(File root) {
 			add(root);
+			computeFirst();
 		}
 
 		@Override

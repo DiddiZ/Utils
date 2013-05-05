@@ -5,10 +5,12 @@ import java.util.NoSuchElementException;
 
 /**
  * A simple {@link Iterator} that tries to compute the next value in order to check if it has more available.
+ * 
+ * All implementations MUST call {@link #computeFirst()} in their constructors or the iterator will appear empty.
  */
 public abstract class ComputeNextIterator<T> implements Iterator<T>
 {
-	private T next = computeNext();
+	private T next;
 
 	@Override
 	public final boolean hasNext() {
@@ -28,6 +30,13 @@ public abstract class ComputeNextIterator<T> implements Iterator<T>
 	@Override
 	public final void remove() {
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Initializes the internal {@code next} variable with the first value.
+	 */
+	protected void computeFirst() {
+		next = computeNext();
 	}
 
 	/**

@@ -59,7 +59,7 @@ public class FilteredFileWalker implements Iterable<File>
 				if (path.indexOf('\\') != -1)
 					path = path.replace('\\', '/');
 				if (path.startsWith(rootPrefix))
-					path.substring(rootPrefix.length());
+					path = path.substring(rootPrefix.length());
 
 				if ((includes == null || includes.matchAny(path)) &&
 						(excludes == null || !excludes.matchAny(path)))

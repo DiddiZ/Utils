@@ -12,6 +12,13 @@ public final class PatternSets
 		return new ArrayPatternSet(patterns.toArray(new WildcardPattern[patterns.size()]));
 	}
 
+	public static PatternSet createPatternSet(String... patterns) {
+		final WildcardPattern[] compiledPatterns = new WildcardPattern[patterns.length];
+		for (int i = 0; i < patterns.length; i++)
+			compiledPatterns[i] = WildcardPatterns.compile(patterns[i]);
+		return createPatternSet(compiledPatterns);
+	}
+
 	public static PatternSet createPatternSet(WildcardPattern... patterns) {
 		if (patterns.length == 0)
 			throw new IllegalArgumentException("No pattern supplied");

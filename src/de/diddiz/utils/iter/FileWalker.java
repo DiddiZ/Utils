@@ -11,26 +11,27 @@ import java.util.LinkedList;
  */
 public class FileWalker implements Iterable<File>
 {
-	private final File root;
+	private final File[] roots;
 
 	/**
 	 * @param root May be a directory, a file, or point to nothing. Respectively, the {@code Iterator} will iterate over all sub files in all sub directories, exactly the specified file, or nothing.
 	 */
-	public FileWalker(File root) {
-		this.root = root;
+	public FileWalker(File... roots) {
+		this.roots = roots;
 	}
 
 	@Override
 	public Iterator<File> iterator() {
-		return new FileWalkerIterator(root);
+		return new FileWalkerIterator(roots);
 	}
 
 	private static class FileWalkerIterator extends ComputeNextIterator<File>
 	{
 		private final LinkedList<File> folders = new LinkedList<>(), files = new LinkedList<>();
 
-		public FileWalkerIterator(File root) {
-			add(root);
+		public FileWalkerIterator(File... roots) {
+			for (final File root : roots)
+				add(root);
 			computeFirst();
 		}
 

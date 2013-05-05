@@ -55,7 +55,7 @@ public class FilteredFileWalker implements Iterable<File>
 		protected File computeNext() {
 			while (itr.hasNext()) {
 				final File file = itr.next();
-				String path = file.getPath().toLowerCase();
+				String path = file.getAbsolutePath().toLowerCase();
 				if (path.indexOf('\\') != -1)
 					path = path.replace('\\', '/');
 				if (path.startsWith(rootPrefix))

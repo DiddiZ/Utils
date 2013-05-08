@@ -678,6 +678,24 @@ public class Utils
 		return repeat(' ', times);
 	}
 
+	/**
+	 * Appends {@code tail} to a {@code String} if it doen't already ends with it.
+	 * 
+	 * @return Either the original {@code String} or a concatenation of {@code str} and {@code tail}.
+	 */
+	public static String tail(String str, char trail) {
+		return str.charAt(str.length() - 1) == trail ? str : str + trail;
+	}
+
+	/**
+	 * Appends {@code tail} to a {@code String} if it doen't already ends with it.
+	 * 
+	 * @return Either the original {@code String} or a concatenation of {@code str} and {@code tail}.
+	 */
+	public static String tail(String str, String trail) {
+		return str.endsWith(trail) ? str : str + trail;
+	}
+
 	public static String toBinary(byte b) {
 		final char[] binary = new char[8];
 		for (int i = 0; i < 8; i++)

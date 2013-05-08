@@ -82,6 +82,19 @@ public class Tests
 	}
 
 	@Test
+	public void testUtilsTrail() {
+		assertEquals("Hallo Welt", Utils.tail("Hallo", " Welt"));
+		assertEquals("Hallo Welt", Utils.tail("Hallo Welt", " Welt"));
+
+		assertEquals("Hallo Welt!", Utils.tail("Hallo Welt", '!'));
+		assertEquals("Hallo Welt!", Utils.tail("Hallo Welt!", '!'));
+
+		assertEquals("C:/hallo/welt/", Utils.tailingSlash("C:/hallo/welt"));
+		assertEquals("C:/hallo/welt\\", Utils.tailingSlash("C:/hallo/welt\\"));
+		assertEquals("C:/hallo/welt/", Utils.tailingSlash("C:/hallo/welt/"));
+	}
+
+	@Test
 	public void testWildcardPattern() {
 		WildcardPattern pattern = WildcardPatterns.compile("sha");
 		assertEquals(true, pattern.match("sha"));

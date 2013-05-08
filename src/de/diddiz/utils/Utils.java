@@ -696,6 +696,16 @@ public class Utils
 		return str.endsWith(trail) ? str : str + trail;
 	}
 
+	/**
+	 * Appends a tailing slash to a path if not present.
+	 * 
+	 * @return Either the original {@code String} or a concatenation of {@code path} and {@code tail}.
+	 */
+	public static String tailingSlash(String path) {
+		final char lastChar = path.charAt(path.length() - 1);
+		return lastChar == '/' || lastChar == '\\' ? path : path + '/';
+	}
+
 	public static String toBinary(byte b) {
 		final char[] binary = new char[8];
 		for (int i = 0; i < 8; i++)

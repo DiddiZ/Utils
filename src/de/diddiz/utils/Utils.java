@@ -62,6 +62,27 @@ public class Utils
 	}
 
 	/**
+	 * Capitalizes the first letter of every word in the {@code String}, the rest is turned to lower case.
+	 */
+	public static String capitalize(CharSequence str) {
+		final char[] chars = new char[str.length()];
+
+		boolean capitalize = true;
+		for (int i = 0; i < str.length(); i++) {
+			final char c = str.charAt(i);
+			if (c == ' ') {
+				chars[i] = c;
+				capitalize = true;
+			} else if (capitalize == true) {
+				chars[i] = Character.toUpperCase(c);
+				capitalize = false;
+			} else
+				chars[i] = Character.toLowerCase(c);
+		}
+		return new String(chars);
+	}
+
+	/**
 	 * Adds {@code Strings} to a {@code String array}.
 	 * 
 	 * @return New {@code String array} containing all {@code Strings}.

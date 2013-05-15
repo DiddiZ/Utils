@@ -19,6 +19,14 @@ import de.diddiz.utils.wildcards.WildcardPatterns;
 public class Tests
 {
 	@Test
+	public void testCapitalize() {
+		assertEquals("Hallo Welt", Utils.capitalize("hallo welt"));
+		assertEquals("Hallo Welt", Utils.capitalize("Hallo Welt"));
+		assertEquals("A B C", Utils.capitalize("a b c"));
+		assertEquals("Leer  Zeichen", Utils.capitalize("leer  zeichen"));
+	}
+
+	@Test
 	public void testFormatBytes() {
 		assertEquals("1 byte", Utils.formatBytes(1));
 		assertEquals("12 bytes", Utils.formatBytes(12));

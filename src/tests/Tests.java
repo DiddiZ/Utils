@@ -67,6 +67,27 @@ public class Tests
 	}
 
 	@Test
+	public void testRomanNumerals() {
+		assertEquals("I", Utils.romanNumerals(1));
+		assertEquals("II", Utils.romanNumerals(2));
+		assertEquals("III", Utils.romanNumerals(3));
+		assertEquals("IV", Utils.romanNumerals(4));
+		assertEquals("V", Utils.romanNumerals(5));
+		assertEquals("VI", Utils.romanNumerals(6));
+		assertEquals("VII", Utils.romanNumerals(7));
+		assertEquals("VIII", Utils.romanNumerals(8));
+		assertEquals("IX", Utils.romanNumerals(9));
+		assertEquals("X", Utils.romanNumerals(10));
+		assertEquals("XIII", Utils.romanNumerals(13));
+		assertEquals("DCCC", Utils.romanNumerals(800));
+		assertEquals("CMXCIX", Utils.romanNumerals(999));
+		assertEquals("MCMLXXXIV", Utils.romanNumerals(1984));
+		assertEquals("MCMXCIX", Utils.romanNumerals(1999));
+		assertEquals("MMMDCCCLXXXVIII", Utils.romanNumerals(3888));
+		assertEquals("MMMCMXCIX", Utils.romanNumerals(3999));
+	}
+
+	@Test
 	public void testTimeSpecParser() throws ParseException {
 		assertEquals(99, TimeSpecParser.parseTimeSpec("99"));
 		assertEquals(5, TimeSpecParser.parseTimeSpec("5m"));

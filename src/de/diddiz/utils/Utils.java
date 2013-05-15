@@ -631,6 +631,56 @@ public class Utils
 	}
 
 	/**
+	 * Creates a {@code String} with roman numerals from an {@code int}.
+	 * 
+	 * @param number Must be in the angel from 1 to 3999
+	 */
+	public static String romanNumerals(int number) {
+		if (number < 1 || number > 3999)
+			throw new IllegalArgumentException("Only values from 1 to 3999 are supported");
+		final char[] ones = new char[]{'I', 'X', 'C', 'M'}, fives = new char[]{'V', 'L', 'D'};
+
+		final StringBuilder sb = new StringBuilder();
+		int e = 0;
+		while (number > 0) {
+			switch (number % 10) {
+				case 0:// Nothing
+					break;
+				case 1: // I
+					sb.append(ones[e]);
+					break;
+				case 2:// II
+					sb.append(ones[e]).append(ones[e]);
+					break;
+				case 3:// III
+					sb.append(ones[e]).append(ones[e]).append(ones[e]);
+					break;
+				case 4:// IV, reversed to VI
+					sb.append(fives[e]).append(ones[e]);
+					break;
+				case 5:// V
+					sb.append(fives[e]);
+					break;
+				case 6:// VI reversed to IV
+					sb.append(ones[e]).append(fives[e]);
+					break;
+				case 7:// VII reversed to IIV
+					sb.append(ones[e]).append(ones[e]).append(fives[e]);
+					break;
+				case 8:// VIII reversed to IIIV
+					sb.append(ones[e]).append(ones[e]).append(ones[e]).append(fives[e]);
+					break;
+				case 9:// IX reversed to XI
+					sb.append(ones[e + 1]).append(ones[e]);
+					break;
+			}
+			number /= 10;
+			e++;
+		}
+		return sb.reverse().toString();
+	}
+
+	/**
 	 * Slices a part out of an array.
 	 * 
 	 * @param arr Array to be sliced.

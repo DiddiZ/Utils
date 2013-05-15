@@ -1,9 +1,22 @@
 package de.diddiz.utils.formatters;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class Formatters
 {
+	/**
+	 * Transforms all values to a {@code String} and returns the as array.
+	 */
+	public static <T> String[] format(Collection<T> col, Formatter<T> formatter) {
+		final String[] entries = new String[col.size()];
+		int idx = 0;
+		for (final Iterator<T> itr = col.iterator(); itr.hasNext();)
+			entries[idx++] = formatter.format(itr.next());
+		return entries;
+	}
+
 	/**
 	 * Divides each {@code Integer} by {@code max} and returns it in percent format.
 	 */

@@ -1,5 +1,6 @@
 package tests;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.text.ParseException;
@@ -93,6 +94,24 @@ public class Tests
 		assertEquals("MCMXCIX", Utils.romanNumerals(1999));
 		assertEquals("MMMDCCCLXXXVIII", Utils.romanNumerals(3888));
 		assertEquals("MMMCMXCIX", Utils.romanNumerals(3999));
+	}
+
+	@Test
+	public void testSplit() {
+		final String[] testStrings = new String[]{
+				"Hallo Welt!",
+				"Hallo  Welt!",
+				" Hallo Welt!",
+				"Hallo Welt! ",
+				"Hallo  Welt! ",
+				"",
+				" ",
+				"  ",
+				"                                ",
+				"H a l l o   W e l t! "};
+
+		for (final String str : testStrings)
+			assertArrayEquals("'" + str + "'", str.split(" "), Utils.split(str, ' '));
 	}
 
 	@Test

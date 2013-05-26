@@ -423,7 +423,7 @@ public class Utils
 			case 'F':
 				return 15;
 			default:
-				return 0;
+				throw new IllegalArgumentException(c + " is no hex char");
 		}
 	}
 
@@ -626,7 +626,6 @@ public class Utils
 	 */
 	public static String repeat(CharSequence str, int times) {
 		final StringBuilder sb = new StringBuilder(str.length() * times);
-		sb.append(new char[]{});
 		for (int i = 0; i < times; i++)
 			sb.append(str);
 		return sb.toString();
@@ -659,7 +658,7 @@ public class Utils
 	public static String romanNumerals(int number) {
 		if (number < 1 || number > 3999)
 			throw new IllegalArgumentException("Only values from 1 to 3999 are supported");
-		final char[] ones = new char[]{'I', 'X', 'C', 'M'}, fives = new char[]{'V', 'L', 'D'};
+		final char[] ones = {'I', 'X', 'C', 'M'}, fives = {'V', 'L', 'D'};
 
 		final StringBuilder sb = new StringBuilder();
 		int e = 0;
@@ -921,7 +920,7 @@ public class Utils
 	}
 
 	public static String toHex(byte[] data) {
-		final char[] chars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+		final char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 		final char[] hex = new char[data.length * 2];
 		int pos = 0;
 		for (final byte b : data) {

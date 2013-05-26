@@ -3,10 +3,8 @@ package de.diddiz.utils;
 public class ReflectionUtils
 {
 	/**
-	 * @param clazz
-	 * Class to be tested
-	 * @param inter
-	 * Interface
+	 * @param clazz Class to be tested
+	 * @param inter Interface
 	 * @return If one of clazz or its superclasses implements interface inter
 	 */
 	public static boolean implementsInterface(Class<?> clazz, Class<?> inter) {
@@ -18,5 +16,4 @@ public class ReflectionUtils
 		}
 		return false;
 	}
-
 }

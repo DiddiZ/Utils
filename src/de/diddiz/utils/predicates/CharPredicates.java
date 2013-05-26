@@ -37,8 +37,9 @@ public class CharPredicates
 				case '+':
 				case '-':
 					return true;
+				default:
+					return false;
 			}
-			return false;
 		}
 	}
 
@@ -60,8 +61,9 @@ public class CharPredicates
 				case '8':
 				case '9':
 					return true;
+				default:
+					return false;
 			}
-			return false;
 		}
 	}
 }

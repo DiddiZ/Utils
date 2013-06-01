@@ -42,6 +42,25 @@ public class Tests
 	}
 
 	@Test
+	public void testIndexOfArray() {
+		final String[] haystack = {"Hallo", "Welt"};
+
+		assertEquals(0, Utils.indexOf(haystack, "Hallo"));
+		assertEquals(1, Utils.indexOf(haystack, "Welt"));
+		assertEquals(-1, Utils.indexOf(haystack, "hallo"));
+	}
+
+	@Test
+	public void testIndexOfArrayIgnoreCase() {
+		final String[] haystack = {"Hallo", "Welt"};
+
+		assertEquals(0, Utils.indexOfIgnoreCase(haystack, "Hallo"));
+		assertEquals(1, Utils.indexOfIgnoreCase(haystack, "Welt"));
+		assertEquals(0, Utils.indexOfIgnoreCase(haystack, "hallo"));
+		assertEquals(-1, Utils.indexOfIgnoreCase(haystack, "hello"));
+	}
+
+	@Test
 	public void testLinearAlternatingFloat() {
 		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), Modifiers.LINEAR);
 		for (int i = 0; i < 3; i++) {

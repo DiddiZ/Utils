@@ -427,6 +427,31 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Uses {@link Object#equals(Object)} to find the {@code needle}
+	 * 
+	 * @return index of {@code needle} in {@code array} or {@code -1}.
+	 */
+	public static <T> int indexOf(T[] haystack, T needle) {
+		for (int i = 0; i < haystack.length; i++)
+			if (haystack[i] != null && haystack[i].equals(needle))
+				return i;
+		return -1;
+	}
+
+	/**
+	 * Ignores character case. For the case sensitive method see {@link #indexOf(Object[], Object)}
+	 * 
+	 * @return index of {@code needle} in {@code array} or {@code -1}.
+	 */
+	public static int indexOfIgnoreCase(String[] haystack, String needle) {
+		needle = needle.toLowerCase();
+		for (int i = 0; i < haystack.length; i++)
+			if (haystack[i] != null && haystack[i].toLowerCase().equals(needle))
+				return i;
+		return -1;
+	}
+
 	public static boolean isDouble(String str) {
 		try {
 			Double.parseDouble(str);

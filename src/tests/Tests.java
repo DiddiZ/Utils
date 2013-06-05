@@ -4,6 +4,9 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Test;
 import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Utils;
@@ -58,6 +61,19 @@ public class Tests
 		assertEquals(1, Utils.indexOfIgnoreCase(haystack, "Welt"));
 		assertEquals(0, Utils.indexOfIgnoreCase(haystack, "hallo"));
 		assertEquals(-1, Utils.indexOfIgnoreCase(haystack, "hello"));
+	}
+
+	@Test
+	public void testJoinCollection() {
+		final List<String> values = new ArrayList<>();
+		values.add("Hallo");
+		values.add("Welt");
+
+		assertEquals("Hallo Welt", Utils.join(values, ' '));
+		assertEquals("", Utils.join(Collections.<String> emptyList(), ' '));
+
+		assertEquals("Hallo - Welt", Utils.join(values, " - "));
+		assertEquals("", Utils.join(Collections.<String> emptyList(), " - "));
 	}
 
 	@Test

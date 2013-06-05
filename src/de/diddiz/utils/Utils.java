@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -477,6 +478,40 @@ public class Utils
 	}
 
 	/**
+	 * @param strings Strings to join, must not contain {@code nulls}.
+	 * @param delimiter
+	 * @return Concatenated {@code String} or an empty {@code String} if {@code strings} is {@code null} or empty.
+	 */
+	public static String join(Collection<String> strings, char delimiter) {
+		if (strings == null || strings.size() == 0)
+			return "";
+
+		final StringBuilder sb = new StringBuilder(length(strings) + strings.size() - 1);
+		final Iterator<String> itr = strings.iterator();
+		sb.append(itr.next()); // We can do this safely as the collection has at least one element
+		while (itr.hasNext())
+			sb.append(delimiter).append(itr.next());
+		return sb.toString();
+	}
+
+	/**
+	 * @param strings Strings to join, must not contain {@code nulls}.
+	 * @param delimiter
+	 * @return Concatenated {@code String} or an empty {@code String} if {@code strings} is {@code null} or empty.
+	 */
+	public static String join(Collection<String> strings, CharSequence delimiter) {
+		if (strings == null || strings.size() == 0)
+			return "";
+
+		final StringBuilder sb = new StringBuilder(length(strings) + (strings.size() - 1) * delimiter.length());
+		final Iterator<String> itr = strings.iterator();
+		sb.append(itr.next()); // We can do this safely as the collection has at least one element
+		while (itr.hasNext())
+			sb.append(delimiter).append(itr.next());
+		return sb.toString();
+	}
+
+	/**
 	 * Joins {@code Strings} without a delimiter.
 	 * 
 	 * @param arr Strings to join
@@ -507,7 +542,14 @@ public class Utils
 		return sb.toString();
 	}
 
-	public static String join(String[] arr, int offset, String delimiter) {
+	/**
+	 * In case you delimiter is just one char long, consider using {@link #join(String[], char)} for a minor speed boost.
+	 */
+	public static String join(String[] arr, CharSequence delimiter) {
+		return join(arr, 0, delimiter);
+	}
+
+	public static String join(String[] arr, int offset, CharSequence delimiter) {
 		if (arr == null || arr.length == 0 || arr.length < offset)
 			return "";
 		final StringBuilder sb = new StringBuilder(length(arr) + (arr.length - 1) * delimiter.length());
@@ -515,13 +557,6 @@ public class Utils
 		for (int i = offset + 1; i < arr.length; i++)
 			sb.append(delimiter).append(arr[i]);
 		return sb.toString();
-	}
-
-	/**
-	 * In case you delimiter is just one char long, consider using {@link #join(String[], char)} for a minor speed boost.
-	 */
-	public static String join(String[] arr, String delimiter) {
-		return join(arr, 0, delimiter);
 	}
 
 	/**
@@ -533,6 +568,17 @@ public class Utils
 		if (length < 0)
 			length += arr.length;
 		return slice(arr, 0, length);
+	}
+
+	/**
+	 * @param strings Must not be {@code null} or contain nulls.
+	 * @return Length of all {@code Strings} summed up.
+	 */
+	public static int length(Iterable<String> strings) {
+		int len = 0;
+		for (final String s : strings)
+			len += s.length();
+		return len;
 	}
 
 	/**

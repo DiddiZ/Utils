@@ -14,7 +14,7 @@ public class FileWalker implements Iterable<File>
 	private final File[] roots;
 
 	/**
-	 * @param root May be a directory, a file, or point to nothing. Respectively, the {@code Iterator} will iterate over all sub files in all sub directories, exactly the specified file, or nothing.
+	 * @param roots May be a directory, a file, or point to nothing. Respectively, the {@code Iterator} will iterate over all sub files in all sub directories, exactly the specified file, or nothing.
 	 */
 	public FileWalker(File... roots) {
 		this.roots = roots;

@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -652,23 +651,25 @@ public class Utils
 		}
 	}
 
+	public static String read(File file) throws IOException {
+		try (Reader reader = new FileReader(file)) {
+			return read(reader);
+		}
+	}
+
 	/**
-	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content. The {@code InputStream} never gets closed.
+	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content. The {@code InputStream} {@code is} doesn't get closed.
 	 */
 	public static String read(InputStream is) throws IOException {
-		try (final Reader reader = new InputStreamReader(is); final StringWriter writer = new StringWriter(is.available() / 2)) {
-			Utils.copy(reader, writer);
-			return writer.toString();
+		try (final Reader reader = new InputStreamReader(is)) {
+			return read(reader);
 		}
 	}
 
-	public static String readFile(File file) throws IOException {
-		try (Reader reader = new FileReader(file)) {
-			return readFile(reader);
-		}
-	}
-
-	public static String readFile(Reader reader) throws IOException {
+	/**
+	 * Reads the content of a {@link Reader} into a {@code String}.
+	 */
+	public static String read(Reader reader) throws IOException {
 		final StringBuilder content = new StringBuilder();
 		final char[] buffer = new char[1024];
 		int len;
@@ -677,9 +678,12 @@ public class Utils
 		return content.toString();
 	}
 
-	public static String readFile(URL url) throws IOException {
+	/**
+	 * Reads the target of an {@link URL} into a {@code String}.
+	 */
+	public static String read(URL url) throws IOException {
 		try (Reader reader = new InputStreamReader(url.openStream())) {
-			return readFile(reader);
+			return read(reader);
 		}
 	}
 

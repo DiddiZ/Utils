@@ -726,6 +726,18 @@ public class Utils
 	}
 
 	/**
+	 * Reverses the order of a {@code List}.
+	 * 
+	 * Actually just calls {@link Collections#reverse(List)}, but returns the reversed list, so it makes this method chainable.
+	 * 
+	 * @return the reversed {@code List}.
+	 */
+	public static <T> List<T> reverse(List<T> list) {
+		Collections.reverse(list);
+		return list;
+	}
+
+	/**
 	 * Creates a {@code String} with roman numerals from an {@code int}.
 	 * 
 	 * @param number Must be in the angel from 1 to 3999

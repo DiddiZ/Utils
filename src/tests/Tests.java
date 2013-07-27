@@ -198,6 +198,21 @@ public class Tests
 		assertEquals(false, pattern.match("checksum.md5"));
 		assertEquals(false, pattern.match("checksum.sha1"));
 
+		pattern = WildcardPatterns.compile("*");
+		assertEquals(true, pattern.match("Hallo Welt!"));
+
+		pattern = WildcardPatterns.compile("*a*");
+		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(false, pattern.match("Hello World!"));
+
+		pattern = WildcardPatterns.compile("*Hallo*");
+		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(false, pattern.match("Hello World!"));
+
+		pattern = WildcardPatterns.compile("*Hallo*Welt");
+		assertEquals(true, pattern.match("Hallo Welt"));
+		assertEquals(false, pattern.match("Hallo Welt!"));
+
 		pattern = WildcardPatterns.compile("c*.*");
 		assertEquals(true, pattern.match("checksum.sha"));
 		assertEquals(true, pattern.match("checksum.md5"));

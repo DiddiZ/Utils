@@ -30,7 +30,26 @@ public final class WildcardPatterns
 				final String suffix = pattern.substring(idx + 1);
 				return new StartsEndsWithPattern(prefix, suffix);
 			}
+		else if (wildcards == 2 && pattern.charAt(0) == '*' && pattern.charAt(pattern.length() - 1) == '*')
+			return new ContainsPattern(pattern.substring(1, pattern.length() - 1));
 		return new MultiWildcardPattern(pattern);
+	}
+
+	/**
+	 * Simple pattern that checks if the supplied text contains {@code str}.
+	 */
+	private static class ContainsPattern implements WildcardPattern
+	{
+		private final String str;
+
+		public ContainsPattern(String str) {
+			this.str = str;
+		}
+
+		@Override
+		public boolean match(String text) {
+			return text.indexOf(str) > -1;
+		}
 	}
 
 	/**

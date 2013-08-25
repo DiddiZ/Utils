@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
@@ -22,6 +23,7 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.MessageDigest;
@@ -1135,6 +1137,15 @@ public class Utils
 
 	public static void write(File file, String content) throws IOException {
 		try (Writer writer = new FileWriter(file);) {
+			writer.write(content);
+		}
+	}
+
+	/**
+	 * Writes a {@code String} to a file using a specific encoding
+	 */
+	public static void write(File file, String content, Charset encoding) throws IOException {
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), encoding)) {
 			writer.write(content);
 		}
 	}

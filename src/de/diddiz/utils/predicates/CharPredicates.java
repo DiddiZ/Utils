@@ -1,6 +1,6 @@
 package de.diddiz.utils.predicates;
 
-public class CharPredicates
+public final class CharPredicates
 {
 	/**
 	 * Allows the numbers from {@code 0} to {@code 9} as well as dots ({@code .}) and signs ({@code +-}).

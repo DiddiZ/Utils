@@ -44,7 +44,7 @@ import javax.crypto.Cipher;
 import javax.swing.JFrame;
 import de.diddiz.utils.UtilsClasses.BytesFormat;
 
-public class Utils
+public final class Utils
 {
 	public static final String newline = System.getProperty("line.separator"), tab = "\t";
 	public static final char QOUTE = '\"';

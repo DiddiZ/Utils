@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class Formatters
+public final class Formatters
 {
 	/**
 	 * Transforms all values to a {@code String} and returns the as array.

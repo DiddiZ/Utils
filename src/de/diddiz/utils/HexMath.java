@@ -1,6 +1,6 @@
 package de.diddiz.utils;
 
-public class HexMath
+public final class HexMath
 {
 	/**
 	 * Computes the manhattan distance between two tiles in a hexagonal grid.

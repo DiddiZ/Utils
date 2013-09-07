@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import de.diddiz.utils.factories.Factory;
 
-public class ArrayUtils
+public final class ArrayUtils
 {
 	public static String[] arrayOf(Collection<String> col) {
 		return col != null ? col.toArray(new String[col.size()]) : new String[0];

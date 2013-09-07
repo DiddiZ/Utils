@@ -3,7 +3,7 @@ package de.diddiz.utils;
 import java.io.File;
 import java.io.FilenameFilter;
 
-public class FileFilters
+public final class FileFilters
 {
 	public static FilenameFilter endsWith(final String extension) {
 		return new FilenameFilter() {

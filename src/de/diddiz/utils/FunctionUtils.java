@@ -2,7 +2,7 @@ package de.diddiz.utils;
 
 import de.diddiz.utils.functions.IntFunction;
 
-public class FunctionUtils
+public final class FunctionUtils
 {
 	/**
 	 * Returns the variable for that the function returns the largest {@code int}.

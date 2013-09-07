@@ -1,6 +1,6 @@
 package de.diddiz.utils;
 
-public class FloatMath
+public final class FloatMath
 {
 	/**
 	 * This is equivalent to {@code Math.max(Math.min(value, max), min)} but it's faster and doesn't require a local variable for value.

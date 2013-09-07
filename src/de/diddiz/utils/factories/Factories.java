@@ -2,7 +2,7 @@ package de.diddiz.utils.factories;
 
 import java.util.concurrent.Callable;
 
-public class Factories
+public final class Factories
 {
 	public static <T> Factory<T> fixedFactory(final T value) {
 		return new Factory<T>() {

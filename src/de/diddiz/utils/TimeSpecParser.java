@@ -5,7 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class TimeSpecParser
+public final class TimeSpecParser
 {
 	private static final int MILLIS_PER_MINUTE = 1000 * 60;
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy"),

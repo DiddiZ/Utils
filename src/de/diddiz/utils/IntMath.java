@@ -1,6 +1,6 @@
 package de.diddiz.utils;
 
-public class IntMath
+public final class IntMath
 {
 	public static int ceil(double d) {
 		final int ival = (int)d;

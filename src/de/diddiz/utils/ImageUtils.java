@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
-public class ImageUtils
+public final class ImageUtils
 {
 	/**
 	 * Converts a {@link BufferedImage} of any type, to a {@link BufferedImage} of a specified type.

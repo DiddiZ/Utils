@@ -1,6 +1,6 @@
 package de.diddiz.utils;
 
-public class ReflectionUtils
+public final class ReflectionUtils
 {
 	/**
 	 * @param clazz Class to be tested

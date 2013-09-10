@@ -46,10 +46,10 @@ import de.diddiz.utils.UtilsClasses.BytesFormat;
 
 public final class Utils
 {
-	public static final String newline = System.getProperty("line.separator"), tab = "\t";
+	public static final String NEWLINE = System.getProperty("line.separator"), TAB = "\t";
 	public static final char QOUTE = '\"';
-	public static final NumberFormat percentFormat = NumberFormat.getPercentInstance(Locale.US);
-	public static final Random rnd = new Random();
+	public static final NumberFormat PERCENT_FORMAT = NumberFormat.getPercentInstance(Locale.US), DECIMAL_FORMAT = NumberFormat.getNumberInstance(Locale.US);
+	public static final Random RANDOM = new Random();
 
 	/**
 	 * @param len Desired length of the returned String
@@ -59,7 +59,7 @@ public final class Utils
 		final String dict = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		final char[] alphaNum = new char[len];
 		for (int i = 0; i < len; i++)
-			alphaNum[i] = dict.charAt(rnd.nextInt(dict.length()));
+			alphaNum[i] = dict.charAt(RANDOM.nextInt(dict.length()));
 		return new String(alphaNum);
 	}
 
@@ -309,7 +309,7 @@ public final class Utils
 	}
 
 	public static void errorMessageBox(String msg, Throwable ex) {
-		errorMessageBox(msg + ":" + newline + newline + toString(ex));
+		errorMessageBox(msg + ":" + NEWLINE + NEWLINE + toString(ex));
 	}
 
 	public static String fillWithSpacesLeft(int i, int len) {
@@ -389,7 +389,7 @@ public final class Utils
 	}
 
 	public static <T> T getRandom(List<T> list) {
-		return list.get(rnd.nextInt(list.size()));
+		return list.get(RANDOM.nextInt(list.size()));
 	}
 
 	public static int hexValue(char c) {
@@ -1118,7 +1118,7 @@ public final class Utils
 	}
 
 	public static String toString(Throwable thrown) {
-		return format(thrown, newline, tab);
+		return format(thrown, NEWLINE, TAB);
 	}
 
 	/**

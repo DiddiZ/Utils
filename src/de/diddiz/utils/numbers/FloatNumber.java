@@ -22,6 +22,14 @@ public abstract class FloatNumber extends MutableNumber
 		return value;
 	}
 
+	/**
+	 * Calls {@link #next()} and returns the new float value.
+	 */
+	public float getNext() {
+		next();
+		return value;
+	}
+
 	@Override
 	public int intValue() {
 		return (int)value;

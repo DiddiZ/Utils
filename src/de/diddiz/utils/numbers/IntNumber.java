@@ -18,7 +18,18 @@ public abstract class IntNumber extends MutableNumber
 		return value;
 	}
 
+	/**
+	 * Returns the current int value.
+	 */
 	public int get() {
+		return value;
+	}
+
+	/**
+	 * Calls {@link #next()} and returns the new int value.
+	 */
+	public int getNext() {
+		next();
 		return value;
 	}
 

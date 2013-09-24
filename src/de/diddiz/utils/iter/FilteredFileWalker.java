@@ -22,7 +22,7 @@ public class FilteredFileWalker implements Iterable<File>
 	 * @param excludes May be null to exclude none
 	 */
 	public FilteredFileWalker(FileWalker fileWalker, PatternSet includes, PatternSet excludes) {
-		this(fileWalker, includes, excludes, null);
+		this(fileWalker, includes, excludes, "");
 	}
 
 	/**

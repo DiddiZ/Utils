@@ -19,7 +19,7 @@ public final class TimeSpecParser
 	 * @return specified minutes or difference from now to specified time stamp in minutes.
 	 * @throws ParseException if unable to parse time spec.
 	 */
-	public static int parseTimeSpec(String... spec) throws ParseException {
+	public static synchronized int parseTimeSpec(String... spec) throws ParseException {
 		if (spec == null || spec.length < 1)
 			throw new IllegalArgumentException("Supplied time spec is empty");
 

@@ -38,7 +38,7 @@ public class MySQLConnectionPool implements Closeable
 		for (final Iterator<PooledConnection> itr = connections.iterator(); itr.hasNext();) {
 			try {
 				itr.next().terminate();
-			} catch (SQLException ex) {}
+			} catch (final SQLException ex) {}
 			itr.remove();
 		}
 	}
@@ -115,7 +115,7 @@ public class MySQLConnectionPool implements Closeable
 		}
 
 		private void terminate() throws SQLException {
-				conn.close();
+			conn.close();
 		}
 	}
 }

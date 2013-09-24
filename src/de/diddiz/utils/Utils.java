@@ -3,6 +3,7 @@ package de.diddiz.utils;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import java.awt.Desktop;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -687,6 +688,22 @@ public final class Utils
 		try (Reader reader = new InputStreamReader(url.openStream())) {
 			return read(reader);
 		}
+	}
+
+	/**
+	 * Reads a number of bytes from an {@link InputStream}.
+	 * 
+	 * Ensures that the returned array is completely filled.
+	 * 
+	 * The {@code InputStream} is NOT closed!.
+	 * 
+	 * @throws EOFException If reached end of stream.
+	 */
+	public static byte[] readBytes(InputStream is, int bytes) throws IOException {
+		final byte[] buffer = new byte[bytes];
+		if (is.read(buffer) != bytes)
+			throw new EOFException();
+		return buffer;
 	}
 
 	/**

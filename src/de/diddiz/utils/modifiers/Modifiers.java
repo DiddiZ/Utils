@@ -32,13 +32,13 @@ public enum Modifiers implements Modifier {
 	},
 	/**
 	 * <pre>
-	 * x²(3 - 2x) = 3x² - 2x³
+	 * x³ (6x² - 15x + 10)
 	 * </pre>
 	 */
 	GENTLE {
 		@Override
 		public float modify(float factor) {
-			return factor * factor * (3f - 2f * factor);
+			return factor * factor * factor * (6 * factor * factor - 15 * factor + 10);
 		}
 	},
 	START_GENTLE {

@@ -1,44 +1,61 @@
 package de.diddiz.utils.collections;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
+import de.diddiz.utils.Utils;
 
-public class RandomSet<T>
+public class RandomSet<T> implements Iterable<T>
 {
-	private static final Random rnd = new Random();
-	private final T[] values;
+	private final List<T> values;
+	private final Random rnd;
 	private final int size;
 	private T last;
 
-	@SuppressWarnings("unchecked")
-	public RandomSet(Collection<T> col, Class<T> clazz) {
-		this(col.toArray((T[])Array.newInstance(clazz, col.size())));
+	/**
+	 * Creates a new {@code RandomSet} using {@link Utils.RANDOM} as randomizer.
+	 */
+	public RandomSet(Collection<T> col) {
+		this(col, Utils.RANDOM);
 	}
 
-	@SafeVarargs
-	public RandomSet(T... arr) {
-		if (arr.length == 0)
+	/**
+	 * Creates a new {@code RandomSet} with a custom randomizer.
+	 */
+	public RandomSet(Collection<T> col, Random rnd) {
+		if (col.size() == 0)
 			throw new IllegalArgumentException("Must provide at least one value");
-		size = arr.length;
-		values = arr;
+		values = new ArrayList<>(col);
+		this.rnd = rnd;
+		size = values.size();
 	}
 
+	/**
+	 * Returns a random element
+	 */
 	public T get() {
-		last = values[rnd.nextInt(size)];
-		return last;
+		return last = values.get(rnd.nextInt(size));
 	}
 
+	/**
+	 * Returns a random element that isn't the same as returned by the last call of {@link #getRandom()} or {@link #getRandomNotLast()}, provided this {@code RandomSet} contains more than one element.
+	 */
 	public T getNotLast() {
-		T cur = values[rnd.nextInt(size)];
-		if (values.length > 1)
+		T cur = values.get(rnd.nextInt(size));
+		if (size > 1) // If the set has just one element, we have to return the same anyways.
 			while (cur == last)
-				cur = values[rnd.nextInt(size)];
-		last = cur;
-		return cur;
+				cur = values.get(rnd.nextInt(size));
+		return last = cur;
 	}
 
-	public T[] getValues() {
-		return values;
+	/**
+	 * Returns a unmodifiable iterator
+	 */
+	@Override
+	public Iterator<T> iterator() {
+		return Collections.unmodifiableList(values).iterator();
 	}
 }

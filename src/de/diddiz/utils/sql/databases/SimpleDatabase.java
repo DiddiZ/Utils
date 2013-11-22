@@ -27,7 +27,7 @@ public abstract class SimpleDatabase implements AutoCloseable
 
 		// Initialize database
 		try (Statement st = conn.createStatement()) {
-			initializeDatabase(st);
+			initializeTables(st);
 		}
 	}
 
@@ -41,7 +41,7 @@ public abstract class SimpleDatabase implements AutoCloseable
 	 * 
 	 * Please use <code>CREATE TABLE IF NOT EXISTS [...]</code>.
 	 */
-	protected abstract void initializeDatabase(Statement st);
+	protected abstract void initializeTables(Statement st) throws SQLException;
 
 	protected static String escape(String str) {
 		if (str.indexOf('\'') > 0)

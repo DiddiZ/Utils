@@ -18,18 +18,17 @@ import de.diddiz.utils.Utils;
  * 
  * Uses {@link System#out} as default output. Log files may be added.
  */
-public class Log
+public final class Log
 {
 	private static final Logger logger = Logger.getLogger(Log.class.getName());
+	private static DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	private static final Formatter logFormatter = new Formatter()
 	{
-		private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-
 		@Override
-		public String format(LogRecord logRecord) {
-			return df.format(logRecord.getMillis()) +
-					" [" + logRecord.getLevel() + "]" +
-					" " + logRecord.getMessage() + NEWLINE +
+		public synchronized String format(LogRecord logRecord) {
+			return (dateFormat != null ? dateFormat.format(logRecord.getMillis()) + " " : "") +
+					"[" + logRecord.getLevel() + "] " +
+					logRecord.getMessage() + NEWLINE +
 					(logRecord.getThrown() != null ? Utils.toString(logRecord.getThrown()) : "");
 		}
 	};
@@ -38,14 +37,14 @@ public class Log
 		logger.setUseParentHandlers(false); // Get complete control over the logger
 		logger.addHandler(new ConsoleHandler() { // Add our own style
 			{
-				setFormatter(logFormatter);
-				setOutputStream(System.out);
+				setFormatter(logFormatter); // Use our own formatter
+				setOutputStream(System.out); // Use default output
 			}
 		});
 	}
 
 	/**
-	 * Will copy all log output to the specified file.
+	 * Will append all log output to the specified file.
 	 */
 	public static void addLogFile(File logfile) throws SecurityException, IOException {
 		final FileHandler fileHandler = new FileHandler(logfile.getAbsolutePath(), true);
@@ -71,6 +70,17 @@ public class Log
 	 */
 	public static void info(String msg) {
 		logger.info(msg);
+	}
+
+	/**
+	 * Changes the {@link DateFormat} prefix for all lines.
+	 * 
+	 * Default is <code>HH:mm:ss</code>.
+	 * 
+	 * @param dateFormat May be {@code null} to disable time prefix.
+	 */
+	public static synchronized void setDateFormat(DateFormat dateFormat) {
+		Log.dateFormat = dateFormat;
 	}
 
 	/**

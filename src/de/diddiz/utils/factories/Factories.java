@@ -2,7 +2,6 @@ package de.diddiz.utils.factories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public final class Factories
 {
@@ -22,15 +21,6 @@ public final class Factories
 			@Override
 			public T create() {
 				return value;
-			}
-		};
-	}
-
-	public static <T> Callable<T> wrap(final Factory<T> factory) {
-		return new Callable<T>() {
-			@Override
-			public T call() {
-				return factory.create();
 			}
 		};
 	}

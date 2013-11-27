@@ -6,8 +6,9 @@
 	</target>
 	
 	<target name="compile" depends="resolve">
+		<ivy:cachepath pathid="ivy.cachepath"/>
 		<mkdir dir="bin/"/>
-		<javac srcdir="src/" excludes="tests/**" source="1.7" destdir="bin/" target="1.7" debug="true" debuglevel="lines,source" includeantruntime="false"/>
+		<javac srcdir="src/" excludes="tests/**" source="1.7" classpathref="ivy.cachepath" destdir="bin/" target="1.7" debug="true" debuglevel="lines,source" includeantruntime="false"/>
 	</target>
 
 	<target name="build" depends="compile">
@@ -18,20 +19,6 @@
 		<jar destfile="build/utils-src.jar">
 			<fileset dir="src" excludes="**/tests/**"/>
 		</jar>
-	</target>
-	
-	<target name="optimize" depends="build">
-		<macrodef name="advzip">
-			<attribute name="file"/>
-			<sequential>
-				<exec executable="advzip">
-					<arg line="-z -4 @{file}"/>
-				</exec>
-			</sequential>
-		</macrodef>
-		
-		<advzip file="build/utils.jar"/>
-		<advzip file="build/utils-src.jar"/>
 	</target>
 	
 	<target name="resolve">

@@ -395,6 +395,8 @@ public final class Utils
 
 	public static int hexValue(char c) {
 		switch (c) {
+			case '0':
+				return 0;
 			case '1':
 				return 1;
 			case '2':

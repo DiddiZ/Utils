@@ -45,6 +45,15 @@ public class Tests
 	}
 
 	@Test
+	public void testHex() {
+		final byte[] bytes = new byte[256];
+		for (int i = 0; i < 256; i++)
+			bytes[i] = (byte)i;
+
+		assertArrayEquals(bytes, Utils.fromHex(Utils.toHex(bytes)));
+	}
+
+	@Test
 	public void testIndexOfArray() {
 		final String[] haystack = {"Hallo", "Welt"};
 

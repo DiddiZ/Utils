@@ -2,6 +2,7 @@ package de.diddiz.utils.iter;
 
 import java.io.File;
 import java.util.Iterator;
+import com.google.common.collect.AbstractIterator;
 import de.diddiz.utils.wildcards.PatternSet;
 
 /**
@@ -42,13 +43,12 @@ public class FilteredFileWalker implements Iterable<File>
 		return new FilteredFileWalkerIterator(fileWalker);
 	}
 
-	private class FilteredFileWalkerIterator extends ComputeNextIterator<File>
+	private class FilteredFileWalkerIterator extends AbstractIterator<File>
 	{
 		private final Iterator<File> itr;
 
 		public FilteredFileWalkerIterator(FileWalker fileWalker) {
 			itr = fileWalker.iterator();
-			computeFirst();
 		}
 
 		@Override
@@ -65,7 +65,7 @@ public class FilteredFileWalker implements Iterable<File>
 						(excludes == null || !excludes.matchAny(path)))
 					return file;
 			}
-			return null;
+			return endOfData();
 		}
 	}
 }

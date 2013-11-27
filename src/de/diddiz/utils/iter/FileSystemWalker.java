@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import de.diddiz.utils.iter.ComputeNextIterator;
+import com.google.common.collect.AbstractIterator;
 
 /**
  * Creates an {@link java.util.Iterator Iterator} that iterates over all sub paths of a set of paths recursively.
@@ -46,14 +46,13 @@ public class FileSystemWalker implements Iterable<Path>
 		return paths.toArray(new Path[paths.size()]);
 	}
 
-	private static class FileWalkerIterator extends ComputeNextIterator<Path>
+	private static class FileWalkerIterator extends AbstractIterator<Path>
 	{
 		private final LinkedList<Path> folders = new LinkedList<>(), files = new LinkedList<>();
 
 		public FileWalkerIterator(Path[] roots) {
 			for (final Path path : roots)
 				add(path);
-			computeFirst();
 		}
 
 		@Override
@@ -67,7 +66,7 @@ public class FileSystemWalker implements Iterable<Path>
 				}
 			if (files.size() > 0)
 				return files.poll();
-			return null;
+			return endOfData();
 		}
 
 		private void add(Path path) {

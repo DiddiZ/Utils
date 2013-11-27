@@ -3,6 +3,7 @@ package de.diddiz.utils.iter;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
+import com.google.common.collect.AbstractIterator;
 
 /**
  * Creates an {@link java.util.Iterator Iterator} that iterates over all sub files of a folder recursively.
@@ -25,14 +26,13 @@ public class FileWalker implements Iterable<File>
 		return new FileWalkerIterator(roots);
 	}
 
-	private static class FileWalkerIterator extends ComputeNextIterator<File>
+	private static class FileWalkerIterator extends AbstractIterator<File>
 	{
 		private final LinkedList<File> folders = new LinkedList<>(), files = new LinkedList<>();
 
 		public FileWalkerIterator(File... roots) {
 			for (final File root : roots)
 				add(root);
-			computeFirst();
 		}
 
 		@Override
@@ -45,7 +45,7 @@ public class FileWalker implements Iterable<File>
 			}
 			if (files.size() > 0)
 				return files.poll();
-			return null;
+			return endOfData();
 		}
 
 		private void add(File file) {

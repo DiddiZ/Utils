@@ -2,14 +2,22 @@ package tests;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
+import com.google.common.base.Function;
+import com.google.common.collect.Interner;
+import com.google.common.primitives.Ints;
 import de.diddiz.utils.TimeSpecParser;
+import de.diddiz.utils.Transform;
 import de.diddiz.utils.Utils;
+import de.diddiz.utils.interners.WeakArrayInterner;
 import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
@@ -174,6 +182,32 @@ public class Tests
 	}
 
 	@Test
+	public void testTransformArrayToArray() {
+		final Integer[] from = new Integer[]{1, 2, 3, 4, 5};
+		final String[] expected = new String[]{"1", "2", "3", "4", "5"};
+		final String[] actual = Transform.toArray(from, String.class, new Function<Integer, String>() {
+			@Override
+			public String apply(Integer i) {
+				return i.toString();
+			}
+		});
+		assertArrayEquals(expected, actual);
+	}
+
+	@Test
+	public void testTransformCollectionToArray() {
+		final Collection<Integer> from = Ints.asList(1, 2, 3, 4, 5);
+		final String[] expected = new String[]{"1", "2", "3", "4", "5"};
+		final String[] actual = Transform.toArray(from, String.class, new Function<Integer, String>() {
+			@Override
+			public String apply(Integer i) {
+				return i.toString();
+			}
+		});
+		assertArrayEquals(expected, actual);
+	}
+
+	@Test
 	public void testUtilsTrail() {
 		assertEquals("Hallo Welt", Utils.tail("Hallo", " Welt"));
 		assertEquals("Hallo Welt", Utils.tail("Hallo Welt", " Welt"));
@@ -184,6 +218,21 @@ public class Tests
 		assertEquals("C:/hallo/welt/", Utils.tailingSlash("C:/hallo/welt"));
 		assertEquals("C:/hallo/welt\\", Utils.tailingSlash("C:/hallo/welt\\"));
 		assertEquals("C:/hallo/welt/", Utils.tailingSlash("C:/hallo/welt/"));
+	}
+
+	@Test
+	public void testWeakArrayInterner() {
+		// Create two string arrays
+		final String[] arr1 = new String[]{"a", "b", "c"}, arr2 = new String[]{"a", "b", "c"};
+		// These are distinct objects
+		assertFalse(arr1 == arr2);
+
+		// Apply them both to the array interner
+		final Interner<String[]> interner = new WeakArrayInterner<>();
+		final String[] arr1Interned = interner.intern(arr1), arr2Interned = interner.intern(arr2);
+
+		// Now they are the same object
+		assertTrue(arr1Interned == arr2Interned);
 	}
 
 	@Test

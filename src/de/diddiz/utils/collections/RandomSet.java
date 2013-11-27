@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import com.google.common.base.Supplier;
 import de.diddiz.utils.Utils;
 
-public class RandomSet<T> implements Iterable<T>
+public class RandomSet<T> implements Iterable<T>, Supplier<T>
 {
 	private final List<T> values;
 	private final Random rnd;
@@ -36,6 +37,7 @@ public class RandomSet<T> implements Iterable<T>
 	/**
 	 * Returns a random element
 	 */
+	@Override
 	public T get() {
 		return last = values.get(rnd.nextInt(size));
 	}

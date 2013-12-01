@@ -393,6 +393,61 @@ public final class Utils
 		return list.get(RANDOM.nextInt(list.size()));
 	}
 
+	/**
+	 * Returns if both {@link Collection Collections} contains the same elements, in the same quantities, regardless of order and collection type.
+	 * <p>
+	 * Empty collections and {@code null} are regarded as equal.
+	 */
+	public static <T> boolean haveSameElements(Collection<T> col1, Collection<T> col2) {
+		if (col1 == col2)
+			return true;
+
+		// If either list is null, return whether the other is empty
+		if (col1 == null)
+			return col2.isEmpty();
+		if (col2 == null)
+			return col1.isEmpty();
+
+		// If lengths are not equal, they can't possibly match
+		if (col1.size() != col2.size())
+			return false;
+
+		// Helper class, so we don't have to do a whole lot of autoboxing
+		class Count
+		{
+			// Initialize as 1, as we would increment it anyway
+			public int count = 1;
+		}
+
+		final Map<T, Count> counts = new HashMap<>();
+
+		// Count the items in list1
+		for (final T item : col1) {
+			final Count count = counts.get(item);
+			if (count != null)
+				count.count++;
+			else
+				// If the map doesn't contain the item, put a new count
+				counts.put(item, new Count());
+		}
+
+		// Subtract the count of items in list2
+		for (final T item : col2) {
+			final Count count = counts.get(item);
+			// If the map doesn't contain the item here, then this item wasn't in list1
+			if (count == null)
+				return false;
+			count.count--;
+		}
+
+		// If any count is nonzero at this point, then the two lists don't match
+		for (final Count count : counts.values())
+			if (count.count != 0)
+				return false;
+
+		return true;
+	}
+
 	public static int hexValue(char c) {
 		switch (c) {
 			case '0':

@@ -53,6 +53,32 @@ public class Tests
 	}
 
 	@Test
+	public void testHaveSameElements() {
+		assertTrue(Utils.haveSameElements(null, null));
+		assertTrue(Utils.haveSameElements(null, Collections.emptyList()));
+		assertTrue(Utils.haveSameElements(Collections.emptySet(), null));
+
+		final List<String> list1 = new ArrayList<>();
+		list1.add("Hallo");
+		list1.add("Welt");
+
+		assertTrue(Utils.haveSameElements(list1, list1));
+
+		final List<String> list2 = new ArrayList<>(list1);
+		list2.add("!");
+
+		assertFalse(Utils.haveSameElements(list1, list2));
+
+		list1.add("!");
+		list1.add("Welt");
+
+		assertFalse(Utils.haveSameElements(list1, list2));
+
+		list2.add("Welt");
+		assertTrue(Utils.haveSameElements(list1, list2));
+	}
+
+	@Test
 	public void testHex() {
 		final byte[] bytes = new byte[256];
 		for (int i = 0; i < 256; i++)

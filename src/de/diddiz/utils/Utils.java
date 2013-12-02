@@ -651,6 +651,20 @@ public final class Utils
 		return len;
 	}
 
+	public static String listing(List<String> entries, String delimiter, String finalDelimiter) {
+		final int len = entries.size();
+		if (len == 0)
+			return "";
+		if (len == 1)
+			return entries.get(0);
+		final StringBuilder sb = new StringBuilder(length(entries) + delimiter.length() * (len - 2) + finalDelimiter.length());
+		sb.append(entries.get(0));
+		for (int i = 1; i < len - 1; i++)
+			sb.append(delimiter).append(entries.get(1));
+		sb.append(finalDelimiter).append(entries.get(len - 1));
+		return sb.toString();
+	}
+
 	public static String listing(String[] entries, String delimiter, String finalDelimiter) {
 		final int len = entries.length;
 		if (len == 0)

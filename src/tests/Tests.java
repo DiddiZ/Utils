@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Interner;
 import com.google.common.primitives.Ints;
 import de.diddiz.utils.TimeSpecParser;
@@ -134,6 +135,17 @@ public class Tests
 				number.next();
 			}
 		}
+	}
+
+	@Test
+	public void testListing() {
+		assertEquals("1", Utils.listing(ImmutableList.of("1"), ", ", " and "));
+		assertEquals("1 and 2", Utils.listing(ImmutableList.of("1", "2"), ", ", " and "));
+		assertEquals("1, 2 and 3", Utils.listing(ImmutableList.of("1", "2", "3"), ", ", " and "));
+
+		assertEquals("1", Utils.listing(new String[]{"1"}, ", ", " and "));
+		assertEquals("1 and 2", Utils.listing(new String[]{"1", "2"}, ", ", " and "));
+		assertEquals("1, 2 and 3", Utils.listing(new String[]{"1", "2", "3"}, ", ", " and "));
 	}
 
 	@Test

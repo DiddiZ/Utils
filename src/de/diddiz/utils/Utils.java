@@ -5,7 +5,6 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import java.awt.Desktop;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -323,12 +322,6 @@ public final class Utils
 
 	public static String fillWithSpacesLeft(String str, int len) {
 		return spaces(len - str.length()) + str;
-	}
-
-	public static List<File> findFilesRecursive(File start, FileFilter filter) {
-		final List<File> files = new ArrayList<>();
-		findFilesRecursive(start, filter, files);
-		return files;
 	}
 
 	public static String format(Throwable thrown, String nl, String t) {
@@ -1242,14 +1235,6 @@ public final class Utils
 		try (Writer writer = new FileWriter(file);) {
 			writer.write(content);
 		}
-	}
-
-	private static void findFilesRecursive(File file, FileFilter filter, List<File> files) {
-		if (file.isDirectory())
-			for (final File f : file.listFiles())
-				findFilesRecursive(f, filter, files);
-		else if (filter.accept(file))
-			files.add(file);
 	}
 
 	private static StringBuilder format(Throwable thrown, StringBuilder sb, String nl, String t) {

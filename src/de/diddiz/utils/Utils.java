@@ -312,6 +312,16 @@ public final class Utils
 		errorMessageBox(msg + ":" + NEWLINE + NEWLINE + toString(ex));
 	}
 
+	/**
+	 * Calculates the total file size of a bunch of files.
+	 */
+	public static long fileLength(Iterable<File> files) {
+		long length = 0;
+		for (final File file : files)
+			length += file.length();
+		return length;
+	}
+
 	public static String fillWithSpacesLeft(int i, int len) {
 		return spaces(len - String.valueOf(i).length()) + i;
 	}

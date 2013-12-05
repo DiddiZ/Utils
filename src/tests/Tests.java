@@ -15,6 +15,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Interner;
 import com.google.common.primitives.Ints;
+import de.diddiz.utils.FloatMath;
 import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Transform;
 import de.diddiz.utils.Utils;
@@ -37,6 +38,16 @@ public class Tests
 		assertEquals("Hallo Welt", Utils.capitalize("Hallo Welt"));
 		assertEquals("A B C", Utils.capitalize("a b c"));
 		assertEquals("Leer  Zeichen", Utils.capitalize("leer  zeichen"));
+	}
+
+	@Test
+	public void testFloatMathMix() {
+		assertEquals(0f, FloatMath.mix(0f, 1f, 0f), 0.001f);
+		assertEquals(1f, FloatMath.mix(0f, 1f, 1f), 0.001f);
+		assertEquals(0.5f, FloatMath.mix(0f, 1f, 0.5f), 0.001f);
+
+		assertEquals(100f, FloatMath.mix(0f, 1000f, 0.1f), 0.001f);
+		assertEquals(3f, FloatMath.mix(1f, 2f, 2f), 0.001f);
 	}
 
 	@Test

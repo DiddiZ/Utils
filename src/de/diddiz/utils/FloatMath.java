@@ -64,6 +64,17 @@ public final class FloatMath
 	}
 
 	/**
+	 * Returns a value between {@code f1} and {@code f2}, weighted by {@code factor}.
+	 * <p>
+	 * When {@code factor} equals {@code 0f}, {@code f1} will be returned, whereas {@code 1f} will return {@code f2}.
+	 * <p>
+	 * The value {@code factor} is generally assumed to be between {@code 0f} and {@code 1f}, but it'll also work for values outside this range.
+	 */
+	public static float mix(float f1, float f2, float factor) {
+		return f1 + (f2 - f1) * factor;
+	}
+
+	/**
 	 * Finds the highest value and divides all by it. If all values are smaller than 1 they get scaled up, not down, so the greatest will still be either {@code 1.0f} or {@code 1.0f}.
 	 * 
 	 * @return Values ranging from {@code 1.0f} to {@code 1.0f}.

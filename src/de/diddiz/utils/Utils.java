@@ -654,17 +654,48 @@ public final class Utils
 		return len;
 	}
 
-	public static String listing(List<String> entries, String delimiter, String finalDelimiter) {
-		final int len = entries.size();
-		if (len == 0)
+	/**
+	 * Creates a {@code String} listing all elements in the collection divided by the supplied delimiters.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre>
+	 * listing(ImmutableList.of(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;), &quot;, &quot;, &quot; and&quot;);
+	 * </pre>
+	 * 
+	 * Returns:
+	 * 
+	 * <pre>
+	 * 1, 2 and 3
+	 * </pre>
+	 * 
+	 * @param entries May be {@code null}
+	 * @param delimiter Is put between strings. Can't be {@code null}
+	 * @param finalDelimiter Used before the last string. Can't be {@code null}
+	 */
+	public static String listing(Collection<String> entries, String delimiter, String finalDelimiter) {
+		// Return an empty string for an empty list
+		if (entries == null || entries.size() == 0)
 			return "";
-		if (len == 1)
-			return entries.get(0);
-		final StringBuilder sb = new StringBuilder(length(entries) + delimiter.length() * (len - 2) + finalDelimiter.length());
-		sb.append(entries.get(0));
-		for (int i = 1; i < len - 1; i++)
-			sb.append(delimiter).append(entries.get(1));
-		sb.append(finalDelimiter).append(entries.get(len - 1));
+
+		final Iterator<String> itr = entries.iterator();
+
+		// If the collection has just one entry, return that, as we need no delimiters
+		if (entries.size() == 1)
+			return itr.next();
+
+		// Calculate the size of the final string beforehand.
+		final StringBuilder sb = new StringBuilder(length(entries) + delimiter.length() * (entries.size() - 2) + finalDelimiter.length());
+
+		// Add the first entry, as it's guaranteed to exists, so can we start the loop with adding a delimiter
+		sb.append(itr.next());
+
+		while (itr.hasNext()) {
+			final String str = itr.next();
+
+			// If the collection has no further elements, after str, prefix str with the final delimiter
+			sb.append(itr.hasNext() ? delimiter : finalDelimiter).append(str);
+		}
 		return sb.toString();
 	}
 

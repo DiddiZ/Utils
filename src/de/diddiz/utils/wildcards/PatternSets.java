@@ -1,5 +1,6 @@
 package de.diddiz.utils.wildcards;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class PatternSets
@@ -50,6 +51,11 @@ public final class PatternSets
 					return true;
 			return false;
 		}
+
+		@Override
+		public String toString() {
+			return Arrays.toString(patterns);
+		}
 	}
 
 	private static class SinglePatternSet implements PatternSet
@@ -68,6 +74,11 @@ public final class PatternSets
 		@Override
 		public boolean matchAny(String text) {
 			return pattern.match(text);
+		}
+
+		@Override
+		public String toString() {
+			return '[' + pattern.toString() + ']';
 		}
 	}
 }

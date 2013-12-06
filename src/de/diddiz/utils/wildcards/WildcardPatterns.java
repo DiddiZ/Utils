@@ -1,5 +1,6 @@
 package de.diddiz.utils.wildcards;
 
+import static de.diddiz.utils.Utils.join;
 import de.diddiz.utils.Utils;
 
 public final class WildcardPatterns
@@ -50,6 +51,11 @@ public final class WildcardPatterns
 		public boolean match(String text) {
 			return text.indexOf(str) > -1;
 		}
+
+		@Override
+		public String toString() {
+			return "*" + str + "*";
+		}
 	}
 
 	/**
@@ -66,6 +72,11 @@ public final class WildcardPatterns
 		@Override
 		public boolean match(String text) {
 			return text.endsWith(suffix);
+		}
+
+		@Override
+		public String toString() {
+			return "*" + suffix;
 		}
 	}
 
@@ -84,6 +95,11 @@ public final class WildcardPatterns
 		public boolean match(String text) {
 			return equal.equals(text);
 		}
+
+		@Override
+		public String toString() {
+			return equal;
+		}
 	}
 
 	/**
@@ -96,6 +112,11 @@ public final class WildcardPatterns
 		@Override
 		public boolean match(String text) {
 			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "*";
 		}
 	}
 
@@ -140,6 +161,16 @@ public final class WildcardPatterns
 
 			return true;
 		}
+
+		@Override
+		public String toString() {
+			String str = join(cards, '*');
+			if (startsWithWildcard)
+				str = "*" + str;
+			if (endsWithWildcard)
+				str += "*";
+			return str;
+		}
 	}
 
 	/**
@@ -158,6 +189,11 @@ public final class WildcardPatterns
 		public boolean match(String text) {
 			return text.startsWith(prefix) && text.endsWith(suffix);
 		}
+
+		@Override
+		public String toString() {
+			return prefix + "*" + suffix;
+		}
 	}
 
 	/**
@@ -174,6 +210,11 @@ public final class WildcardPatterns
 		@Override
 		public boolean match(String text) {
 			return text.startsWith(prefix);
+		}
+
+		@Override
+		public String toString() {
+			return prefix + "*";
 		}
 	}
 }

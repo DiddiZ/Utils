@@ -64,24 +64,26 @@ public final class Utils
 	}
 
 	/**
-	 * Capitalizes the first letter of every word in the {@code String}, the rest is turned to lower case.
+	 * Capitalizes the first letter of every word, the rest is turned to lower case.
 	 */
-	public static String capitalize(CharSequence str) {
-		final char[] chars = new char[str.length()];
+	public static String capitalize(String str) {
+		final String[] split = split(str, ' ');
 
-		boolean capitalize = true;
-		for (int i = 0; i < str.length(); i++) {
-			final char c = str.charAt(i);
-			if (c == ' ') {
-				chars[i] = c;
-				capitalize = true;
-			} else if (capitalize == true) {
-				chars[i] = Character.toUpperCase(c);
-				capitalize = false;
-			} else
-				chars[i] = Character.toLowerCase(c);
-		}
-		return new String(chars);
+		for (int i = 0; i < split.length; i++)
+			split[i] = capitalizeFirstLetter(split[i]);
+
+		return join(split, ' ');
+	}
+
+	/**
+	 * Capitalizes the first letter of the first word, the rest is turned to lower case.
+	 */
+	public static String capitalizeFirstLetter(String str) {
+		if (str.length() == 0)
+			return str;
+		if (str.length() == 1)
+			return str.toUpperCase();
+		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
 	}
 
 	/**
@@ -1251,10 +1253,6 @@ public final class Utils
 		while (ret < number)
 			ret *= 2;
 		return ret;
-	}
-
-	public static String uppercaseFirstLetter(String str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
 	public static void write(File file, String content) throws IOException {

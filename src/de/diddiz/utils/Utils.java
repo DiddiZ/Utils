@@ -43,6 +43,7 @@ import java.util.Set;
 import javax.crypto.Cipher;
 import javax.swing.JFrame;
 import de.diddiz.utils.UtilsClasses.BytesFormat;
+import de.diddiz.utils.math.NotANumberException;
 
 public final class Utils
 {
@@ -517,27 +518,68 @@ public final class Utils
 		return -1;
 	}
 
-	public static boolean isDouble(String str) {
+	/**
+	 * Returns whether {@code obj} can be parsed as {@code boolean}.
+	 * 
+	 * @see #toBoolean(Object)
+	 */
+	public static boolean isBoolean(Object obj) {
 		try {
-			Double.parseDouble(str);
+			toBoolean(obj);
 			return true;
-		} catch (final NumberFormatException ex) {}
+		} catch (final NotANumberException ex) {}
 		return false;
 	}
 
-	public static boolean isFloat(String str) {
+	/**
+	 * Returns whether {@code obj} can be parsed as {@code double}.
+	 * 
+	 * @see #toDouble(Object)
+	 */
+	public static boolean isDouble(Object obj) {
 		try {
-			Float.parseFloat(str);
+			toDouble(obj);
 			return true;
-		} catch (final NumberFormatException ex) {}
+		} catch (final NotANumberException ex) {}
 		return false;
 	}
 
-	public static boolean isInt(String str) {
+	/**
+	 * Returns whether {@code obj} can be parsed as {@code float}.
+	 * 
+	 * @see #toFloat(Object)
+	 */
+	public static boolean isFloat(Object obj) {
 		try {
-			Integer.parseInt(str);
+			toFloat(obj);
 			return true;
-		} catch (final NumberFormatException ex) {}
+		} catch (final NotANumberException ex) {}
+		return false;
+	}
+
+	/**
+	 * Returns whether {@code obj} can be parsed as {@code int}.
+	 * 
+	 * @see #toInt(Object)
+	 */
+	public static boolean isInt(Object obj) {
+		try {
+			toInt(obj);
+			return true;
+		} catch (final NotANumberException ex) {}
+		return false;
+	}
+
+	/**
+	 * Returns whether {@code obj} can be parsed as {@code long}.
+	 * 
+	 * @see #toLong(Object)
+	 */
+	public static boolean isLong(Object obj) {
+		try {
+			toLong(obj);
+			return true;
+		} catch (final NotANumberException ex) {}
 		return false;
 	}
 
@@ -1033,102 +1075,102 @@ public final class Utils
 	}
 
 	/**
-	 * Uses {@code false} as default value.
+	 * Tries to get a {@code boolean} from {@code obj}.
+	 * <p>
+	 * If {@code obj} is a {@code Boolean} it returns its value.
+	 * <p>
+	 * If {@code obj} is a {@code Integer} or {@code Long} it returns {@code false} for {@code 0} and {@code true} for {@code 1}.
+	 * <p>
+	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"}.
 	 * 
-	 * @see #toBoolean(Object, boolean)
+	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
-	public static boolean toBoolean(Object obj) {
-		return toBoolean(obj, false);
+	public static boolean toBoolean(Object obj) throws NotANumberException {
+		if (obj instanceof Boolean)
+			return (Boolean)obj;
+		if (obj instanceof Integer || obj instanceof Long) {
+			final int val = ((Number)obj).intValue();
+			if (val == 0)
+				return false;
+			if (val == 1)
+				return true;
+		}
+		if (obj instanceof String)
+			return ((String)obj).equalsIgnoreCase("true");
+		throw new NotANumberException("Not a boolean: '" + obj + "'");
 	}
 
 	/**
-	 * Tries to get a {@code boolean} from {@code obj}.
+	 * @param def Value to return if obj can't be parsed.
 	 * 
-	 * <p>
-	 * If {@code obj} is a {@code Boolean} it returns its value.
-	 * </p>
-	 * 
-	 * <p>
-	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"}.
-	 * </p>
-	 * 
-	 * <p>
-	 * Otherwise the default value is returned.
-	 * </p>
+	 * @see #toBoolean(Object)
 	 */
 	public static boolean toBoolean(Object obj, boolean def) {
-		if (obj instanceof Boolean)
-			return (Boolean)obj;
-		if (obj instanceof String)
-			return ((String)obj).equalsIgnoreCase("true");
+		try {
+			return toBoolean(obj);
+		} catch (final NotANumberException ex) {}
 		return def;
 	}
 
 	/**
-	 * Uses {@code 0D} as default value.
-	 * 
-	 * @see #toDouble(Object, double)
-	 */
-	public static double toDouble(Object obj) {
-		return toDouble(obj, 0D);
-	}
-
-	/**
 	 * Tries to get a {@code double} from {@code obj}.
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#doubleValue() doubleValue()}.
-	 * </p>
-	 * 
 	 * <p>
-	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Double#parseDouble(String) Double.parseDouble(obj)}.
-	 * </p>
+	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Double#parseDouble(String) Double.parseDouble(obj)}
 	 * 
-	 * <p>
-	 * Otherwise the default value is returned.
-	 * </p>
+	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
-	public static double toDouble(Object obj, double def) {
+	public static double toDouble(Object obj) throws NotANumberException {
 		if (obj instanceof Number)
 			return ((Number)obj).doubleValue();
 		if (obj instanceof String)
 			try {
 				return Double.parseDouble((String)obj);
 			} catch (final NumberFormatException ex) {}
+		throw new NotANumberException("Not a double: '" + obj + "'");
+	}
+
+	/**
+	 * @param def Value to return if obj can't be parsed.
+	 * 
+	 * @see #toDouble(Object)
+	 */
+	public static double toDouble(Object obj, double def) {
+		try {
+			return toDouble(obj);
+		} catch (final NotANumberException ex) {}
 		return def;
 	}
 
 	/**
-	 * Uses {@code 0f} as default value.
-	 * 
-	 * @see #toFloat(Object, float)
-	 */
-	public static float toFloat(Object obj) {
-		return toFloat(obj, 0f);
-	}
-
-	/**
 	 * Tries to get a {@code float} from {@code obj}.
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#floatValue() floatValue()}.
-	 * </p>
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Float#parseFloat(String) Float.parseFloat(obj)}.
-	 * </p>
 	 * 
-	 * <p>
-	 * Otherwise the default value is returned.
-	 * </p>
+	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
-	public static float toFloat(Object obj, float def) {
+	public static float toFloat(Object obj) throws NotANumberException {
 		if (obj instanceof Number)
 			return ((Number)obj).floatValue();
 		if (obj instanceof String)
 			try {
 				return Float.parseFloat((String)obj);
 			} catch (final NumberFormatException ex) {}
+		throw new NotANumberException("Not a float: '" + obj + "'");
+	}
+
+	/**
+	 * @param def Value to return if obj can't be parsed.
+	 * 
+	 * @see #toFloat(Object)
+	 */
+	public static float toFloat(Object obj, float def) {
+		try {
+			return toFloat(obj);
+		} catch (final NotANumberException ex) {}
 		return def;
 	}
 
@@ -1144,70 +1186,64 @@ public final class Utils
 	}
 
 	/**
-	 * Uses {@code 0} as default value.
-	 * 
-	 * @see #toInt(Object, int)
-	 */
-	public static int toInt(Object obj) {
-		return toInt(obj, 0);
-	}
-
-	/**
 	 * Tries to get a {@code int} from {@code obj}.
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#intValue() intValue()}.
-	 * </p>
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Integer#parseInt(String) Integer.parseInt(obj)}.
-	 * </p>
 	 * 
-	 * <p>
-	 * Otherwise the default value is returned.
-	 * </p>
+	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
-	public static int toInt(Object obj, int def) {
+	public static int toInt(Object obj) throws NotANumberException {
 		if (obj instanceof Number)
 			return ((Number)obj).intValue();
 		if (obj instanceof String)
 			try {
 				return Integer.parseInt((String)obj);
 			} catch (final NumberFormatException ex) {}
+		throw new NotANumberException("Not an integer: '" + obj + "'");
+	}
+
+	/**
+	 * @param def Value to return if obj can't be parsed.
+	 * 
+	 * @see #toInt(Object)
+	 */
+	public static int toInt(Object obj, int def) {
+		try {
+			return toInt(obj);
+		} catch (final NotANumberException ex) {}
 		return def;
 	}
 
 	/**
-	 * Uses {@code 0L} as default value.
-	 * 
-	 * @see #toLong(Object, long)
-	 */
-	public static long toLong(Object obj) {
-		return toLong(obj, 0L);
-	}
-
-	/**
-	 * Tries to get a {@code int} from {@code obj}.
-	 * 
+	 * Tries to get a {@code long} from {@code obj}.
 	 * <p>
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#longValue() longValue()}.
-	 * </p>
-	 * 
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Long#parseLong(String) Long.parseLong(obj)}.
-	 * </p>
 	 * 
-	 * <p>
-	 * Otherwise the default value is returned.
-	 * </p>
+	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
-	public static long toLong(Object obj, long def) {
+	public static long toLong(Object obj) throws NotANumberException {
 		if (obj instanceof Number)
 			return ((Number)obj).longValue();
 		if (obj instanceof String)
 			try {
 				return Long.parseLong((String)obj);
 			} catch (final NumberFormatException ex) {}
+		throw new NotANumberException("Not a long: '" + obj + "'");
+	}
+
+	/**
+	 * @param def Value to return if obj can't be parsed.
+	 * 
+	 * @see #toLong(Object)
+	 */
+	public static long toLong(Object obj, long def) {
+		try {
+			return toLong(obj);
+		} catch (final NotANumberException ex) {}
 		return def;
 	}
 

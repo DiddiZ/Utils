@@ -1,5 +1,8 @@
 package de.diddiz.utils.config;
 
+import static de.diddiz.utils.Utils.toBoolean;
+import static de.diddiz.utils.Utils.toFloat;
+import static de.diddiz.utils.Utils.toInt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +13,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;
-import de.diddiz.utils.Utils;
+import de.diddiz.utils.math.NotANumberException;
 
 public abstract class PropertiesConfig
 {
@@ -58,8 +61,16 @@ public abstract class PropertiesConfig
 		return EMPTY_STRING_ARRAY;
 	}
 
-	public boolean getBoolean(String key) {
-		return Boolean.valueOf(get(key));
+	public boolean getBoolean(String key) throws ConfigException {
+		try {
+			return toBoolean(get(key));
+		} catch (final NotANumberException ex) {
+			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
+		}
+	}
+
+	public boolean getBoolean(String key, boolean def) {
+		return toBoolean(get(key), def);
 	}
 
 	public File getConfigFile() {
@@ -92,12 +103,28 @@ public abstract class PropertiesConfig
 		return files;
 	}
 
-	public float getFloat(String key) {
-		return Utils.toFloat(get(key));
+	public float getFloat(String key) throws ConfigException {
+		try {
+			return toFloat(get(key));
+		} catch (final NotANumberException ex) {
+			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
+		}
 	}
 
-	public int getInteger(String key) {
-		return Utils.toInt(get(key));
+	public float getFloat(String key, float def) {
+		return toFloat(get(key), def);
+	}
+
+	public int getInt(String key) throws ConfigException {
+		try {
+			return toInt(get(key));
+		} catch (final NotANumberException ex) {
+			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
+		}
+	}
+
+	public int getInt(String key, int def) {
+		return toInt(get(key), def);
 	}
 
 	public boolean isModified() {

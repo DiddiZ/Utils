@@ -1202,6 +1202,8 @@ public final class Utils
 	/**
 	 * Tries to get a {@code int} from {@code obj}.
 	 * <p>
+	 * If {@code obj} is an {@code Integer} it return it.
+	 * <p>
 	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#intValue() intValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Integer#parseInt(String) Integer.parseInt(obj)}.
@@ -1209,7 +1211,9 @@ public final class Utils
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static int toInt(Object obj) throws NotANumberException {
-		if (obj instanceof Number) {
+		if (obj instanceof Integer)
+			return (Integer)obj;
+		else if (obj instanceof Number) {
 			final Number number = (Number)obj;
 			if (DoubleMath.isMathematicalInteger(number.doubleValue()))// Check if number is an integer
 				if (number.doubleValue() >= Integer.MIN_VALUE && number.doubleValue() <= Integer.MAX_VALUE) // Check overflow
@@ -1236,6 +1240,8 @@ public final class Utils
 	/**
 	 * Tries to get a {@code long} from {@code obj}.
 	 * <p>
+	 * If {@code obj} is a {@code Long} it return it.
+	 * <p>
 	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#longValue() longValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Long#parseLong(String) Long.parseLong(obj)}.
@@ -1243,7 +1249,9 @@ public final class Utils
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static long toLong(Object obj) throws NotANumberException {
-		if (obj instanceof Number) {
+		if (obj instanceof Long)
+			return (Long)obj;
+		else if (obj instanceof Number) {
 			final Number number = (Number)obj;
 			if (DoubleMath.isMathematicalInteger(number.doubleValue()))
 				if (number.doubleValue() >= Long.MIN_VALUE && number.doubleValue() <= Long.MAX_VALUE) // Check overflow

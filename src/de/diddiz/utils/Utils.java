@@ -42,6 +42,7 @@ import java.util.Random;
 import java.util.Set;
 import javax.crypto.Cipher;
 import javax.swing.JFrame;
+import com.google.common.math.DoubleMath;
 import de.diddiz.utils.UtilsClasses.BytesFormat;
 import de.diddiz.utils.math.NotANumberException;
 
@@ -1079,24 +1080,32 @@ public final class Utils
 	 * <p>
 	 * If {@code obj} is a {@code Boolean} it returns its value.
 	 * <p>
-	 * If {@code obj} is a {@code Integer} or {@code Long} it returns {@code false} for {@code 0} and {@code true} for {@code 1}.
+	 * If {@code obj} is a {@code Number} and represents an mathematical integer it returns {@code false} for {@code 0} and {@code true} for {@code 1}.
 	 * <p>
-	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"}.
+	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"} or {@code "false"}.
 	 * 
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static boolean toBoolean(Object obj) throws NotANumberException {
 		if (obj instanceof Boolean)
 			return (Boolean)obj;
-		if (obj instanceof Integer || obj instanceof Long) {
-			final int val = ((Number)obj).intValue();
-			if (val == 0)
-				return false;
-			if (val == 1)
-				return true;
+		if (obj instanceof Number) {
+			final Number number = (Number)obj;
+			if (DoubleMath.isMathematicalInteger(number.doubleValue())) {// Check if number is an integer
+				final long val = number.longValue();
+				if (val == 0)
+					return false;
+				if (val == 1)
+					return true;
+			}
 		}
-		if (obj instanceof String)
-			return ((String)obj).equalsIgnoreCase("true");
+		if (obj instanceof String) {
+			final String str = ((String)obj).toLowerCase();
+			if (str.equals("true"))
+				return true;
+			if (str.equals("false"))
+				return false;
+		}
 		throw new NotANumberException("Not a boolean: '" + obj + "'");
 	}
 
@@ -1115,16 +1124,18 @@ public final class Utils
 	/**
 	 * Tries to get a {@code double} from {@code obj}.
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#doubleValue() doubleValue()}.
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#doubleValue() doubleValue()} after checking for NaN.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Double#parseDouble(String) Double.parseDouble(obj)}
 	 * 
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static double toDouble(Object obj) throws NotANumberException {
-		if (obj instanceof Number)
-			return ((Number)obj).doubleValue();
-		if (obj instanceof String)
+		if (obj instanceof Number) {
+			final double d = ((Number)obj).doubleValue();
+			if (!Double.isNaN(d))
+				return d;
+		} else if (obj instanceof String)
 			try {
 				return Double.parseDouble((String)obj);
 			} catch (final NumberFormatException ex) {}
@@ -1146,16 +1157,19 @@ public final class Utils
 	/**
 	 * Tries to get a {@code float} from {@code obj}.
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#floatValue() floatValue()}.
+	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#floatValue() floatValue()} after checking for possibly overflow and NaN.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Float#parseFloat(String) Float.parseFloat(obj)}.
 	 * 
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static float toFloat(Object obj) throws NotANumberException {
-		if (obj instanceof Number)
-			return ((Number)obj).floatValue();
-		if (obj instanceof String)
+		if (obj instanceof Number) {
+			final Number number = (Number)obj;
+			if (number.doubleValue() >= Float.MIN_VALUE && number.doubleValue() <= Float.MAX_VALUE) // Check overflow
+				if (!Float.isNaN(number.floatValue()))
+					return number.floatValue();
+		} else if (obj instanceof String)
 			try {
 				return Float.parseFloat((String)obj);
 			} catch (final NumberFormatException ex) {}
@@ -1188,16 +1202,19 @@ public final class Utils
 	/**
 	 * Tries to get a {@code int} from {@code obj}.
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#intValue() intValue()}.
+	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#intValue() intValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Integer#parseInt(String) Integer.parseInt(obj)}.
 	 * 
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static int toInt(Object obj) throws NotANumberException {
-		if (obj instanceof Number)
-			return ((Number)obj).intValue();
-		if (obj instanceof String)
+		if (obj instanceof Number) {
+			final Number number = (Number)obj;
+			if (DoubleMath.isMathematicalInteger(number.doubleValue()))// Check if number is an integer
+				if (number.doubleValue() >= Integer.MIN_VALUE && number.doubleValue() <= Integer.MAX_VALUE) // Check overflow
+					return number.intValue();
+		} else if (obj instanceof String)
 			try {
 				return Integer.parseInt((String)obj);
 			} catch (final NumberFormatException ex) {}
@@ -1219,16 +1236,19 @@ public final class Utils
 	/**
 	 * Tries to get a {@code long} from {@code obj}.
 	 * <p>
-	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#longValue() longValue()}.
+	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#longValue() longValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Long#parseLong(String) Long.parseLong(obj)}.
 	 * 
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static long toLong(Object obj) throws NotANumberException {
-		if (obj instanceof Number)
-			return ((Number)obj).longValue();
-		if (obj instanceof String)
+		if (obj instanceof Number) {
+			final Number number = (Number)obj;
+			if (DoubleMath.isMathematicalInteger(number.doubleValue()))
+				if (number.doubleValue() >= Long.MIN_VALUE && number.doubleValue() <= Long.MAX_VALUE) // Check overflow
+					return number.longValue();
+		} else if (obj instanceof String)
 			try {
 				return Long.parseLong((String)obj);
 			} catch (final NumberFormatException ex) {}

@@ -1,5 +1,6 @@
 package tests;
 
+import static de.diddiz.utils.Utils.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,6 +21,7 @@ import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Transform;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.interners.WeakArrayInterner;
+import de.diddiz.utils.math.NotANumberException;
 import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
@@ -228,6 +230,65 @@ public class Tests
 		assertEquals(123, TimeSpecParser.parseTimeSpec("123", "mins"));
 
 		assertEquals(5, TimeSpecParser.parseTimeSpec("1m", "1m", "1m", "1m", "1m"));
+	}
+
+	@Test
+	public void testToPrimitive() throws NotANumberException {
+		// Int
+		assertEquals(123, toInt(123));
+		assertEquals(123, toInt((long)123));
+		assertEquals(123, toInt("123"));
+		assertEquals(-1, toInt("123q", -1));
+		assertFalse(isInt(null));
+		assertFalse(isInt("123q"));
+		assertFalse(isInt("123.4"));
+		assertEquals(Integer.MAX_VALUE, toInt((long)Integer.MAX_VALUE));
+		assertFalse(isInt((long)Integer.MAX_VALUE + 1)); // Check overflow
+		assertFalse(isInt(123.4f));
+		assertFalse(isInt(123.4));
+
+		// Long
+		assertEquals(123, toLong("123"));
+		assertEquals(-1, toLong("123q", -1));
+		assertEquals(Long.MAX_VALUE, toLong(Long.MAX_VALUE));
+		assertFalse(isLong(null));
+		assertFalse(isLong("123q"));
+		assertFalse(isLong("123.4"));
+		assertEquals(Long.MAX_VALUE, toLong(Long.MAX_VALUE));
+		assertFalse(isLong(Long.MAX_VALUE * 2d)); // Check overflow
+		assertFalse(isLong(123.4f));
+		assertFalse(isLong(123.4));
+
+		// Float
+		assertEquals(123.4f, toFloat("123.4"), 0.0001f);
+		assertEquals(-1, toFloat("123.xyz", -1), 0.0001f);
+		assertFalse(isFloat(null));
+		assertFalse(isFloat(Float.NaN));
+		assertFalse(isFloat("123q"));
+		assertEquals(Float.MAX_VALUE, toFloat(Float.MAX_VALUE), 0.0001f);
+		assertFalse(isFloat(Float.MAX_VALUE * 2d));
+		assertFalse(isFloat(Double.MAX_VALUE));
+
+		// Double
+		assertEquals(123.4f, toDouble("123.4", -1), 0.0001);
+		assertEquals(-1, toDouble("123.xyz", -1), 0.0001);
+		assertEquals(Byte.MAX_VALUE, toDouble(Byte.MAX_VALUE), 0.0001);
+		assertEquals(Integer.MAX_VALUE, toDouble(Integer.MAX_VALUE), 0.0001);
+		assertEquals(Long.MAX_VALUE, toDouble(Long.MAX_VALUE), 0.0001);
+		assertEquals(Float.MAX_VALUE, toDouble(Float.MAX_VALUE), 0.0001);
+		assertEquals(Double.MAX_VALUE, toDouble(Double.MAX_VALUE), 0.0001);
+		assertFalse(isDouble(Double.NaN));
+
+		// Boolean
+		assertEquals(true, toBoolean("true"));
+		assertEquals(false, toBoolean("FALSE"));
+		assertEquals(false, toBoolean(0));
+		assertEquals(true, toBoolean(1));
+		assertEquals(true, toBoolean(1L));
+		assertEquals(true, toBoolean((byte)1));
+		assertFalse(isBoolean(2));
+		assertTrue(isBoolean(1.0f));
+		assertFalse(isBoolean(1.1f));
 	}
 
 	@Test

@@ -21,7 +21,7 @@ public abstract class SerializedData<K, V>
 		try {
 			return toBoolean(get(key));
 		} catch (final NotANumberException ex) {
-			throw new SerializedDataException("Failed to read config key '" + key + "': " + ex.getMessage());
+			throw new SerializedDataException("Failed to read data key '" + key + "': " + ex.getMessage());
 		}
 	}
 
@@ -37,7 +37,7 @@ public abstract class SerializedData<K, V>
 		final V value = get(key);
 		if (value != null)
 			return value;
-		throw new SerializedDataException("Failed to read config key '" + key + "': Key not present");
+		throw new SerializedDataException("Failed to read data key '" + key + "': Key not present");
 	}
 
 	public double getDouble(K key) throws SerializedDataException {
@@ -56,7 +56,7 @@ public abstract class SerializedData<K, V>
 		try {
 			return toFloat(getChecked(key));
 		} catch (final NotANumberException ex) {
-			throw new SerializedDataException("Failed to read config key '" + key + "': " + ex.getMessage());
+			throw new SerializedDataException("Failed to read data key '" + key + "': " + ex.getMessage());
 		}
 	}
 
@@ -80,7 +80,7 @@ public abstract class SerializedData<K, V>
 		try {
 			return toInt(getChecked(key));
 		} catch (final NotANumberException ex) {
-			throw new SerializedDataException("Failed to read config key '" + key + "': " + ex.getMessage());
+			throw new SerializedDataException("Failed to read data key '" + key + "': " + ex.getMessage());
 		}
 	}
 
@@ -113,7 +113,7 @@ public abstract class SerializedData<K, V>
 		try {
 			return toLong(getChecked(key));
 		} catch (final NotANumberException ex) {
-			throw new SerializedDataException("Failed to read config key '" + key + "': " + ex.getMessage());
+			throw new SerializedDataException("Failed to read data key '" + key + "': " + ex.getMessage());
 		}
 	}
 

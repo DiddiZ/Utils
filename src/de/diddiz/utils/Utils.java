@@ -1166,7 +1166,7 @@ public final class Utils
 	public static float toFloat(Object obj) throws NotANumberException {
 		if (obj instanceof Number) {
 			final Number number = (Number)obj;
-			if (number.doubleValue() >= Float.MIN_VALUE && number.doubleValue() <= Float.MAX_VALUE) // Check overflow
+			if (number.doubleValue() >= -Float.MAX_VALUE && number.doubleValue() <= Float.MAX_VALUE) // Check overflow
 				if (!Float.isNaN(number.floatValue()))
 					return number.floatValue();
 		} else if (obj instanceof String)

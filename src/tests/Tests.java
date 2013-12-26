@@ -268,6 +268,7 @@ public class Tests
 		assertEquals(Float.MAX_VALUE, toFloat(Float.MAX_VALUE), 0.0001f);
 		assertFalse(isFloat(Float.MAX_VALUE * 2d));
 		assertFalse(isFloat(Double.MAX_VALUE));
+		assertTrue(isFloat(-1));
 
 		// Double
 		assertEquals(123.4f, toDouble("123.4", -1), 0.0001);

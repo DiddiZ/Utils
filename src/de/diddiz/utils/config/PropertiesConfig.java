@@ -1,8 +1,5 @@
 package de.diddiz.utils.config;
 
-import static de.diddiz.utils.Utils.toBoolean;
-import static de.diddiz.utils.Utils.toFloat;
-import static de.diddiz.utils.Utils.toInt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,14 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
-import de.diddiz.utils.math.NotANumberException;
+import de.diddiz.utils.serialization.SerializedDataException;
+import de.diddiz.utils.serialization.SerializedData;
 
-public abstract class PropertiesConfig
+public abstract class PropertiesConfig extends SerializedData<String, String>
 {
-	private static final String[] EMPTY_STRING_ARRAY = new String[0];
-
 	private final Properties properties;
 	private final File file;
 	private boolean modified;
@@ -43,34 +42,9 @@ public abstract class PropertiesConfig
 		save();
 	}
 
+	@Override
 	public String get(String key) {
 		return properties.getProperty(key);
-	}
-
-	/**
-	 * Get an ";" separated {@code String} array.
-	 */
-	public String[] getArray(String key) {
-		final String str = get(key);
-		if (str != null && str.length() > 0) {
-			final String[] arr = str.split(";");
-			for (int i = 0; i < arr.length; i++)
-				arr[i] = arr[i].trim();
-			return arr;
-		}
-		return EMPTY_STRING_ARRAY;
-	}
-
-	public boolean getBoolean(String key) throws ConfigException {
-		try {
-			return toBoolean(get(key));
-		} catch (final NotANumberException ex) {
-			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
-		}
-	}
-
-	public boolean getBoolean(String key, boolean def) {
-		return toBoolean(get(key), def);
 	}
 
 	public File getConfigFile() {
@@ -78,64 +52,45 @@ public abstract class PropertiesConfig
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Enum<?> getEnum(String key, Class<? extends Enum> enumType) throws IOException {
+	public Enum<?> getEnum(String key, Class<? extends Enum> enumType) throws SerializedDataException {
 		try {
-			return Enum.valueOf(enumType, get(key).toUpperCase());
+			return Enum.valueOf(enumType, getChecked(key).toUpperCase());
 		} catch (final IllegalArgumentException ex) {
-			throw new IOException("Unknown constant '" + get(key) + "' for '" + key + "'. Allowed are: " + Arrays.asList(enumType.getEnumConstants()));
+			throw new SerializedDataException("Unknown constant '" + get(key) + "' for '" + key + "'. Allowed are: " + Arrays.asList(enumType.getEnumConstants()));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Enum<?>> T getEnum(String key, T def) {
+	public <T extends Enum<?>> T getEnum(String key, T def) throws SerializedDataException {
 		try {
-			return (T)Enum.valueOf(def.getClass(), get(key).toUpperCase());
+			return (T)Enum.valueOf(def.getClass(), getChecked(key).toUpperCase());
 		} catch (final IllegalArgumentException ex) {
 			return def;
 		}
 	}
 
-	public File[] getFileArray(String key) {
-		final String[] strings = getArray(key);
-		final File[] files = new File[strings.length];
-		for (int i = 0; i < strings.length; i++)
-			files[i] = new File(strings[i]);
+	public List<File> getFileList(String key) throws SerializedDataException {
+		final List<String> strings = getList(key);
+		final List<File> files = new ArrayList<>(strings.size());
+		for (final String str : strings)
+			files.add(new File(str));
 		return files;
 	}
 
-	public float getFloat(String key) throws ConfigException {
-		try {
-			return toFloat(get(key));
-		} catch (final NotANumberException ex) {
-			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
+	@Override
+	public List<String> getList(String key) throws SerializedDataException {
+		final String str = getChecked(key);
+		if (str != null && str.length() > 0) {
+			final String[] arr = str.split(";");
+			for (int i = 0; i < arr.length; i++)
+				arr[i] = arr[i].trim();
+			return Arrays.asList(arr);
 		}
-	}
-
-	public float getFloat(String key, float def) {
-		return toFloat(get(key), def);
-	}
-
-	public int getInt(String key) throws ConfigException {
-		try {
-			return toInt(get(key));
-		} catch (final NotANumberException ex) {
-			throw new ConfigException("Failed to read config key '" + key + "': " + ex.getMessage());
-		}
-	}
-
-	public int getInt(String key, int def) {
-		return toInt(get(key), def);
+		return Collections.emptyList();
 	}
 
 	public boolean isModified() {
 		return modified;
-	}
-
-	/**
-	 * @return Whether the specific key has any value attached.
-	 */
-	public boolean isSet(String key) {
-		return get(key) != null;
 	}
 
 	public void remove(String key) {

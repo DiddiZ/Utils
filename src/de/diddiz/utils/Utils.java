@@ -396,8 +396,19 @@ public final class Utils
 		return null;
 	}
 
+	/**
+	 * Returns a random list element.
+	 */
 	public static <T> T getRandom(List<T> list) {
 		return list.get(RANDOM.nextInt(list.size()));
+	}
+
+	/**
+	 * Returns a random array element.
+	 */
+	@SafeVarargs
+	public static <T> T getRandom(T... arr) {
+		return arr[RANDOM.nextInt(arr.length)];
 	}
 
 	/**

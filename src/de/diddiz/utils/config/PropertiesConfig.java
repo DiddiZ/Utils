@@ -13,8 +13,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import de.diddiz.utils.serialization.SerializedDataException;
+import de.diddiz.utils.Utils;
 import de.diddiz.utils.serialization.SerializedData;
+import de.diddiz.utils.serialization.SerializedDataException;
 
 public abstract class PropertiesConfig extends SerializedData<String, String>
 {
@@ -113,7 +114,23 @@ public abstract class PropertiesConfig extends SerializedData<String, String>
 		set(key, String.valueOf(value));
 	}
 
+	public void set(String key, double value) {
+		set(key, String.valueOf(value));
+	}
+
+	public void set(String key, float value) {
+		set(key, String.valueOf(value));
+	}
+
 	public void set(String key, int value) {
+		set(key, String.valueOf(value));
+	}
+
+	public void set(String key, List<String> list) {
+		set(key, String.valueOf(Utils.join(list, ';')));
+	}
+
+	public void set(String key, long value) {
 		set(key, String.valueOf(value));
 	}
 

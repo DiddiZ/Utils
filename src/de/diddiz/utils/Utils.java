@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.net.HttpURLConnection;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URI;
@@ -38,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import javax.crypto.Cipher;
@@ -848,6 +850,22 @@ public final class Utils
 	public static String read(URL url) throws IOException {
 		try (Reader reader = new InputStreamReader(url.openStream())) {
 			return read(reader);
+		}
+	}
+
+	/**
+	 * Reads the target of an {@link URL} into a {@code String}.
+	 * <p>
+	 * Sets supplies request properties beforehand.
+	 */
+	public static String read(URL url, Map<String, String> requestProperties) throws IOException {
+		final HttpURLConnection httpcon = (HttpURLConnection)url.openConnection();
+		try {
+			for (final Entry<String, String> e : requestProperties.entrySet())
+				httpcon.setRequestProperty(e.getKey(), e.getValue());
+			return Utils.read(httpcon.getInputStream());
+		} finally {
+			httpcon.disconnect();
 		}
 	}
 

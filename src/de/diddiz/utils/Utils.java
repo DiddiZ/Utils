@@ -454,8 +454,8 @@ public final class Utils
 		// Subtract the count of items in list2
 		for (final T item : col2) {
 			final Count count = counts.get(item);
-			// If the map doesn't contain the item here, then this item wasn't in list1
-			if (count == null)
+			// If the map doesn't contain the item, or the count is already reduced to 0, the lists are unequal
+			if (count == null || count.count == 0)
 				return false;
 			count.count--;
 		}

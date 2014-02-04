@@ -16,22 +16,39 @@ public final class ImageUtils
 {
 	/**
 	 * Converts a {@link BufferedImage} of any type, to a {@link BufferedImage} of a specified type.
-	 * 
-	 * If the source image is of the same type as the target type, then the original image is returned, otherwise new image of the correct type is created and the content of the source image is copied into the new image.
+	 * <p>
+	 * If the source image is of the same type as the target type, then the original image is returned, otherwise a new image of the correct type is created and the content of the source image is copied into the new image.
 	 * 
 	 * @param sourceImage the image to be converted
 	 * @param targetType the desired BufferedImage type
 	 * 
 	 * @return a BufferedImage of the specified target type.
 	 */
-	public static BufferedImage convertToType(BufferedImage sourceImage, int targetType) {
+	public static BufferedImage convertToType(BufferedImage source, int targetType) {
 		// if the source image is already the target type, return the source image
-		if (sourceImage.getType() == targetType)
-			return sourceImage;
+		if (source.getType() == targetType)
+			return source;
 
 		// otherwise create a new image of the target type and draw the new image
-		final BufferedImage image = new BufferedImage(sourceImage.getWidth(), sourceImage.getHeight(), targetType);
-		image.getGraphics().drawImage(sourceImage, 0, 0, null);
+		final BufferedImage image = new BufferedImage(source.getWidth(), source.getHeight(), targetType);
+
+		final Graphics2D g = image.createGraphics();
+		g.drawImage(source, 0, 0, null);
+		g.dispose();
+
+		return image;
+	}
+
+	/**
+	 * Creates an exact copy of the source image.
+	 * <p>
+	 * Retains image type.
+	 */
+	public static BufferedImage copyImage(BufferedImage source) {
+		final BufferedImage image = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+		final Graphics2D g = image.createGraphics();
+		g.drawImage(source, 0, 0, null);
+		g.dispose();
 		return image;
 	}
 
@@ -75,18 +92,19 @@ public final class ImageUtils
 	 * 
 	 * @return A new resized image
 	 */
-	public static BufferedImage resize(BufferedImage img, int newWidth, int newHeight) {
-		final int w = img.getWidth();
-		final int h = img.getHeight();
-		final BufferedImage dimg = new BufferedImage(newWidth, newHeight, img.getType());
-		final Graphics2D g = dimg.createGraphics();
+	public static BufferedImage resize(BufferedImage source, int newWidth, int newHeight) {
+		final int w = source.getWidth();
+		final int h = source.getHeight();
+		final BufferedImage image = new BufferedImage(newWidth, newHeight, source.getType());
+
+		final Graphics2D g = image.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-		g.drawImage(img, 0, 0, newWidth, newHeight, 0, 0, w, h, null);
+		g.drawImage(source, 0, 0, newWidth, newHeight, 0, 0, w, h, null);
 		g.dispose();
-		return dimg;
+
+		return image;
 	}
 
 	/**

@@ -20,23 +20,16 @@ public final class ImageUtils
 	 * If the source image is of the same type as the target type, then the original image is returned, otherwise a new image of the correct type is created and the content of the source image is copied into the new image.
 	 * 
 	 * @param sourceImage the image to be converted
-	 * @param targetType the desired BufferedImage type
+	 * @param imageType the desired BufferedImage type
 	 * 
-	 * @return a BufferedImage of the specified target type.
+	 * @return a BufferedImage of the specified target type
 	 */
-	public static BufferedImage convertToType(BufferedImage source, int targetType) {
+	public static BufferedImage convertToType(BufferedImage source, int imageType) {
 		// if the source image is already the target type, return the source image
-		if (source.getType() == targetType)
+		if (source.getType() == imageType)
 			return source;
 
-		// otherwise create a new image of the target type and draw the new image
-		final BufferedImage image = new BufferedImage(source.getWidth(), source.getHeight(), targetType);
-
-		final Graphics2D g = image.createGraphics();
-		g.drawImage(source, 0, 0, null);
-		g.dispose();
-
-		return image;
+		return copyImage(source, imageType);
 	}
 
 	/**
@@ -45,10 +38,21 @@ public final class ImageUtils
 	 * Retains image type.
 	 */
 	public static BufferedImage copyImage(BufferedImage source) {
-		final BufferedImage image = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+		return copyImage(source, source.getType());
+	}
+
+	/**
+	 * Creates an exact copy of the source image.
+	 * 
+	 * @param imageType Same type as {@link BufferedImage#getType()}
+	 */
+	public static BufferedImage copyImage(BufferedImage source, int imageType) {
+		final BufferedImage image = new BufferedImage(source.getWidth(), source.getHeight(), imageType);
+
 		final Graphics2D g = image.createGraphics();
 		g.drawImage(source, 0, 0, null);
 		g.dispose();
+
 		return image;
 	}
 

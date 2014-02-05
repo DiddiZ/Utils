@@ -3,6 +3,29 @@ package de.diddiz.utils;
 public final class FloatMath
 {
 	/**
+	 * Creates a new array with averaged values.
+	 * <p>
+	 * The radius determines how many adjected value are factored in.
+	 * <p>
+	 * Start and end are clamped.
+	 * 
+	 * @throws IllegalArgumentException if {@code values} is empty
+	 */
+	public static float[] averages(float[] values, int radius) {
+		if (values == null || values.length == 0)
+			throw new IllegalArgumentException("Supplied array is empty");
+
+		final float avg[] = new float[values.length];
+		for (int i = 0; i < values.length; i++) {
+			float sum = 0f;
+			for (int j = i - radius; j <= i + radius; j++)
+				sum += values[IntMath.clamp(j, 0, values.length - 1)];
+			avg[i] = sum / (radius * 2 + 1);
+		}
+		return avg;
+	}
+
+	/**
 	 * This is equivalent to {@code Math.max(Math.min(value, max), min)} but it's faster and doesn't require a local variable for value.
 	 * 
 	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself.

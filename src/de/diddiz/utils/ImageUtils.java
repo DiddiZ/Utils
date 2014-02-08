@@ -1,5 +1,6 @@
 package de.diddiz.utils;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -109,6 +110,10 @@ public final class ImageUtils
 		g.dispose();
 
 		return image;
+	}
+
+	public static int toARGB(Color color) {
+		return color.getAlpha() << 24 | color.getRed() << 16 | color.getGreen() << 8 | color.getBlue();
 	}
 
 	/**

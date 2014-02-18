@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Default implementation of {@link MouseListener} that doesn't nothing at all.
+ * Empty implementation of {@link MouseListener} that doesn't nothing at all.
  * <p>
- * Extending this allows to avoid creating an empty method body for event.
+ * Extending this allows subclasses to just override the necessary methods, instead of all.
  */
 public abstract class AbstractMouseListener implements MouseListener
 {

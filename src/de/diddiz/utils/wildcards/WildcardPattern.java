@@ -1,7 +1,14 @@
 package de.diddiz.utils.wildcards;
 
-public interface WildcardPattern
+import com.google.common.base.Predicate;
+
+public abstract class WildcardPattern implements Predicate<String>
 {
+	@Override
+	public final boolean apply(String input) {
+		return match(input);
+	}
+
 	/**
 	 * Computes whether the text matches the pattern.
 	 * 
@@ -9,5 +16,5 @@ public interface WildcardPattern
 	 * 
 	 * All checks are case sensitive.
 	 */
-	public boolean match(String text);
+	public abstract boolean match(String text);
 }

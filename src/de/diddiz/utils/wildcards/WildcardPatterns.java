@@ -39,7 +39,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that checks if the supplied text contains {@code str}.
 	 */
-	private static class ContainsPattern implements WildcardPattern
+	private static class ContainsPattern extends WildcardPattern
 	{
 		private final String str;
 
@@ -61,7 +61,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that checks if the supplied text matches the suffix.
 	 */
-	private static class EndsWithPattern implements WildcardPattern
+	private static class EndsWithPattern extends WildcardPattern
 	{
 		private final String suffix;
 
@@ -83,7 +83,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that checks equality.
 	 */
-	private static class EqualsPattern implements WildcardPattern
+	private static class EqualsPattern extends WildcardPattern
 	{
 		private final String equal;
 
@@ -105,7 +105,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that returns true.
 	 */
-	private static class EverythingPattern implements WildcardPattern
+	private static class EverythingPattern extends WildcardPattern
 	{
 		public static final WildcardPattern INSTANCE = new EverythingPattern();
 
@@ -120,7 +120,7 @@ public final class WildcardPatterns
 		}
 	}
 
-	private static class MultiWildcardPattern implements WildcardPattern
+	private static class MultiWildcardPattern extends WildcardPattern
 	{
 		private final String[] cards;
 		private final boolean startsWithWildcard, endsWithWildcard;
@@ -176,7 +176,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that checks if the supplied text matches the prefix and the suffix.
 	 */
-	private static class StartsEndsWithPattern implements WildcardPattern
+	private static class StartsEndsWithPattern extends WildcardPattern
 	{
 		private final String prefix, suffix;
 
@@ -199,7 +199,7 @@ public final class WildcardPatterns
 	/**
 	 * Simple pattern that checks if the supplied text matches the prefix .
 	 */
-	private static class StartsWithPattern implements WildcardPattern
+	private static class StartsWithPattern extends WildcardPattern
 	{
 		private final String prefix;
 

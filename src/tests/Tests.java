@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Interner;
 import com.google.common.primitives.Ints;
@@ -26,6 +28,7 @@ import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
+import de.diddiz.utils.predicates.IncludesExcludesPredicate;
 import de.diddiz.utils.wildcards.PatternSet;
 import de.diddiz.utils.wildcards.PatternSets;
 import de.diddiz.utils.wildcards.WildcardPattern;
@@ -99,6 +102,22 @@ public class Tests
 			bytes[i] = (byte)i;
 
 		assertArrayEquals(bytes, Utils.fromHex(Utils.toHex(bytes)));
+	}
+
+	@Test
+	public void testIncludesExcludesPredicate() {
+		final PatternSet includes = PatternSets.createPatternSet("*.jpg", "filme/*");
+		final PatternSet excludes = PatternSets.createPatternSet("*.avi");
+
+		final Predicate<File> predicate = new IncludesExcludesPredicate(includes, excludes, "C:/");
+
+		assertTrue(predicate.apply(new File("C:/Bilder/picture.jpg")));
+		assertTrue(predicate.apply(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
+
+		assertTrue(predicate.apply(new File("C:/Filme/movie.mkv"))); // Check first folder
+		assertFalse(predicate.apply(new File("D:/Filme/movie.mkv")));// Check different drive
+
+		assertFalse(predicate.apply(new File("C:/Filme/movie.avi"))); // Check exclude
 	}
 
 	@Test

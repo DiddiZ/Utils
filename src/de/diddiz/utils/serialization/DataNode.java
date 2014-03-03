@@ -21,6 +21,25 @@ public class DataNode extends SerializedData<String, Object>
 		this.dataMap = dataMap;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final DataNode other = (DataNode)obj;
+		if (dataMap == null) {
+			if (other.dataMap != null)
+				return false;
+		} else if (!dataMap.equals(other.dataMap))
+			return false;
+		if (pathSeperator != other.pathSeperator)
+			return false;
+		return true;
+	}
+
 	/**
 	 * Returns the object at the specified path.
 	 * <p>
@@ -35,9 +54,9 @@ public class DataNode extends SerializedData<String, Object>
 		final String[] steps = Utils.split(path, pathSeperator);
 		Object current = dataMap;
 		for (final String step : steps) {
-			current = ((Map<?, ?>)current).get(step);
-			if (current == null || !(current instanceof Map))
+			if (!(current instanceof Map))
 				return null;
+			current = ((Map<?, ?>)current).get(step);
 		}
 		return current;
 	}
@@ -80,7 +99,7 @@ public class DataNode extends SerializedData<String, Object>
 	public List<Object> getList(String path) {
 		final Object obj = get(path);
 		if (obj instanceof List)
-			return Collections.unmodifiableList((List<Object>)obj);
+			return (List<Object>)obj;
 		return Collections.emptyList();
 	}
 
@@ -144,9 +163,20 @@ public class DataNode extends SerializedData<String, Object>
 			for (final Object o : list)
 				if (o instanceof Map)
 					nodes.add(wrap((Map<String, Object>)o));
-			return Collections.unmodifiableList(nodes);
+			return nodes;
 		}
 		return Collections.emptyList();
+	}
+
+	/**
+	 * Return a list of all sub-nodes at this node.
+	 * 
+	 * @see #getSubNodes(String)
+	 * 
+	 * @return a {@code List}, never {@code null}
+	 */
+	public List<DataNode> getSubNodes() {
+		return getSubNodes(null);
 	}
 
 	/**
@@ -165,6 +195,15 @@ public class DataNode extends SerializedData<String, Object>
 				nodes.add(wrap((Map<String, Object>)e.getValue()));
 
 		return nodes;
+	}
+
+	/**
+	 * Return a list of all sub-nodes at this node, associated with their keys.
+	 * 
+	 * @see #getSubNodesWithKeys(String)
+	 */
+	public List<Entry<String, DataNode>> getSubNodesWithKeys() {
+		return getSubNodesWithKeys(null);
 	}
 
 	/**
@@ -187,15 +226,29 @@ public class DataNode extends SerializedData<String, Object>
 		return nodes;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (dataMap == null ? 0 : dataMap.hashCode());
+		result = prime * result + pathSeperator;
+		return result;
+	}
+
 	/**
 	 * Sets a value at the specified path.
 	 * <p>
 	 * Will overwrite existing values.
 	 * <p>
+	 * Supplying an empty path will result in doing nothing.
+	 * <p>
 	 * Supplied {@code DataNodes} will be safely unpacked before adding.
 	 */
 	@SuppressWarnings("unchecked")
 	public void set(String path, Object value) {
+		if (path == null || path.isEmpty())
+			return;
+
 		final String[] steps = path.split("\\.");
 		Map<String, Object> parent = dataMap;
 		for (int i = 0; i < steps.length - 1; i++) {

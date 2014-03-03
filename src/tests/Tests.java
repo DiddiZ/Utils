@@ -11,11 +11,14 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
 import com.google.common.primitives.Ints;
 import de.diddiz.utils.FloatMath;
@@ -29,6 +32,8 @@ import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
 import de.diddiz.utils.predicates.IncludesExcludesPredicate;
+import de.diddiz.utils.serialization.DataNode;
+import de.diddiz.utils.serialization.SerializedDataException;
 import de.diddiz.utils.wildcards.PatternSet;
 import de.diddiz.utils.wildcards.PatternSets;
 import de.diddiz.utils.wildcards.WildcardPattern;
@@ -43,6 +48,52 @@ public class Tests
 		assertEquals("Hallo Welt", Utils.capitalize("Hallo Welt"));
 		assertEquals("A B C", Utils.capitalize("a b c"));
 		assertEquals("Leer  Zeichen", Utils.capitalize("leer  zeichen"));
+	}
+
+	@Test
+	public void testDataNode() throws SerializedDataException {
+		final DataNode node = new DataNode('.', new LinkedHashMap<String, Object>());
+
+		// Test basic set/get
+		node.set("testInt", 5);
+		assertEquals(5, node.get("testInt"));
+
+		// Test deep set/get
+		node.set("deep.testInt", 5);
+		assertEquals(5, node.get("deep.testInt"));
+		assertEquals(5, node.getSubNode("deep").getInt("testInt"));
+
+		// Test number conversion
+		node.set("testDouble", 2.5);
+		assertEquals(2.5f, node.getFloat("testDouble"), 0.00001f);
+		assertEquals(2.5, node.getDouble("testDouble"), 0.00001);
+		assertEquals(-1, node.getInt("testDouble", -1));
+
+		// Test keys
+		assertEquals(ImmutableSet.<String> of("testInt", "deep", "testDouble"), node.getKeys());
+		assertEquals(ImmutableSet.<String> of("testInt"), node.getKeys("deep"));
+		assertEquals(ImmutableSet.<String> of(), node.getKeys("nonexisting.node"));
+
+		// Test sub-nodes
+		assertEquals(node.getSubNodes().size(), 1);
+		assertEquals(node.getSubNodes().get(0), node.getSubNode("deep"));
+
+		// Test getOrCreate
+		node.getOrCreateSubNode("nonexisting.node").set("abc", "def");
+		assertEquals("def", node.getString("nonexisting.node.abc"));
+
+		// Test lists
+		final List<Integer> list = ImmutableList.<Integer> of(1, 2, 3, 4, 5);
+		node.set("list", list);
+		assertEquals(list, node.getList("list"));
+
+		// Test node lists
+		node.set("nodeList", ImmutableList.of(ImmutableMap.of("a", 1), ImmutableMap.of("b", 2), ImmutableMap.of("c", 3), 4));
+		int sum = 0;
+		for (final DataNode subNode : node.getSubNodeList("nodeList"))
+			for (final String key : subNode.getKeys())
+				sum += subNode.getInt(key);
+		assertEquals(6, sum);
 	}
 
 	@Test

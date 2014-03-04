@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public final class DataSerializables
+public final class DataSerialization
 {
 	/**
 	 * Serializes a list of {@code DataSerializables}.
@@ -29,6 +29,32 @@ public final class DataSerializables
 	 */
 	public static <T> List<Map<String, Object>> serialize(Collection<T> objects, DataSerializer<T> serializer) {
 		final List<Map<String, Object>> list = new ArrayList<>(objects.size());
+		for (final T t : objects)
+			if (t != null)
+				list.add(serializer.serialize(t));
+		return list;
+	}
+
+	/**
+	 * Serializes a list of {@code DataSerializables}.
+	 * <p>
+	 * Supplied array may contains nulls.
+	 */
+	public static <T extends DataSerializable> List<Map<String, Object>> serialize(T[] serializables) {
+		final List<Map<String, Object>> list = new ArrayList<>(serializables.length);
+		for (final DataSerializable serializable : serializables)
+			if (serializable != null)
+				list.add(serializable.serialize());
+		return list;
+	}
+
+	/**
+	 * Serializes a list of generic objects using a {@link DataSerializer}.
+	 * <p>
+	 * Supplied array may contains nulls.
+	 */
+	public static <T> List<Map<String, Object>> serialize(T[] objects, DataSerializer<T> serializer) {
+		final List<Map<String, Object>> list = new ArrayList<>(objects.length);
 		for (final T t : objects)
 			if (t != null)
 				list.add(serializer.serialize(t));

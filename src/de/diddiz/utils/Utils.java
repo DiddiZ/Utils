@@ -817,6 +817,11 @@ public final class Utils
 		}
 	}
 
+	/**
+	 * Reads the content of a {@link File} into a {@link java.io.StringWriter StringWriter} and returns its content.
+	 * <p>
+	 * Uses the default charset.
+	 */
 	public static String read(File file) throws IOException {
 		try (Reader reader = new FileReader(file)) {
 			return read(reader);
@@ -824,10 +829,21 @@ public final class Utils
 	}
 
 	/**
-	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content. The {@code InputStream} {@code is} doesn't get closed.
+	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content.
+	 * <p>
+	 * Uses the default charset.
 	 */
 	public static String read(InputStream is) throws IOException {
 		try (final Reader reader = new InputStreamReader(is)) {
+			return read(reader);
+		}
+	}
+
+	/**
+	 * Reads an {@link java.io.InputStream InputStream} into a {@link java.io.StringWriter StringWriter} and returns its content.
+	 */
+	public static String read(InputStream is, Charset charset) throws IOException {
+		try (final Reader reader = new InputStreamReader(is, charset)) {
 			return read(reader);
 		}
 	}
@@ -845,7 +861,9 @@ public final class Utils
 	}
 
 	/**
-	 * Reads the target of an {@link URL} into a {@code String}.
+	 * Reads the target of an {@link URL} into a {@code String}. *
+	 * <p>
+	 * Uses the default charset.
 	 */
 	public static String read(URL url) throws IOException {
 		try (Reader reader = new InputStreamReader(url.openStream())) {
@@ -858,12 +876,12 @@ public final class Utils
 	 * <p>
 	 * Sets supplies request properties beforehand.
 	 */
-	public static String read(URL url, Map<String, String> requestProperties) throws IOException {
+	public static String read(URL url, Charset charset, Map<String, String> requestProperties) throws IOException {
 		final HttpURLConnection httpcon = (HttpURLConnection)url.openConnection();
 		try {
 			for (final Entry<String, String> e : requestProperties.entrySet())
 				httpcon.setRequestProperty(e.getKey(), e.getValue());
-			return Utils.read(httpcon.getInputStream());
+			return Utils.read(httpcon.getInputStream(), charset);
 		} finally {
 			httpcon.disconnect();
 		}

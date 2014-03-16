@@ -63,6 +63,24 @@ public final class FloatMath
 	}
 
 	/**
+	 * Returns the index of the maximum value (closest to positive infinity).
+	 * <p>
+	 * Supplied array may contain <code>null</code> and {@link Float#NaN}.
+	 * <p>
+	 * Returns <code>-1</code> if array is empty, or only contains nulls or NaNs.
+	 */
+	public static int maxIdx(float[] arr) {
+		int maxIdx = -1;
+		float max = Float.NEGATIVE_INFINITY;
+		for (int i = 0; i < arr.length; i++)
+			if (arr[i] > max) {
+				maxIdx = i;
+				max = arr[i];
+			}
+		return maxIdx;
+	}
+
+	/**
 	 * Computes and returns the smallest (nearest to negative infinity) value.
 	 * 
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.

@@ -7,6 +7,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.net.URISyntaxException;
+import java.nio.file.NoSuchFileException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,18 +21,21 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
+import com.google.common.io.Files;
 import com.google.common.primitives.Ints;
 import de.diddiz.utils.FloatMath;
 import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Transform;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.interners.WeakArrayInterner;
+import de.diddiz.utils.io.SimpleFileSystem;
 import de.diddiz.utils.math.NotANumberException;
 import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
@@ -489,5 +499,74 @@ public class Tests
 		assertEquals(true, patternSet.matchAny("checksum.sha"));
 		assertEquals(true, patternSet.matchAny("checksum.md5"));
 		assertEquals(false, patternSet.matchAny("checksum.txt"));
+	}
+
+	@Test
+	public void testZip() throws IOException, URISyntaxException {
+		final File zipFile = new File(Files.createTempDir(), "tmp.zip");
+
+		try (SimpleFileSystem zip = SimpleFileSystem.createZipFileSystem(zipFile)) {
+
+			{// Test basic streams
+				final String fileName = "mydata.dat";
+				final byte[] data = {2, 3, 5, 7, 11, 13, 17, 9};
+
+				assertFalse(zip.exists(fileName));
+
+				try (OutputStream os = zip.openOutputStream(fileName)) {
+					os.write(data);
+				}
+
+				assertTrue(zip.exists(fileName));
+
+				try (InputStream is = zip.openInputStream(fileName)) {
+					final byte[] buf = new byte[data.length];
+					is.read(buf);
+					assertArrayEquals(data, buf);
+				}
+			}
+
+			{// Test basic writing and reading
+				final String fileName = "myfile.txt", msg = "Hallo Welt!";
+
+				assertFalse(zip.exists(fileName));
+
+				try (Writer writer = zip.openWriter(fileName, Charsets.UTF_8)) {
+					writer.write(msg);
+				}
+
+				assertTrue(zip.exists(fileName));
+
+				try (Reader reader = zip.openReader(fileName, Charsets.UTF_8)) {
+					assertEquals(msg, Utils.read(reader));
+				}
+			}
+
+			{// Test deep writing and reading
+				final String fileName = "deep/folder/myfile.txt", msg = "Hallo Welt!";
+
+				assertFalse(zip.exists(fileName));
+
+				try (Writer writer = zip.openWriter(fileName, Charsets.UTF_8)) {
+					writer.write(msg);
+				}
+
+				assertTrue(zip.exists(fileName));
+
+				try (Reader reader = zip.openReader(fileName, Charsets.UTF_8)) {
+					assertEquals(msg, Utils.read(reader));
+				}
+			}
+
+			{// Test reading of non-existing files
+				final String fileName = "file/that/does/not/exist.exe";
+
+				assertFalse(zip.exists(fileName));
+
+				try (Reader reader = zip.openReader(fileName, Charsets.UTF_8)) {
+					fail("NoSuchFileException wasn't thrown");
+				} catch (final NoSuchFileException ex) {}
+			}
+		}
 	}
 }

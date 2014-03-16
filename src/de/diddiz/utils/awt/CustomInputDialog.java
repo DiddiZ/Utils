@@ -1,14 +1,14 @@
 package de.diddiz.utils.awt;
 
 import java.awt.Component;
-import java.awt.Window;
+import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 public abstract class CustomInputDialog<T>
 {
@@ -44,15 +44,35 @@ public abstract class CustomInputDialog<T>
 
 	/**
 	 * Closes the dialog.
+	 * <p>
+	 * Assumes the dialog was cancelled.
 	 */
-	protected void close() {
-		final Window w = SwingUtilities.getWindowAncestor(btnOkay);
-		if (w != null)
-			w.setVisible(false);
+	protected final void close() {
+		getDialog().setVisible(false);
 	}
 
-	protected JOptionPane getOptionPane() {
-		return getOptionPane(btnOkay);
+	/**
+	 * Returns the {@link Dialog} of this dialog.
+	 * 
+	 * @throws IllegalStateException if called before {@link #showDialog()}
+	 */
+	protected final JDialog getDialog() {
+		for (Container p = btnOkay.getParent(); p != null; p = p.getParent())
+			if (p instanceof JDialog)
+				return (JDialog)p;
+		throw new IllegalStateException();
+	}
+
+	/**
+	 * Returns the {@link JOptionPane} of this dialog.
+	 * 
+	 * @throws IllegalStateException if called before {@link #showDialog()}
+	 */
+	protected final JOptionPane getOptionPane() throws IllegalStateException {
+		for (Container p = btnOkay.getParent(); p != null; p = p.getParent())
+			if (p instanceof JOptionPane)
+				return (JOptionPane)p;
+		throw new IllegalStateException();
 	}
 
 	/**
@@ -60,21 +80,19 @@ public abstract class CustomInputDialog<T>
 	 * <p>
 	 * When enabling also requests focus.
 	 */
-	protected void setOkEnabled(boolean enable) {
+	protected final void setOkEnabled(boolean enable) {
 		btnOkay.setEnabled(enable);
 		if (enable)
 			btnOkay.requestFocus();
 	}
 
-	protected abstract int showDialog();
-
-	protected int showDialog(Component parentComponent, Object message, String title, int messageType, Icon icon) {
-		return JOptionPane.showOptionDialog(parentComponent, message, title, JOptionPane.OK_CANCEL_OPTION, messageType, icon, new Object[]{btnOkay, btnCancel}, btnOkay);
+	protected final void setTitle(String title) {
+		getDialog().setTitle(title);
 	}
 
-	private static JOptionPane getOptionPane(JComponent parent) {
-		if (parent instanceof JOptionPane)
-			return (JOptionPane)parent;
-		return getOptionPane((JComponent)parent.getParent());
+	protected abstract int showDialog();
+
+	protected final int showDialog(Component parentComponent, Object message, String title, int messageType, Icon icon) {
+		return JOptionPane.showOptionDialog(parentComponent, message, title, JOptionPane.OK_CANCEL_OPTION, messageType, icon, new Object[]{btnOkay, btnCancel}, btnOkay);
 	}
 }

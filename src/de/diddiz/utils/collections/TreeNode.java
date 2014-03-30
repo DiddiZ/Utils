@@ -23,7 +23,8 @@ public class TreeNode<T>
 			addChild(child);
 	}
 
-	public void addChildren(TreeNode<T>[] newChildren) {
+	@SuppressWarnings("unchecked")
+	public void addChildren(TreeNode<T>... newChildren) {
 		for (final TreeNode<T> child : newChildren)
 			addChild(child);
 	}
@@ -34,5 +35,10 @@ public class TreeNode<T>
 
 	public T getValue() {
 		return value;
+	}
+
+	@Override
+	public String toString() {
+		return "TreeNode [value=" + value + ", children=" + children + "]";
 	}
 }

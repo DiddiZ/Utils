@@ -1357,6 +1357,62 @@ public final class Utils
 	}
 
 	/**
+	 * Creates an array with the string representation for each given double.
+	 * <p>
+	 * Preserves order.
+	 */
+	public static String[] toStrings(double... doubles) {
+		final String[] strings = new String[doubles.length];
+
+		for (int i = 0; i < doubles.length; i++)
+			strings[i] = Double.toString(doubles[i]);
+
+		return strings;
+	}
+
+	/**
+	 * Creates an array with the string representation for each given Float.
+	 * <p>
+	 * Preserves order.
+	 */
+	public static String[] toStrings(float... floats) {
+		final String[] strings = new String[floats.length];
+
+		for (int i = 0; i < floats.length; i++)
+			strings[i] = Float.toString(floats[i]);
+
+		return strings;
+	}
+
+	/**
+	 * Creates an array with the string representation for each given int.
+	 * <p>
+	 * Preserves order.
+	 */
+	public static String[] toStrings(int... ints) {
+		final String[] strings = new String[ints.length];
+
+		for (int i = 0; i < ints.length; i++)
+			strings[i] = Integer.toString(ints[i]);
+
+		return strings;
+	}
+
+	/**
+	 * Creates an array with the string representation for each given long.
+	 * <p>
+	 * Preserves order.
+	 */
+	public static String[] toStrings(long... longs) {
+		final String[] strings = new String[longs.length];
+
+		for (int i = 0; i < longs.length; i++)
+			strings[i] = Long.toString(longs[i]);
+
+		return strings;
+	}
+
+	/**
 	 * Calculates the next power of two.
 	 */
 	public static int twoFold(int number) {

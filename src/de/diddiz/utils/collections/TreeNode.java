@@ -5,9 +5,9 @@ import java.util.List;
 
 public class TreeNode<T>
 {
-	final T value;
+	protected final T value;
 	private TreeNode<T> parent;
-	final List<TreeNode<T>> children = new LinkedList<>();
+	protected final List<TreeNode<T>> children = new LinkedList<>();
 
 	public TreeNode(T value) {
 		this.value = value;

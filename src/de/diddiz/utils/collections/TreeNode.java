@@ -5,9 +5,9 @@ import java.util.List;
 
 public class TreeNode<T>
 {
-	private final T value;
+	final T value;
 	private TreeNode<T> parent;
-	final private List<TreeNode<T>> children = new LinkedList<>();
+	final List<TreeNode<T>> children = new LinkedList<>();
 
 	public TreeNode(T value) {
 		this.value = value;
@@ -23,18 +23,22 @@ public class TreeNode<T>
 			addChild(child);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void addChildren(TreeNode<T>... newChildren) {
-		for (final TreeNode<T> child : newChildren)
-			addChild(child);
-	}
-
 	public TreeNode<T> getParent() {
 		return parent;
 	}
 
 	public T getValue() {
 		return value;
+	}
+
+	public void removeChild(TreeNode<T> child) {
+		children.remove(child);
+		child.parent = null;
+	}
+
+	public void removeChildren(Iterable<TreeNode<T>> childrenToRemove) {
+		for (final TreeNode<T> child : childrenToRemove)
+			removeChild(child);
 	}
 
 	@Override

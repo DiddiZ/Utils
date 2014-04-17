@@ -7,13 +7,12 @@ public final class FileFilters
 {
 	/**
 	 * Simple {@link FilenameFilter} that matches {@code Files} agains an extension
-	 * 
+	 *
 	 * @param extension Case insensitive.
 	 */
 	public static FilenameFilter endsWith(final String extension) {
+		final String ext = extension.toLowerCase();
 		return new FilenameFilter() {
-			String ext = extension.toLowerCase();
-
 			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(ext);

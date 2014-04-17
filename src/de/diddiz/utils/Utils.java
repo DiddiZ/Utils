@@ -42,10 +42,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.ToIntFunction;
+import java.util.stream.Stream;
 import javax.crypto.Cipher;
 import javax.swing.JFrame;
 import com.google.common.math.DoubleMath;
-import de.diddiz.utils.UtilsClasses.BytesFormat;
+import de.diddiz.utils.formatters.BytesFormatter;
 import de.diddiz.utils.math.NotANumberException;
 
 public final class Utils
@@ -92,7 +94,7 @@ public final class Utils
 
 	/**
 	 * Adds {@code Strings} to a {@code String array}.
-	 * 
+	 *
 	 * @return New {@code String array} containing all {@code Strings}.
 	 */
 	public static String[] concat(String[] arr1, String... arr2) {
@@ -114,7 +116,7 @@ public final class Utils
 
 	/**
 	 * Uses {@code 4096} as buffer size.
-	 * 
+	 *
 	 * @see #copy(InputStream, OutputStream, int)
 	 */
 	public static void copy(InputStream in, OutputStream out) throws IOException {
@@ -123,7 +125,7 @@ public final class Utils
 
 	/**
 	 * Use this method when you want to perform a lot of copy actions, so you can recycle the buffer.
-	 * 
+	 *
 	 * @param buffer Byte array that will be used as buffer.
 	 */
 	public static void copy(InputStream in, OutputStream out, byte[] buffer) throws IOException {
@@ -134,7 +136,7 @@ public final class Utils
 
 	/**
 	 * Calls the listener after each chunk. Preferably choose a large buffer to keep the overhead minimal.
-	 * 
+	 *
 	 * @param buffer Byte array that will be used as buffer.
 	 */
 	public static void copy(InputStream in, OutputStream out, byte[] buffer, ProgressListener listener) throws IOException {
@@ -148,7 +150,7 @@ public final class Utils
 
 	/**
 	 * Creates a new byte array with desired length as buffer.
-	 * 
+	 *
 	 * @see #copy(InputStream, OutputStream, byte[])
 	 */
 	public static void copy(InputStream in, OutputStream out, int bufferSize) throws IOException {
@@ -157,7 +159,7 @@ public final class Utils
 
 	/**
 	 * Uses {@code 4096} as buffer size.
-	 * 
+	 *
 	 * @see #copy(InputStream, OutputStream, int)
 	 */
 	public static void copy(Reader in, Writer out) throws IOException {
@@ -166,7 +168,7 @@ public final class Utils
 
 	/**
 	 * Use this method when you want to perform a lot of copy actions, so you can recycle the buffer.
-	 * 
+	 *
 	 * @param buffer Char array that will be used as buffer.
 	 */
 	public static void copy(Reader in, Writer out, char[] buffer) throws IOException {
@@ -177,7 +179,7 @@ public final class Utils
 
 	/**
 	 * Calls the listener after each chunk. Preferably choose a large buffer to keep the overhead minimal.
-	 * 
+	 *
 	 * @param buffer Char array that will be used as buffer.
 	 */
 	public static void copy(Reader in, Writer out, char[] buffer, ProgressListener listener) throws IOException {
@@ -191,7 +193,7 @@ public final class Utils
 
 	/**
 	 * Creates a new char array with desired length as buffer.
-	 * 
+	 *
 	 * @see #copy(Reader, Writer, char[])
 	 */
 	public static void copy(Reader in, Writer out, int bufferSize) throws IOException {
@@ -288,7 +290,7 @@ public final class Utils
 
 	/**
 	 * Tests if two {@code CharSequence} have the same length and equal chars.
-	 * 
+	 *
 	 * @return true if both are equal.
 	 */
 	public static boolean equals(CharSequence a, CharSequence b) {
@@ -349,7 +351,7 @@ public final class Utils
 	}
 
 	public static String formatBytes(long bytes) {
-		return BytesFormat.INSTANCE.formatBytes(bytes);
+		return BytesFormatter.INSTANCE.formatBytes(bytes);
 	}
 
 	public static String formatTime(int seconds) {
@@ -509,7 +511,7 @@ public final class Utils
 
 	/**
 	 * Uses {@link Object#equals(Object)} to find the {@code needle}
-	 * 
+	 *
 	 * @return index of {@code needle} in {@code array} or {@code -1}.
 	 */
 	public static <T> int indexOf(T[] haystack, T needle) {
@@ -521,7 +523,7 @@ public final class Utils
 
 	/**
 	 * Ignores character case. For the case sensitive method see {@link #indexOf(Object[], Object)}
-	 * 
+	 *
 	 * @return index of {@code needle} in {@code array} or {@code -1}.
 	 */
 	public static int indexOfIgnoreCase(String[] haystack, String needle) {
@@ -534,7 +536,7 @@ public final class Utils
 
 	/**
 	 * Returns whether {@code obj} can be parsed as {@code boolean}.
-	 * 
+	 *
 	 * @see #toBoolean(Object)
 	 */
 	public static boolean isBoolean(Object obj) {
@@ -547,7 +549,7 @@ public final class Utils
 
 	/**
 	 * Returns whether {@code obj} can be parsed as {@code double}.
-	 * 
+	 *
 	 * @see #toDouble(Object)
 	 */
 	public static boolean isDouble(Object obj) {
@@ -560,7 +562,7 @@ public final class Utils
 
 	/**
 	 * Returns whether {@code obj} can be parsed as {@code float}.
-	 * 
+	 *
 	 * @see #toFloat(Object)
 	 */
 	public static boolean isFloat(Object obj) {
@@ -573,7 +575,7 @@ public final class Utils
 
 	/**
 	 * Returns whether {@code obj} can be parsed as {@code int}.
-	 * 
+	 *
 	 * @see #toInt(Object)
 	 */
 	public static boolean isInt(Object obj) {
@@ -586,7 +588,7 @@ public final class Utils
 
 	/**
 	 * Returns whether {@code obj} can be parsed as {@code long}.
-	 * 
+	 *
 	 * @see #toLong(Object)
 	 */
 	public static boolean isLong(Object obj) {
@@ -633,7 +635,7 @@ public final class Utils
 
 	/**
 	 * Joins {@code Strings} without a delimiter.
-	 * 
+	 *
 	 * @param arr Strings to join
 	 * @return Concatenated {@code String} or an empty {@code String} if arr is {@code null} or empty.
 	 */
@@ -681,7 +683,7 @@ public final class Utils
 
 	/**
 	 * Calls {@link #slice(String[], int, int)} with {@code arr}, {@code 0}, {@code length}
-	 * 
+	 *
 	 * @param length Strings to copy. May be nagative, position is then assumed to be indexed from right. i.e {@code -2} uses the position of the second last String ({@code arr.length - 2}).
 	 */
 	public static String[] left(String[] arr, int length) {
@@ -716,17 +718,17 @@ public final class Utils
 	 * Creates a {@code String} listing all elements in the collection divided by the supplied delimiters.
 	 * <p>
 	 * Example:
-	 * 
+	 *
 	 * <pre>
 	 * listing(ImmutableList.of(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;), &quot;, &quot;, &quot; and&quot;);
 	 * </pre>
-	 * 
+	 *
 	 * Returns:
-	 * 
+	 *
 	 * <pre>
 	 * 1, 2 and 3
 	 * </pre>
-	 * 
+	 *
 	 * @param entries May be {@code null}
 	 * @param delimiter Is put between strings. Can't be {@code null}
 	 * @param finalDelimiter Used before the last string. Can't be {@code null}
@@ -777,6 +779,62 @@ public final class Utils
 		for (int i = 0; i < len; i++)
 			map.put(keys[i], values[i]);
 		return map;
+	}
+
+	/**
+	 * Returns the T for which the function returns the highest {@code int}.
+	 * <p>
+	 * This is several times faster than using {@link Stream#max(Comparator)}.
+	 */
+	public static <T> T max(Iterable<T> ts, ToIntFunction<T> func) {
+		final Iterator<T> iter = ts.iterator();
+
+		// If ts is empty, return null
+		if (!iter.hasNext())
+			return null;
+
+		// Init max with the first value
+		T maxT = iter.next();
+		int maxV = func.applyAsInt(maxT);
+
+		// Iterate over the rest
+		while (iter.hasNext()) {
+			final T t = iter.next();
+			final int v = func.applyAsInt(t);
+			if (v > maxV) {// Check if current t has a higher value than the current max
+				maxT = t;
+				maxV = v;
+			}
+		}
+
+		return maxT;
+	}
+
+	/**
+	 * Returns the T for which the function returns the highest {@code int}.
+	 * <p>
+	 * This is several times faster than using {@link Stream#max(Comparator)}.
+	 */
+	public static <T> T max(T[] ts, ToIntFunction<T> func) {
+		// If ts is empty, return null
+		if (ts == null || ts.length == 0)
+			return null;
+
+		// Init max with the first value
+		T maxT = ts[0];
+		int maxV = func.applyAsInt(maxT);
+
+		// Iterate over the rest
+		for (int i = 1; i < ts.length; i++) {
+			final T t = ts[i];
+			final int v = func.applyAsInt(t);
+			if (v > maxV) {// Check if current t has a higher value than the current max
+				maxT = t;
+				maxV = v;
+			}
+		}
+
+		return maxT;
 	}
 
 	public static int maxStringLength(int... ints) {
@@ -889,11 +947,11 @@ public final class Utils
 
 	/**
 	 * Reads a number of bytes from an {@link InputStream}.
-	 * 
+	 *
 	 * Ensures that the returned array is completely filled.
-	 * 
+	 *
 	 * The {@code InputStream} is NOT closed!.
-	 * 
+	 *
 	 * @throws EOFException If reached end of stream.
 	 */
 	public static byte[] readBytes(InputStream is, int bytes) throws IOException {
@@ -943,9 +1001,9 @@ public final class Utils
 
 	/**
 	 * Reverses the order of a {@code List}.
-	 * 
+	 *
 	 * Actually just calls {@link Collections#reverse(List)}, but returns the reversed list, so it makes this method chainable.
-	 * 
+	 *
 	 * @return the reversed {@code List}.
 	 */
 	public static <T> List<T> reverse(List<T> list) {
@@ -955,7 +1013,7 @@ public final class Utils
 
 	/**
 	 * Creates a {@code String} with roman numerals from an {@code int}.
-	 * 
+	 *
 	 * @param number Must be in the angel from 1 to 3999
 	 */
 	public static String romanNumerals(int number) {
@@ -1005,11 +1063,11 @@ public final class Utils
 
 	/**
 	 * Slices a part out of an array.
-	 * 
+	 *
 	 * @param arr Array to be sliced.
 	 * @param beginIndex must be equal or greater {@code 0}.
 	 * @param endIndex must be equal or greater {@code beginIndex} and not greater than {@code arr.length}.
-	 * 
+	 *
 	 * @return a new array, not a view. The length is equal to {@code endIndex - beginIndex}.
 	 * @throws ArrayIndexOutOfBoundsException if prementioned index requirements aren't met.
 	 */
@@ -1053,7 +1111,7 @@ public final class Utils
 
 	/**
 	 * Fully compatible with {@link String#split(String)}.
-	 * 
+	 *
 	 * This has about the same performance as {@code String.split(String)} for long {@code Strings} but 25% lesser memory consumption. Has about twice computation speed for short {@code Strings}.
 	 */
 	public static String[] split(String str, char c) {
@@ -1089,7 +1147,7 @@ public final class Utils
 
 	/**
 	 * Appends {@code tail} to a {@code String} if it doen't already ends with it.
-	 * 
+	 *
 	 * @return Either the original {@code String} or a concatenation of {@code str} and {@code tail}.
 	 */
 	public static String tail(String str, char trail) {
@@ -1098,7 +1156,7 @@ public final class Utils
 
 	/**
 	 * Appends {@code tail} to a {@code String} if it doen't already ends with it.
-	 * 
+	 *
 	 * @return Either the original {@code String} or a concatenation of {@code str} and {@code tail}.
 	 */
 	public static String tail(String str, String trail) {
@@ -1107,7 +1165,7 @@ public final class Utils
 
 	/**
 	 * Appends a tailing slash to a path if not present.
-	 * 
+	 *
 	 * @return Either the original {@code String} or a concatenation of {@code path} and {@code tail}.
 	 */
 	public static String tailingSlash(String path) {
@@ -1119,7 +1177,7 @@ public final class Utils
 		final char[] binary = new char[8];
 		for (int i = 0; i < 8; i++)
 			binary[i] = (b & 1 << 7 - i) > 0 ? '1' : '0';
-		return new String(binary);
+			return new String(binary);
 	}
 
 	/**
@@ -1130,7 +1188,7 @@ public final class Utils
 	 * If {@code obj} is a {@code Number} and represents an mathematical integer it returns {@code false} for {@code 0} and {@code true} for {@code 1}.
 	 * <p>
 	 * If {@code obj} is a {@code String} it returns whether it equals {@code "true"} or {@code "false"}.
-	 * 
+	 *
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static boolean toBoolean(Object obj) throws NotANumberException {
@@ -1158,7 +1216,7 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 * 
+	 *
 	 * @see #toBoolean(Object)
 	 */
 	public static boolean toBoolean(Object obj, boolean def) {
@@ -1174,7 +1232,7 @@ public final class Utils
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#doubleValue() doubleValue()} after checking for NaN.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Double#parseDouble(String) Double.parseDouble(obj)}
-	 * 
+	 *
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static double toDouble(Object obj) throws NotANumberException {
@@ -1191,7 +1249,7 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 * 
+	 *
 	 * @see #toDouble(Object)
 	 */
 	public static double toDouble(Object obj, double def) {
@@ -1207,7 +1265,7 @@ public final class Utils
 	 * If {@code obj} is a {@code Number} it returns its {@link java.lang.Number#floatValue() floatValue()} after checking for possibly overflow and NaN.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Float#parseFloat(String) Float.parseFloat(obj)}.
-	 * 
+	 *
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static float toFloat(Object obj) throws NotANumberException {
@@ -1225,7 +1283,7 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 * 
+	 *
 	 * @see #toFloat(Object)
 	 */
 	public static float toFloat(Object obj, float def) {
@@ -1254,7 +1312,7 @@ public final class Utils
 	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#intValue() intValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Integer#parseInt(String) Integer.parseInt(obj)}.
-	 * 
+	 *
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static int toInt(Object obj) throws NotANumberException {
@@ -1274,7 +1332,7 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 * 
+	 *
 	 * @see #toInt(Object)
 	 */
 	public static int toInt(Object obj, int def) {
@@ -1292,7 +1350,7 @@ public final class Utils
 	 * If {@code obj} is a {@code Number} it tries to return its {@link java.lang.Number#longValue() longValue()} after checking for possibly overflow or decimals.
 	 * <p>
 	 * If {@code obj} is a {@code String} it tries to return {@link java.lang.Long#parseLong(String) Long.parseLong(obj)}.
-	 * 
+	 *
 	 * @throws NotANumberException If {@code obj} can't be parsed or is {@code null}.
 	 */
 	public static long toLong(Object obj) throws NotANumberException {
@@ -1312,7 +1370,7 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 * 
+	 *
 	 * @see #toLong(Object)
 	 */
 	public static long toLong(Object obj, long def) {

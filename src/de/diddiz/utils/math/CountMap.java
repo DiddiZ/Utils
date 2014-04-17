@@ -12,7 +12,7 @@ public class CountMap<K> extends HashMap<K, Counter>
 		}
 		counter.increment();
 	}
-	
+
 	public void increment(K key, int increment) {
 		Counter counter = get(key);
 		if (counter == null) {

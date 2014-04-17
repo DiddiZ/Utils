@@ -16,23 +16,19 @@ import java.net.URISyntaxException;
 import java.nio.file.NoSuchFileException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import com.google.common.base.Charsets;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
 import com.google.common.io.Files;
-import com.google.common.primitives.Ints;
 import de.diddiz.utils.FloatMath;
 import de.diddiz.utils.TimeSpecParser;
-import de.diddiz.utils.Transform;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.interners.WeakArrayInterner;
 import de.diddiz.utils.io.SimpleFileSystem;
@@ -242,6 +238,13 @@ public class Tests
 	}
 
 	@Test
+	public void testMax() {
+		assertEquals("abcdefg", Utils.max(new String[]{"a", "ab", "abc", "abcdefg", ""}, s -> s.length()));
+		// Inverse IntFunction to create min
+		assertEquals("", Utils.max(new String[]{"a", "ab", "abc", "abcdefg", ""}, s -> -s.length()));
+	}
+
+	@Test
 	public void testQuadraticAlternatingFloat() {
 		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), Modifiers.QUADRATIC);
 		for (int i = 0; i < 3; i++) {
@@ -370,32 +373,6 @@ public class Tests
 		assertFalse(isBoolean(2));
 		assertTrue(isBoolean(1.0f));
 		assertFalse(isBoolean(1.1f));
-	}
-
-	@Test
-	public void testTransformArrayToArray() {
-		final Integer[] from = new Integer[]{1, 2, 3, 4, 5};
-		final String[] expected = new String[]{"1", "2", "3", "4", "5"};
-		final String[] actual = Transform.toArray(from, String.class, new Function<Integer, String>() {
-			@Override
-			public String apply(Integer i) {
-				return i.toString();
-			}
-		});
-		assertArrayEquals(expected, actual);
-	}
-
-	@Test
-	public void testTransformCollectionToArray() {
-		final Collection<Integer> from = Ints.asList(1, 2, 3, 4, 5);
-		final String[] expected = new String[]{"1", "2", "3", "4", "5"};
-		final String[] actual = Transform.toArray(from, String.class, new Function<Integer, String>() {
-			@Override
-			public String apply(Integer i) {
-				return i.toString();
-			}
-		});
-		assertArrayEquals(expected, actual);
 	}
 
 	@Test

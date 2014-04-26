@@ -58,15 +58,25 @@ public final class Utils
 	public static final Random RANDOM = new Random();
 
 	/**
-	 * @param len Desired length of the returned String
-	 * @return A String consisting of random chars in {@code [a-zA-Z0-9]}
+	 * Creates a String using random chars in the dictionary.
+	 *
+	 * @param dictionary Set of used characters
+	 * @param length Length of the returned String
 	 */
-	public static String alphaNum(int len) {
-		final String dict = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		final char[] alphaNum = new char[len];
-		for (int i = 0; i < len; i++)
-			alphaNum[i] = dict.charAt(RANDOM.nextInt(dict.length()));
-		return new String(alphaNum);
+	public static String alphaNum(CharSequence dictionary, int length) {
+		final char[] alphanum = new char[length];
+		for (int i = 0; i < length; i++)
+			alphanum[i] = dictionary.charAt(RANDOM.nextInt(dictionary.length()));
+		return new String(alphanum);
+	}
+
+	/**
+	 * Creates a String consisting of random chars in {@code [a-zA-Z0-9]}.
+	 *
+	 * @param length Length of the returned String
+	 */
+	public static String alphaNum(int length) {
+		return alphaNum("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", length);
 	}
 
 	/**
@@ -1177,7 +1187,7 @@ public final class Utils
 		final char[] binary = new char[8];
 		for (int i = 0; i < 8; i++)
 			binary[i] = (b & 1 << 7 - i) > 0 ? '1' : '0';
-			return new String(binary);
+		return new String(binary);
 	}
 
 	/**

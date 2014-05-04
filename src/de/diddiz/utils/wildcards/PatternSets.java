@@ -28,7 +28,7 @@ public final class PatternSets
 		return new ArrayPatternSet(patterns);
 	}
 
-	private static class ArrayPatternSet implements PatternSet
+	private static class ArrayPatternSet extends PatternSet
 	{
 		private final WildcardPattern[] patterns;
 
@@ -37,17 +37,17 @@ public final class PatternSets
 		}
 
 		@Override
-		public boolean matchAll(String text) {
+		public boolean matchesAll(String text) {
 			for (final WildcardPattern pattern : patterns)
-				if (!pattern.match(text))
+				if (!pattern.matches(text))
 					return false;
 			return true;
 		}
 
 		@Override
-		public boolean matchAny(String text) {
+		public boolean matchesAny(String text) {
 			for (final WildcardPattern pattern : patterns)
-				if (pattern.match(text))
+				if (pattern.matches(text))
 					return true;
 			return false;
 		}
@@ -58,7 +58,7 @@ public final class PatternSets
 		}
 	}
 
-	private static class SinglePatternSet implements PatternSet
+	private static class SinglePatternSet extends PatternSet
 	{
 		private final WildcardPattern pattern;
 
@@ -67,13 +67,13 @@ public final class PatternSets
 		}
 
 		@Override
-		public boolean matchAll(String text) {
-			return pattern.match(text);
+		public boolean matchesAll(String text) {
+			return pattern.matches(text);
 		}
 
 		@Override
-		public boolean matchAny(String text) {
-			return pattern.match(text);
+		public boolean matchesAny(String text) {
+			return pattern.matches(text);
 		}
 
 		@Override

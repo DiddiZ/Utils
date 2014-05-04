@@ -1,29 +1,28 @@
 package de.diddiz.utils.predicates;
 
-import com.google.common.base.Predicate;
 
 public final class CharPredicates
 {
 	/**
 	 * Allows the numbers from {@code 0} to {@code 9} as well as dots ({@code .}) and signs ({@code +-}).
 	 */
-	public static Predicate<Character> decimals() {
+	public static CharPredicate decimals() {
 		return DecimalCharPredicate.INSTANCE;
 	}
 
 	/**
 	 * Allows the numbers from {@code 0} to {@code 9}.
 	 */
-	public static Predicate<Character> digitsOnly() {
+	public static CharPredicate digitsOnly() {
 		return DigitCharPredicate.INSTANCE;
 	}
 
-	private static class DecimalCharPredicate extends CharPredicate
+	private static class DecimalCharPredicate implements CharPredicate
 	{
-		private static final Predicate<Character> INSTANCE = new DecimalCharPredicate();
+		private static final CharPredicate INSTANCE = new DecimalCharPredicate();
 
 		@Override
-		public boolean apply(char input) {
+		public boolean test(char input) {
 			switch (input) {
 				case '0':
 				case '1':
@@ -44,12 +43,12 @@ public final class CharPredicates
 		}
 	}
 
-	private static class DigitCharPredicate extends CharPredicate
+	private static class DigitCharPredicate implements CharPredicate
 	{
-		private static final Predicate<Character> INSTANCE = new DigitCharPredicate();
+		private static final CharPredicate INSTANCE = new DigitCharPredicate();
 
 		@Override
-		public boolean apply(char input) {
+		public boolean test(char input) {
 			switch (input) {
 				case '0':
 				case '1':

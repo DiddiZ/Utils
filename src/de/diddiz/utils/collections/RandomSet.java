@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import com.google.common.base.Supplier;
+import java.util.function.Supplier;
 import de.diddiz.utils.Utils;
 
 public class RandomSet<T> implements Iterable<T>, Supplier<T>

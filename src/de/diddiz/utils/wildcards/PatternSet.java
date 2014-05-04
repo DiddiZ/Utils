@@ -1,14 +1,20 @@
 package de.diddiz.utils.wildcards;
 
-public interface PatternSet
+
+public abstract class PatternSet
 {
+	/**
+	 * Reserved constructor.
+	 */
+	PatternSet() {}
+
 	/**
 	 * @return true if the text matches all patterns.
 	 */
-	public boolean matchAll(String text);
+	public abstract boolean matchesAll(String text);
 
 	/**
 	 * @return true if the text matches at least one pattern.
 	 */
-	public boolean matchAny(String text);
+	public abstract boolean matchesAny(String text);
 }

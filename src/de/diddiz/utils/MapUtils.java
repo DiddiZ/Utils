@@ -3,16 +3,16 @@ package de.diddiz.utils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.google.common.base.Function;
+import java.util.function.Function;
 import com.google.common.collect.ImmutableMap;
 
 public final class MapUtils
 {
 	/**
 	 * Puts the content of all maps to a new {@link LinkedHashMap}.
-	 * 
+	 *
 	 * This will override same keys.
-	 * 
+	 *
 	 * @see #putAll(Map, Iterable)
 	 */
 	public static <K, V> Map<K, V> combine(Iterable<Map<K, V>> maps) {
@@ -84,7 +84,7 @@ public final class MapUtils
 
 	/**
 	 * Puts the content of multiple maps to a map.
-	 * 
+	 *
 	 * This will override same keys.
 	 */
 	public static <K, V> Map<K, V> putAll(Map<K, V> map, Iterable<Map<K, V>> maps) {

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Predicate;
 import org.junit.Test;
 import com.google.common.base.Charsets;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -168,13 +168,13 @@ public class Tests
 
 		final Predicate<File> predicate = new IncludesExcludesPredicate(includes, excludes, "C:/");
 
-		assertTrue(predicate.apply(new File("C:/Bilder/picture.jpg")));
-		assertTrue(predicate.apply(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
+		assertTrue(predicate.test(new File("C:/Bilder/picture.jpg")));
+		assertTrue(predicate.test(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
 
-		assertTrue(predicate.apply(new File("C:/Filme/movie.mkv"))); // Check first folder
-		assertFalse(predicate.apply(new File("D:/Filme/movie.mkv")));// Check different drive
+		assertTrue(predicate.test(new File("C:/Filme/movie.mkv"))); // Check first folder
+		assertFalse(predicate.test(new File("D:/Filme/movie.mkv")));// Check different drive
 
-		assertFalse(predicate.apply(new File("C:/Filme/movie.avi"))); // Check exclude
+		assertFalse(predicate.test(new File("C:/Filme/movie.avi"))); // Check exclude
 	}
 
 	@Test
@@ -406,54 +406,54 @@ public class Tests
 	@Test
 	public void testWildcardPattern() {
 		WildcardPattern pattern = WildcardPatterns.compile("sha");
-		assertEquals(true, pattern.match("sha"));
-		assertEquals(false, pattern.match("md5"));
-		assertEquals(false, pattern.match("sha1"));
+		assertEquals(true, pattern.matches("sha"));
+		assertEquals(false, pattern.matches("md5"));
+		assertEquals(false, pattern.matches("sha1"));
 
 		pattern = WildcardPatterns.compile("*.sha");
-		assertEquals(true, pattern.match("checksum.sha"));
-		assertEquals(false, pattern.match("checksum.md5"));
-		assertEquals(false, pattern.match("checksum.sha1"));
+		assertEquals(true, pattern.matches("checksum.sha"));
+		assertEquals(false, pattern.matches("checksum.md5"));
+		assertEquals(false, pattern.matches("checksum.sha1"));
 
 		pattern = WildcardPatterns.compile("checksum*");
-		assertEquals(true, pattern.match("checksum.sha"));
-		assertEquals(false, pattern.match("crc.md5"));
+		assertEquals(true, pattern.matches("checksum.sha"));
+		assertEquals(false, pattern.matches("crc.md5"));
 
 		pattern = WildcardPatterns.compile("c*.sha");
-		assertEquals(true, pattern.match("checksum.sha"));
-		assertEquals(false, pattern.match("checksum.md5"));
-		assertEquals(false, pattern.match("checksum.sha1"));
+		assertEquals(true, pattern.matches("checksum.sha"));
+		assertEquals(false, pattern.matches("checksum.md5"));
+		assertEquals(false, pattern.matches("checksum.sha1"));
 
 		pattern = WildcardPatterns.compile("*");
-		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
 
 		pattern = WildcardPatterns.compile("*a*");
-		assertEquals(true, pattern.match("Hallo Welt!"));
-		assertEquals(false, pattern.match("Hello World!"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
+		assertEquals(false, pattern.matches("Hello World!"));
 
 		pattern = WildcardPatterns.compile("*Hallo*");
-		assertEquals(true, pattern.match("Hallo Welt!"));
-		assertEquals(false, pattern.match("Hello World!"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
+		assertEquals(false, pattern.matches("Hello World!"));
 
 		pattern = WildcardPatterns.compile("*Hallo*Welt");
-		assertEquals(true, pattern.match("Hallo Welt"));
-		assertEquals(false, pattern.match("Hallo Welt!"));
+		assertEquals(true, pattern.matches("Hallo Welt"));
+		assertEquals(false, pattern.matches("Hallo Welt!"));
 
 		pattern = WildcardPatterns.compile("c*.*");
-		assertEquals(true, pattern.match("checksum.sha"));
-		assertEquals(true, pattern.match("checksum.md5"));
-		assertEquals(false, pattern.match("acrc.sha1"));
+		assertEquals(true, pattern.matches("checksum.sha"));
+		assertEquals(true, pattern.matches("checksum.md5"));
+		assertEquals(false, pattern.matches("acrc.sha1"));
 
 		pattern = WildcardPatterns.compile("*a*l* *e*t*");
-		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
 
 		pattern = WildcardPatterns.compile("H*l*o*W*l*!");
-		assertEquals(true, pattern.match("Hallo Welt!"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
 
 		pattern = WildcardPatterns.compile("*");
-		assertEquals(true, pattern.match("Hallo Welt!"));
-		assertEquals(true, pattern.match("checksum.sha"));
-		assertEquals(true, pattern.match("checksum.md5"));
+		assertEquals(true, pattern.matches("Hallo Welt!"));
+		assertEquals(true, pattern.matches("checksum.sha"));
+		assertEquals(true, pattern.matches("checksum.md5"));
 	}
 
 	@Test
@@ -462,9 +462,9 @@ public class Tests
 				WildcardPatterns.compile("*.sha"),
 				WildcardPatterns.compile("checksum*"));
 
-		assertEquals(true, patternSet.matchAll("checksum.sha"));
-		assertEquals(false, patternSet.matchAll("checksum.md5"));
-		assertEquals(false, patternSet.matchAll("checksum.txt"));
+		assertEquals(true, patternSet.matchesAll("checksum.sha"));
+		assertEquals(false, patternSet.matchesAll("checksum.md5"));
+		assertEquals(false, patternSet.matchesAll("checksum.txt"));
 	}
 
 	@Test
@@ -473,9 +473,9 @@ public class Tests
 				WildcardPatterns.compile("*.sha"),
 				WildcardPatterns.compile("*.md5"));
 
-		assertEquals(true, patternSet.matchAny("checksum.sha"));
-		assertEquals(true, patternSet.matchAny("checksum.md5"));
-		assertEquals(false, patternSet.matchAny("checksum.txt"));
+		assertEquals(true, patternSet.matchesAny("checksum.sha"));
+		assertEquals(true, patternSet.matchesAny("checksum.md5"));
+		assertEquals(false, patternSet.matchesAny("checksum.txt"));
 	}
 
 	@Test

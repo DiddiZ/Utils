@@ -1,5 +1,6 @@
 package de.diddiz.utils.crypto;
 
+import static com.google.common.base.Charsets.UTF_8;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,7 +18,6 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import com.google.common.base.Charsets;
 
 public class Crypto
 {
@@ -29,7 +29,7 @@ public class Crypto
 		try {
 			final Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
-			return new InputStreamReader(new CipherInputStream(new BufferedInputStream(new FileInputStream(file)), cipher), Charsets.UTF_8);
+			return new InputStreamReader(new CipherInputStream(new BufferedInputStream(new FileInputStream(file)), cipher), UTF_8);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new AssertionError(ex);
 		}
@@ -43,7 +43,7 @@ public class Crypto
 		try {
 			final Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			return new OutputStreamWriter(new CipherOutputStream(new BufferedOutputStream(new FileOutputStream(file)), cipher), Charsets.UTF_8);
+			return new OutputStreamWriter(new CipherOutputStream(new BufferedOutputStream(new FileOutputStream(file)), cipher), UTF_8);
 		} catch (final NoSuchAlgorithmException ex) {
 			throw new AssertionError(ex);
 		}

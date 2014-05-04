@@ -48,7 +48,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return text.indexOf(str) > -1;
 		}
 
@@ -70,7 +70,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return text.endsWith(suffix);
 		}
 
@@ -92,7 +92,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return equal.equals(text);
 		}
 
@@ -110,7 +110,7 @@ public final class WildcardPatterns
 		public static final WildcardPattern INSTANCE = new EverythingPattern();
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return true;
 		}
 
@@ -132,7 +132,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			int pos = 0;
 
 			if (!startsWithWildcard) { // Make sure it starts with the first card
@@ -186,7 +186,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return text.startsWith(prefix) && text.endsWith(suffix);
 		}
 
@@ -208,7 +208,7 @@ public final class WildcardPatterns
 		}
 
 		@Override
-		public boolean match(String text) {
+		public boolean matches(String text) {
 			return text.startsWith(prefix);
 		}
 

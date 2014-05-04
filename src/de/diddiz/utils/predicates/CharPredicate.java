@@ -1,18 +1,18 @@
 package de.diddiz.utils.predicates;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 /**
  * Primitive wrapper for char predicates
  */
-public abstract class CharPredicate implements Predicate<Character>
+public interface CharPredicate extends Predicate<Character>
 {
-	public abstract boolean apply(char input);
+	public boolean test(char input);
 
 	@Override
-	public final boolean apply(Character input) {
+	public default boolean test(Character input) {
 		if (input != null)
-			return apply((char)input);
+			return test((char)input);
 		return false;
 	}
 }

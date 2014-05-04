@@ -2,7 +2,7 @@ package de.diddiz.utils.predicates;
 
 import java.io.File;
 import java.io.IOException;
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import de.diddiz.utils.logging.Log;
 import de.diddiz.utils.wildcards.PatternSet;
 
@@ -20,7 +20,7 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 
 	/**
 	 * No root prefix. All paths are matched as absolute.
-	 * 
+	 *
 	 * @see #IncludesExcludesPredicate(PatternSet, PatternSet, String)
 	 */
 	public IncludesExcludesPredicate(PatternSet includes, PatternSet excludes) {
@@ -29,7 +29,7 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 
 	/**
 	 * All patterns are required to be lowercase.
-	 * 
+	 *
 	 * @param includes Patterns that must be matched, <code>null</code> to include all.
 	 * @param excludes Patterns that mustn't be matched, <code>null</code> to exclude nothing.
 	 * @param rootPrefix Prefix than ill be stripped of all paths before matching
@@ -41,7 +41,7 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 	}
 
 	@Override
-	public boolean apply(File file) {
+	public boolean test(File file) {
 		try {
 			String path = normalizePath(file);
 
@@ -49,8 +49,8 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 			if (rootPrefix != null && path.startsWith(rootPrefix))
 				path = path.substring(rootPrefix.length());
 
-			return (includes == null || includes.matchAny(path)) &&
-					(excludes == null || !excludes.matchAny(path));
+			return (includes == null || includes.matchesAny(path)) &&
+					(excludes == null || !excludes.matchesAny(path));
 		} catch (final IOException ex) {
 			Log.warning("Failed to normalize " + file + ": ", ex);
 			return false;

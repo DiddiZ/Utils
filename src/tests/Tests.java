@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
 import com.google.common.io.Files;
 import de.diddiz.utils.FloatMath;
+import de.diddiz.utils.IntMath;
 import de.diddiz.utils.TimeSpecParser;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.interners.WeakArrayInterner;
@@ -194,6 +195,15 @@ public class Tests
 		assertEquals(1, Utils.indexOfIgnoreCase(haystack, "Welt"));
 		assertEquals(0, Utils.indexOfIgnoreCase(haystack, "hallo"));
 		assertEquals(-1, Utils.indexOfIgnoreCase(haystack, "hello"));
+	}
+
+	@Test
+	public void testIntMathMin() {
+		assertEquals(1, IntMath.min(1));
+		assertEquals(1, IntMath.min(1, 2));
+		assertEquals(5, IntMath.min(5, 6, 7, 8));
+		assertEquals(1, IntMath.min(2, 1, 3, 1));
+		assertEquals(-1000, IntMath.min(2, 1, 3, -1000));
 	}
 
 	@Test

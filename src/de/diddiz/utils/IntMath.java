@@ -17,7 +17,7 @@ public final class IntMath
 	}
 
 	/**
-	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself. This is equavalien to {@code Math.max(Math.min(value, max), min)} but faster and doesn't require a local variable for value.
+	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself. This is equivalent to {@code Math.max(Math.min(value, max), min)} but faster and doesn't require a local variable.
 	 */
 	public static int clamp(int val, int min, int max) {
 		if (val < min)
@@ -48,7 +48,7 @@ public final class IntMath
 
 	/**
 	 * Computes and returns the largest (nearest to positive infinity) value.
-	 * 
+	 *
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.
 	 */
 	public static int max(int... arr) {
@@ -72,11 +72,11 @@ public final class IntMath
 
 	/**
 	 * Computes and returns the smallest (nearest to negative infinity) value.
-	 * 
+	 *
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.
 	 */
 	public static int min(int... arr) {
-		int min = Integer.MAX_VALUE;
+		int min = arr[0];
 		for (int i = 1; i < arr.length; i++)
 			if (arr[i] < min)
 				min = arr[i];

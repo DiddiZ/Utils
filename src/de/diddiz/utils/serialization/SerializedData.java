@@ -64,12 +64,13 @@ public abstract class SerializedData<K, V>
 		return toFloat(get(key), def);
 	}
 
+	/** Returned {@link List} may contain {@code nulls}. */
 	public List<Float> getFloatList(K key) throws SerializedDataException {
 		try {
 			final List<V> list = getList(key);
 			final List<Float> ret = new ArrayList<>(list.size());
 			for (final V value : list)
-				ret.add(toFloat(value));
+				ret.add(value != null ? toFloat(value) : null);
 			return ret;
 		} catch (final NotANumberException ex) {
 			throw new SerializedDataException("Failed to read key '" + key + "': " + ex.getMessage());
@@ -88,12 +89,13 @@ public abstract class SerializedData<K, V>
 		return toInt(get(key), def);
 	}
 
+	/** Returned {@link List} may contain {@code nulls}. */
 	public List<Integer> getIntList(K key) throws SerializedDataException {
 		try {
 			final List<V> list = getList(key);
 			final List<Integer> ret = new ArrayList<>(list.size());
 			for (final V value : list)
-				ret.add(toInt(value));
+				ret.add(value != null ? toInt(value) : null);
 			return ret;
 		} catch (final NotANumberException ex) {
 			throw new SerializedDataException("Failed to read key '" + key + "': " + ex.getMessage());
@@ -104,7 +106,7 @@ public abstract class SerializedData<K, V>
 	 * Returned {@link List} is assumed to be immutable and may contain {@code nulls}.
 	 * <p>
 	 * Never returns {@code null}. An empty {@link List} is returned instead.
-	 * 
+	 *
 	 * @throws SerializedDataException If key doesn't exist.
 	 */
 	public abstract List<V> getList(K key) throws SerializedDataException;
@@ -133,12 +135,26 @@ public abstract class SerializedData<K, V>
 		}
 	}
 
+	/** Returned {@link List} may contain {@code nulls}. */
 	public List<String> getStringList(K key) throws SerializedDataException {
 		final List<V> list = getList(key);
 		final List<String> ret = new ArrayList<>(list.size());
 		for (final V value : list)
-			ret.add(Utils.toString(value));
+			ret.add(value != null ? Utils.toString(value) : null);
 		return ret;
+	}
+
+	/**
+	 * Tries to return {@link #getStringList(K)}.
+	 *
+	 * @param def List to return in case of a {@link SerializedDataException}
+	 */
+	public List<String> getStringList(K key, List<String> def) {
+		try {
+			return getStringList(key);
+		} catch (final SerializedDataException ex) {
+			return def;
+		}
 	}
 
 	/**

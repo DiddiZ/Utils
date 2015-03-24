@@ -4,7 +4,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- * Empty implementation of {@link WindowListener} that doesn't nothing at all.
+ * Empty implementation of {@link WindowListener} that does nothing at all.
  * <p>
  * Extending this allows subclasses to just override the necessary methods, instead of all.
  */

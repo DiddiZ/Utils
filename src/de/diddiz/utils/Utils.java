@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1004,7 +1005,7 @@ public final class Utils
 		cmd.append(mainClass.getName()).append(' ');
 		if (args != null)
 			cmd.append(args);
-		// showMessageDialog(null, new JTextField(cmd.toString()));
+
 		Runtime.getRuntime().exec(cmd.toString());
 		System.exit(0);
 	}
@@ -1390,15 +1391,29 @@ public final class Utils
 		return def;
 	}
 
+	public static String toString(Enumeration<?> e) {
+		String joined = "";
+		if (e.hasMoreElements()) {
+
+			joined = toString(e.nextElement());
+			while (e.hasMoreElements())
+				joined += ", " + toString(e.nextElement());
+		}
+
+		return joined;
+	}
+
 	public static String toString(Object obj) {
 		if (obj == null)
 			return "null";
 		if (obj instanceof String)
 			return (String)obj;
 		if (obj instanceof String[])
-			return listing((String[])obj, ", ", ", ");
+			return join((String[])obj, ", ");
 		if (obj instanceof Throwable)
 			return toString((Throwable)obj);
+		if (obj instanceof Enumeration<?>)
+			return toString(obj);
 		if (obj instanceof byte[])
 			return toHex((byte[])obj);
 		if (obj instanceof short[])

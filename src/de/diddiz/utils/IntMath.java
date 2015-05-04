@@ -71,6 +71,21 @@ public final class IntMath
 	}
 
 	/**
+	 * Computes and returns the largest (nearest to positive infinity) value.
+	 *
+	 * @throws ArrayIndexOutOfBoundsException When array is empty.
+	 */
+	public static int max(int[][] arr) {
+		int max = max(arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			final int tmp = max(arr[i]);
+			if (tmp > max)
+				max = tmp;
+		}
+		return max;
+	}
+
+	/**
 	 * Computes and returns the smallest (nearest to negative infinity) value.
 	 *
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.

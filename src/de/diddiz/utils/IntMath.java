@@ -35,6 +35,23 @@ public final class IntMath
 		return (int)val;
 	}
 
+	/**
+	 * @return the index of the largest in in {@code arr}
+	 */
+	public static int indexOfMax(int[] arr) {
+		int idx = 0;
+		int max = arr[0];
+		for (int i = 1; i < arr.length; i++)
+			if (arr[i] > max) {
+				max = arr[i];
+				idx = i;
+			}
+		return idx;
+	}
+
+	/**
+	 * @return the index of the smallest in in {@code arr}
+	 */
 	public static int indexOfMin(int[] arr) {
 		int idx = 0;
 		int min = arr[0];

@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 public class CountMap<K> extends HashMap<K, Counter>
 {
+	public int getCount(K key) {
+		return get(key).getValue();
+	}
+
 	public void increment(K key) {
 		Counter counter = get(key);
 		if (counter == null) {

@@ -26,7 +26,7 @@
 	</target>
 	
 	<target name="publish" depends="build, resolve">
-		<ivy:publish resolver="shared" pubrevision="1.3" overwrite="true" update="true">
+		<ivy:publish resolver="shared" pubrevision="1.4" overwrite="true" update="true">
 			<artifacts pattern="build/[artifact].[ext]"/>
 		</ivy:publish>
 	</target>

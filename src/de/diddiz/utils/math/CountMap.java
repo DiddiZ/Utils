@@ -9,20 +9,19 @@ public class CountMap<K> extends HashMap<K, Counter>
 	}
 
 	public void increment(K key) {
-		Counter counter = get(key);
-		if (counter == null) {
-			counter = new Counter(0);
-			put(key, counter);
-		}
-		counter.increment();
+		getCounter(key).increment();
 	}
 
 	public void increment(K key, int increment) {
+		getCounter(key).increment(increment);
+	}
+
+	private Counter getCounter(K key) {
 		Counter counter = get(key);
 		if (counter == null) {
-			counter = new Counter(0);
+			counter = new Counter();
 			put(key, counter);
 		}
-		counter.increment(increment);
+		return counter;
 	}
 }

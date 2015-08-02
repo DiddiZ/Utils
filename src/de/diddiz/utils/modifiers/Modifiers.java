@@ -65,7 +65,7 @@ public enum Modifiers implements Modifier {
 	},
 	/**
 	 * All slopes are linear.
-	 * 
+	 *
 	 * <pre>
 	 * <table>
 	 * <th><tr><td>Input</td><td>Returns</td></tr></th>
@@ -97,7 +97,7 @@ public enum Modifiers implements Modifier {
 
 	/**
 	 * Creates a modifier wraps two other Modifiers.
-	 * 
+	 *
 	 * For {@code factors} lesser or equal to {@code stopA}, {@code modifierA} will be used, {@code modifierB} for all others.
 	 */
 	public static Modifier compositeModifier(final Modifier modifierA, final float stopA, final Modifier modifierB) {
@@ -155,12 +155,7 @@ public enum Modifiers implements Modifier {
 	/**
 	 * Creates a modifier that simply returns a static value.
 	 */
-	public static Modifier staticModifier(final float value) {
-		return new Modifier() {
-			@Override
-			public float modify(float factor) {
-				return value;
-			}
-		};
+	public static Modifier staticModifier(float value) {
+		return factor -> value;
 	}
 }

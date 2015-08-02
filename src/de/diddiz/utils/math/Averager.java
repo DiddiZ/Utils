@@ -1,5 +1,7 @@
 package de.diddiz.utils.math;
 
+import de.diddiz.utils.FloatMath;
+
 public class Averager
 {
 	private final int len;
@@ -14,10 +16,7 @@ public class Averager
 	}
 
 	public float calcAverage() {
-		float sum = 0;
-		for (int i = 0; i < len; i++)
-			sum += data[i];
-		average = sum / len;
+		average = FloatMath.sum(data) / len;
 		return average;
 	}
 

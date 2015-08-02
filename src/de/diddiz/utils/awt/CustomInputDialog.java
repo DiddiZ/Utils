@@ -3,8 +3,6 @@ package de.diddiz.utils.awt;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,21 +14,11 @@ public abstract class CustomInputDialog<T>
 	protected T result;
 
 	public CustomInputDialog() {
-		btnOkay.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getOptionPane().setValue(btnOkay);
-			}
-		});
+		btnOkay.addActionListener(e -> getOptionPane().setValue(btnOkay));
 		btnOkay.setFocusable(true);
 		btnOkay.setEnabled(false);
 
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getOptionPane().setValue(btnCancel);
-			}
-		});
+		btnCancel.addActionListener(e -> getOptionPane().setValue(btnCancel));
 	}
 
 	/**
@@ -53,7 +41,7 @@ public abstract class CustomInputDialog<T>
 
 	/**
 	 * Returns the {@link Dialog} of this dialog.
-	 * 
+	 *
 	 * @throws IllegalStateException if called before {@link #showDialog()}
 	 */
 	protected final JDialog getDialog() {
@@ -65,7 +53,7 @@ public abstract class CustomInputDialog<T>
 
 	/**
 	 * Returns the {@link JOptionPane} of this dialog.
-	 * 
+	 *
 	 * @throws IllegalStateException if called before {@link #showDialog()}
 	 */
 	protected final JOptionPane getOptionPane() throws IllegalStateException {

@@ -3,11 +3,13 @@ package de.diddiz.utils.iter;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import com.google.common.collect.AbstractIterator;
 
 /**
  * Creates an {@link java.util.Iterator Iterator} that iterates over all sub files of a folder recursively.
- * 
+ *
  * Opens directories as needed while iterating, not ahead of.
  */
 public class FileWalker implements Iterable<File>
@@ -24,6 +26,10 @@ public class FileWalker implements Iterable<File>
 	@Override
 	public Iterator<File> iterator() {
 		return new FileWalkerIterator(roots);
+	}
+
+	public Stream<File> stream() {
+		return StreamSupport.stream(spliterator(), false);
 	}
 
 	private static class FileWalkerIterator extends AbstractIterator<File>

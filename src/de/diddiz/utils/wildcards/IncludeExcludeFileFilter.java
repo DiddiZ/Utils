@@ -1,10 +1,8 @@
-package de.diddiz.utils.predicates;
+package de.diddiz.utils.wildcards;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Predicate;
 import de.diddiz.utils.logging.Log;
-import de.diddiz.utils.wildcards.PatternSet;
 
 /**
  * A filter that matches filenames against sets of include and exclude patterns.
@@ -13,9 +11,8 @@ import de.diddiz.utils.wildcards.PatternSet;
  * <p>
  * Paths must match includes and mustn't match excludes in order to return true.
  */
-public final class IncludesExcludesPredicate implements Predicate<File>
+public final class IncludeExcludeFileFilter extends IncludeExcludeFilter<File>
 {
-	private final PatternSet includes, excludes;
 	private final String rootPrefix;
 
 	/**
@@ -23,7 +20,7 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 	 *
 	 * @see #IncludesExcludesPredicate(PatternSet, PatternSet, String)
 	 */
-	public IncludesExcludesPredicate(PatternSet includes, PatternSet excludes) {
+	public IncludeExcludeFileFilter(PatternSet includes, PatternSet excludes) {
 		this(includes, excludes, null);
 	}
 
@@ -34,31 +31,28 @@ public final class IncludesExcludesPredicate implements Predicate<File>
 	 * @param excludes Patterns that mustn't be matched, <code>null</code> to exclude nothing.
 	 * @param rootPrefix Prefix than ill be stripped of all paths before matching
 	 */
-	public IncludesExcludesPredicate(PatternSet includes, PatternSet excludes, String rootPrefix) {
-		this.includes = includes;
-		this.excludes = excludes;
-		this.rootPrefix = normalizePath(rootPrefix);
+	public IncludeExcludeFileFilter(PatternSet includes, PatternSet excludes, String rootPrefix) {
+		super(includes, excludes, null);
+		this.rootPrefix = rootPrefix != null ? normalizePath(rootPrefix) : null;
 	}
 
 	@Override
 	public boolean test(File file) {
 		try {
-			String path = normalizePath(file);
+			String path = normalizePath(file.getCanonicalPath());
 
 			// Strip the root prefix
 			if (rootPrefix != null && path.startsWith(rootPrefix))
 				path = path.substring(rootPrefix.length());
 
-			return (includes == null || includes.matchesAny(path)) &&
-					(excludes == null || !excludes.matchesAny(path));
+			System.out.println(path);
+
+			return (include == null || include.matchesAny(path)) &&
+					(exclude == null || !exclude.matchesAny(path));
 		} catch (final IOException ex) {
 			Log.warning("Failed to normalize " + file + ": ", ex);
 			return false;
 		}
-	}
-
-	private static String normalizePath(File file) throws IOException {
-		return normalizePath(file.getCanonicalPath());
 	}
 
 	private static String normalizePath(String path) {

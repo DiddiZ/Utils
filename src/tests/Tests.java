@@ -38,9 +38,9 @@ import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
-import de.diddiz.utils.predicates.IncludesExcludesPredicate;
 import de.diddiz.utils.serialization.DataNode;
 import de.diddiz.utils.serialization.SerializedDataException;
+import de.diddiz.utils.wildcards.IncludeExcludeFileFilter;
 import de.diddiz.utils.wildcards.PatternSet;
 import de.diddiz.utils.wildcards.PatternSets;
 import de.diddiz.utils.wildcards.WildcardPattern;
@@ -163,19 +163,35 @@ public class Tests
 	}
 
 	@Test
-	public void testIncludesExcludesPredicate() {
+	public void testIncludeExcludeFileFilter() {
 		final PatternSet includes = PatternSets.createPatternSet("*.jpg", "filme/*");
-		final PatternSet excludes = PatternSets.createPatternSet("*.avi");
+		final PatternSet excludes = PatternSets.createPatternSet("*.avi", "d:/*");
 
-		final Predicate<File> predicate = new IncludesExcludesPredicate(includes, excludes, "C:/");
+		{
+			final Predicate<File> predicate = new IncludeExcludeFileFilter(includes, excludes);
 
-		assertTrue(predicate.test(new File("C:/Bilder/picture.jpg")));
-		assertTrue(predicate.test(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
+			assertTrue(predicate.test(new File("C:/Bilder/picture.jpg")));
+			assertTrue(predicate.test(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
 
-		assertTrue(predicate.test(new File("C:/Filme/movie.mkv"))); // Check first folder
-		assertFalse(predicate.test(new File("D:/Filme/movie.mkv")));// Check different drive
+			assertFalse(predicate.test(new File("C:/Filme/movie.mkv"))); // False, as the filme keyword is without the drive letter
+			assertFalse(predicate.test(new File("D:/Filme/movie.mkv")));// Check different drive
+			assertFalse(predicate.test(new File("D:/randomfile.jpg"))); // D: is excluded
 
-		assertFalse(predicate.test(new File("C:/Filme/movie.avi"))); // Check exclude
+			assertFalse(predicate.test(new File("C:/Filme/movie.avi"))); // Check exclude
+		}
+
+		{
+			final Predicate<File> predicate = new IncludeExcludeFileFilter(includes, excludes, "C:/");
+
+			assertTrue(predicate.test(new File("C:/Bilder/picture.jpg")));
+			assertTrue(predicate.test(new File("C:\\Bilder\\picture.jpg")));// Same with backslashes
+
+			assertTrue(predicate.test(new File("C:/Filme/movie.mkv"))); // Check first folder
+			assertFalse(predicate.test(new File("D:/Filme/movie.mkv")));// Check different drive
+			assertFalse(predicate.test(new File("D:/randomfile.jpg"))); // D: is excluded
+
+			assertFalse(predicate.test(new File("C:/Filme/movie.avi"))); // Check exclude
+		}
 	}
 
 	@Test

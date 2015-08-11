@@ -38,6 +38,7 @@ import de.diddiz.utils.modifiers.Modifiers;
 import de.diddiz.utils.numbers.AlternatingFloat;
 import de.diddiz.utils.numbers.FloatNumber;
 import de.diddiz.utils.numbers.ModifiedFloat;
+import de.diddiz.utils.predicates.CharPredicates;
 import de.diddiz.utils.serialization.DataNode;
 import de.diddiz.utils.serialization.SerializedDataException;
 import de.diddiz.utils.wildcards.IncludeExcludeFileFilter;
@@ -55,6 +56,22 @@ public class Tests
 		assertEquals("Hallo Welt", Utils.capitalize("Hallo Welt"));
 		assertEquals("A B C", Utils.capitalize("a b c"));
 		assertEquals("Leer  Zeichen", Utils.capitalize("leer  zeichen"));
+	}
+
+	@Test
+	public void testCharPredicates() {
+		assertTrue("acbacbbba".chars().allMatch(CharPredicates.charFilter(ImmutableSet.of('a', 'b', 'c'))));
+		assertFalse("acbacbbba".chars().allMatch(CharPredicates.charFilter(ImmutableSet.of('a', 'b'))));
+		assertFalse("Acbacbbba".chars().allMatch(CharPredicates.charFilter(ImmutableSet.of('a', 'b', 'c'))));
+		assertTrue("❤".chars().allMatch(CharPredicates.charFilter(ImmutableSet.of('❤'))));
+
+		assertTrue("12321348723489719832".chars().allMatch(CharPredicates.digitsOnly()));
+		assertFalse("12321348723489719832.0".chars().allMatch(CharPredicates.digitsOnly()));
+
+		assertTrue("12321348723489719832".chars().allMatch(CharPredicates.decimals()));
+		assertTrue("12321348723489719832.0".chars().allMatch(CharPredicates.decimals()));
+		assertTrue("1+1".chars().allMatch(CharPredicates.decimals()));
+		assertFalse("1+1=2".chars().allMatch(CharPredicates.decimals()));
 	}
 
 	@Test

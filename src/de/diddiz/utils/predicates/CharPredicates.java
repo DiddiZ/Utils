@@ -1,28 +1,22 @@
 package de.diddiz.utils.predicates;
 
+import java.util.Set;
+import java.util.function.IntPredicate;
 
 public final class CharPredicates
 {
 	/**
-	 * Allows the numbers from {@code 0} to {@code 9} as well as dots ({@code .}) and signs ({@code +-}).
+	 * Accepts if the char is contained in the set
 	 */
-	public static CharPredicate decimals() {
-		return DecimalCharPredicate.INSTANCE;
+	public static IntPredicate charFilter(Set<Character> allowedChars) {
+		return input -> allowedChars.contains((char)input);
 	}
 
 	/**
-	 * Allows the numbers from {@code 0} to {@code 9}.
+	 * Allows the numbers from {@code 0} to {@code 9} as well as dots ({@code .}) and signs ({@code +-}).
 	 */
-	public static CharPredicate digitsOnly() {
-		return DigitCharPredicate.INSTANCE;
-	}
-
-	private static class DecimalCharPredicate implements CharPredicate
-	{
-		private static final CharPredicate INSTANCE = new DecimalCharPredicate();
-
-		@Override
-		public boolean test(char input) {
+	public static IntPredicate decimals() {
+		return input -> {
 			switch (input) {
 				case '0':
 				case '1':
@@ -40,15 +34,14 @@ public final class CharPredicates
 					return true;
 			}
 			return false;
-		}
+		};
 	}
 
-	private static class DigitCharPredicate implements CharPredicate
-	{
-		private static final CharPredicate INSTANCE = new DigitCharPredicate();
-
-		@Override
-		public boolean test(char input) {
+	/**
+	 * Allows the numbers from {@code 0} to {@code 9}.
+	 */
+	public static IntPredicate digitsOnly() {
+		return input -> {
 			switch (input) {
 				case '0':
 				case '1':
@@ -63,6 +56,6 @@ public final class CharPredicates
 					return true;
 			}
 			return false;
-		}
+		};
 	}
 }

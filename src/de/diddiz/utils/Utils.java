@@ -47,6 +47,7 @@ import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 import javax.crypto.Cipher;
 import javax.swing.JFrame;
+import com.google.common.io.Files;
 import com.google.common.math.DoubleMath;
 import de.diddiz.utils.formatters.BytesFormatter;
 import de.diddiz.utils.math.NotANumberException;
@@ -153,10 +154,12 @@ public final class Utils
 	public static void copy(InputStream in, OutputStream out, byte[] buffer, ProgressListener listener) throws IOException {
 		long written = 0;
 		int len;
+		listener.onStart();
 		while ((len = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, len);
 			listener.onProgress(written += len);
 		}
+		listener.onFinish();
 	}
 
 	/**
@@ -196,10 +199,12 @@ public final class Utils
 	public static void copy(Reader in, Writer out, char[] buffer, ProgressListener listener) throws IOException {
 		long written = 0;
 		int len;
+		listener.onStart();
 		while ((len = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, len);
 			listener.onProgress(written += len);
 		}
+		listener.onFinish();
 	}
 
 	/**
@@ -264,10 +269,12 @@ public final class Utils
 	public static String digest(InputStream is, byte[] buffer, MessageDigest md, ProgressListener listener) throws IOException {
 		long position = 0;
 		int len;
+		listener.onStart();
 		while ((len = is.read(buffer)) >= 0) {
 			md.update(buffer, 0, len);
 			listener.onProgress(position += len);
 		}
+		listener.onFinish();
 		return toHex(md.digest());
 	}
 
@@ -275,10 +282,22 @@ public final class Utils
 	 * Downloads a file. Lacking parent directories will be created.
 	 */
 	public static void download(URL url, File file) throws IOException {
-		if (!file.getParentFile().exists())
-			file.getParentFile().mkdir();
+		Files.createParentDirs(file);
 		try (InputStream in = url.openStream(); OutputStream out = new FileOutputStream(file)) {
 			copy(in, out);
+		}
+	}
+
+	/**
+	 * Downloads a file. Lacking parent directories will be created.
+	 * <p>
+	 * Informs the progress listener about the current download position.
+	 */
+	public static void download(URL url, File file, ProgressListener progressListener) throws IOException {
+		Files.createParentDirs(file);
+
+		try (InputStream in = url.openStream(); OutputStream out = new FileOutputStream(file)) {
+			copy(in, out, new byte[4096], progressListener);
 		}
 	}
 

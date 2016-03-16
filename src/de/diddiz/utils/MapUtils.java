@@ -10,7 +10,6 @@ public final class MapUtils
 {
 	/**
 	 * Puts the content of all maps to a new {@link LinkedHashMap}.
-	 *
 	 * This will override same keys.
 	 *
 	 * @see #putAll(Map, Iterable)
@@ -84,7 +83,6 @@ public final class MapUtils
 
 	/**
 	 * Puts the content of multiple maps to a map.
-	 *
 	 * This will override same keys.
 	 */
 	public static <K, V> Map<K, V> putAll(Map<K, V> map, Iterable<Map<K, V>> maps) {

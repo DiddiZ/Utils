@@ -13,9 +13,8 @@ public final class TimeSpecParser
 
 	/**
 	 * Accepts various time formats.
-	 * 
 	 * Mentionable are: Plain integer ({@code "5"}), integer and unit ({@code "3", "hours"}), wdhm format ({@code "1w3d6h15m"}), dates ({@code "21.08.1992"}), times ({@code "12:30:45"}), and datetimes ({@code "21.08.1992", "12:30:45"}).
-	 * 
+	 *
 	 * @return specified minutes or difference from now to specified time stamp in minutes.
 	 * @throws ParseException if unable to parse time spec.
 	 */
@@ -74,22 +73,12 @@ public final class TimeSpecParser
 	 * Accepts a a time spec in form of {@code 1w2d3h4m} (1 week, 2 days, 3 hours and 4 minutes).
 	 * <p>
 	 * Every unit may appear multiple times (though it doesn't really makes sense), values will be added.
-	 * </p>
-	 * <p>
+	 * </p> <p>
 	 * Mustn't contain any char besides digits and {@code wdhm}, and at least one digit must precede {@code wdhm}, otherwise a {@code ParseException} will be thrown.
-	 * </p>
-	 * <p>
-	 * Valid examples:
-	 * 
-	 * {@code 1w}, {@code 0m}, {@code 1d1d},{@code 2h120m}
-	 * </p>
-	 * 
-	 * <p>
-	 * Illegal examples:
-	 * 
-	 * {@code 1wd}, {@code -1m}, {@code 1week}, {@code abcdefg}
-	 * </p>
-	 * 
+	 * </p> <p>
+	 * Valid examples: {@code 1w}, {@code 0m}, {@code 1d1d},{@code 2h120m} </p> <p>
+	 * Illegal examples: {@code 1wd}, {@code -1m}, {@code 1week}, {@code abcdefg} </p>
+	 *
 	 * @return minutes
 	 */
 	private static int parseWDHM(String str) throws ParseException {

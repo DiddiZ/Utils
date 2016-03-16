@@ -8,7 +8,7 @@ public final class FloatMath
 	 * The radius determines how many adjected value are factored in.
 	 * <p>
 	 * Start and end are clamped.
-	 * 
+	 *
 	 * @throws IllegalArgumentException if {@code values} is empty
 	 */
 	public static float[] averages(float[] values, int radius) {
@@ -27,7 +27,7 @@ public final class FloatMath
 
 	/**
 	 * This is equivalent to {@code Math.max(Math.min(value, max), min)} but it's faster and doesn't require a local variable for value.
-	 * 
+	 *
 	 * @return min if value is smaller than min, max if value is higher than max, otherwise the value itself.
 	 */
 	public static float clamp(float val, float min, float max) {
@@ -40,7 +40,7 @@ public final class FloatMath
 
 	/**
 	 * Computes and returns the largest (nearest to positive infinity) value.
-	 * 
+	 *
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.
 	 */
 	public static float max(float... arr) {
@@ -82,7 +82,7 @@ public final class FloatMath
 
 	/**
 	 * Computes and returns the smallest (nearest to negative infinity) value.
-	 * 
+	 *
 	 * @throws ArrayIndexOutOfBoundsException When array is empty.
 	 */
 	public static float min(float... arr) {
@@ -117,7 +117,7 @@ public final class FloatMath
 
 	/**
 	 * Finds the highest value and divides all by it. If all values are smaller than 1 they get scaled up, not down, so the greatest will still be either {@code 1.0f} or {@code 1.0f}.
-	 * 
+	 *
 	 * @return Values ranging from {@code 1.0f} to {@code 1.0f}.
 	 */
 	public static float[] normalize(float... arr) {
@@ -137,7 +137,7 @@ public final class FloatMath
 
 	/**
 	 * Finds the highest value and divides all by it.
-	 * 
+	 *
 	 * @return Values ranging from {@code 1.0f} to {@code 1.0f}.
 	 */
 	public static float[] normalize(int... arr) {

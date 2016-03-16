@@ -25,7 +25,7 @@ public class ByteArrayPool
 
 	/**
 	 * Returns an array to the pool. If the pool is full the array is forsaken.
-	 * 
+	 *
 	 * @throws IllegalArgumentException If the supplied array has a different length than this pool requires
 	 */
 	public void add(byte[] array) throws IllegalArgumentException {

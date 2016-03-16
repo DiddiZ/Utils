@@ -673,8 +673,8 @@ public final class Utils
 		if (arr == null || arr.length == 0)
 			return "";
 		final StringBuilder sb = new StringBuilder(length(arr));
-		for (int i = 0; i < arr.length; i++)
-			sb.append(arr[i]);
+		for (final String element : arr)
+			sb.append(element);
 		return sb.toString();
 	}
 
@@ -748,13 +748,10 @@ public final class Utils
 	 * Creates a {@code String} listing all elements in the collection divided by the supplied delimiters.
 	 * <p>
 	 * Example:
-	 *
 	 * <pre>
 	 * listing(ImmutableList.of(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;), &quot;, &quot;, &quot; and&quot;);
 	 * </pre>
-	 *
 	 * Returns:
-	 *
 	 * <pre>
 	 * 1, 2 and 3
 	 * </pre>
@@ -977,9 +974,7 @@ public final class Utils
 
 	/**
 	 * Reads a number of bytes from an {@link InputStream}.
-	 *
 	 * Ensures that the returned array is completely filled.
-	 *
 	 * The {@code InputStream} is NOT closed!.
 	 *
 	 * @throws EOFException If reached end of stream.
@@ -1031,7 +1026,6 @@ public final class Utils
 
 	/**
 	 * Reverses the order of a {@code List}.
-	 *
 	 * Actually just calls {@link Collections#reverse(List)}, but returns the reversed list, so it makes this method chainable.
 	 *
 	 * @return the reversed {@code List}.
@@ -1097,7 +1091,6 @@ public final class Utils
 	 * @param arr Array to be sliced.
 	 * @param beginIndex must be equal or greater {@code 0}.
 	 * @param endIndex must be equal or greater {@code beginIndex} and not greater than {@code arr.length}.
-	 *
 	 * @return a new array, not a view. The length is equal to {@code endIndex - beginIndex}.
 	 * @throws ArrayIndexOutOfBoundsException if prementioned index requirements aren't met.
 	 */
@@ -1141,7 +1134,6 @@ public final class Utils
 
 	/**
 	 * Fully compatible with {@link String#split(String)}.
-	 *
 	 * This has about the same performance as {@code String.split(String)} for long {@code Strings} but 25% lesser memory consumption. Has about twice computation speed for short {@code Strings}.
 	 */
 	public static String[] split(String str, char c) {
@@ -1246,7 +1238,6 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 *
 	 * @see #toBoolean(Object)
 	 */
 	public static boolean toBoolean(Object obj, boolean def) {
@@ -1279,7 +1270,6 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 *
 	 * @see #toDouble(Object)
 	 */
 	public static double toDouble(Object obj, double def) {
@@ -1313,7 +1303,6 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 *
 	 * @see #toFloat(Object)
 	 */
 	public static float toFloat(Object obj, float def) {
@@ -1362,7 +1351,6 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 *
 	 * @see #toInt(Object)
 	 */
 	public static int toInt(Object obj, int def) {
@@ -1400,7 +1388,6 @@ public final class Utils
 
 	/**
 	 * @param def Value to return if obj can't be parsed.
-	 *
 	 * @see #toLong(Object)
 	 */
 	public static long toLong(Object obj, long def) {

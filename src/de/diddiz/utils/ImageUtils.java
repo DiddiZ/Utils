@@ -19,10 +19,9 @@ public final class ImageUtils
 	 * Converts a {@link BufferedImage} of any type, to a {@link BufferedImage} of a specified type.
 	 * <p>
 	 * If the source image is of the same type as the target type, then the original image is returned, otherwise a new image of the correct type is created and the content of the source image is copied into the new image.
-	 * 
+	 *
 	 * @param sourceImage the image to be converted
 	 * @param imageType the desired BufferedImage type
-	 * 
 	 * @return a BufferedImage of the specified target type
 	 */
 	public static BufferedImage convertToType(BufferedImage source, int imageType) {
@@ -44,7 +43,7 @@ public final class ImageUtils
 
 	/**
 	 * Creates an exact copy of the source image.
-	 * 
+	 *
 	 * @param imageType Same type as {@link BufferedImage#getType()}
 	 */
 	public static BufferedImage copyImage(BufferedImage source, int imageType) {
@@ -59,7 +58,7 @@ public final class ImageUtils
 
 	/**
 	 * Tries to get width and height from the image file.
-	 * 
+	 *
 	 * @return {@code Dimension} or null
 	 */
 	public static Dimension getImageSize(File file) throws IOException {
@@ -80,7 +79,7 @@ public final class ImageUtils
 
 	/**
 	 * Creates a new resized BufferedImage with the supplied size for the longer edge
-	 * 
+	 *
 	 * @param img BufferedImage to resize
 	 * @param size Length of the longer edge
 	 * @return A new resized image
@@ -94,7 +93,7 @@ public final class ImageUtils
 
 	/**
 	 * Creates a new resized BufferedImage with the supplied dimensions
-	 * 
+	 *
 	 * @return A new resized image
 	 */
 	public static BufferedImage resize(BufferedImage source, int newWidth, int newHeight) {

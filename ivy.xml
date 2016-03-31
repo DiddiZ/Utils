@@ -17,6 +17,6 @@
 		<artifact name="utils-src" type="source" ext="jar" conf="sources"/>
 	</publications>
 	<dependencies>
-		<dependency org="com.google.guava" name="guava" rev="18.0" conf="runtime->default"/>
+		<dependency org="com.google.guava" name="guava" rev="19.0" conf="runtime->default"/>
 	</dependencies>
 </ivy-module>

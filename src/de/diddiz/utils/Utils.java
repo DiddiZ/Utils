@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 import javax.crypto.Cipher;
@@ -1086,6 +1087,31 @@ public final class Utils
 	}
 
 	/**
+	 * Shuffles an array without copying.
+	 * 
+	 * @return the shuffled array.
+	 */
+	public static <T> T[] shuffle(T[] arr) {
+		return shuffle(arr, ThreadLocalRandom.current());
+	}
+
+	/**
+	 * Shuffles an array without copying.
+	 * 
+	 * @return the shuffled array.
+	 */
+	public static <T> T[] shuffle(T[] arr, Random rnd) {
+		for (int i = arr.length - 1; i > 0; i--) {
+			final int index = rnd.nextInt(i + 1);
+			// Simple swap
+			final T a = arr[index];
+			arr[index] = arr[i];
+			arr[i] = a;
+		}
+		return arr;
+	}
+
+	/**
 	 * Slices a part out of an array.
 	 *
 	 * @param arr Array to be sliced.
@@ -1104,9 +1130,7 @@ public final class Utils
 	}
 
 	public static <T extends Comparable<T>> List<T> sort(Collection<T> col) {
-		final List<T> list = new ArrayList<>(col);
-		Collections.sort(list);
-		return list;
+		return sort(col, null);
 	}
 
 	public static <T> List<T> sort(Collection<T> col, Comparator<T> comparator) {

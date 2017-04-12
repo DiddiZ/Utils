@@ -45,8 +45,6 @@ public final class IncludeExcludeFileFilter extends IncludeExcludeFilter<File>
 			if (rootPrefix != null && path.startsWith(rootPrefix))
 				path = path.substring(rootPrefix.length());
 
-			System.out.println(path);
-
 			return (include == null || include.matchesAny(path)) &&
 					(exclude == null || !exclude.matchesAny(path));
 		} catch (final IOException ex) {

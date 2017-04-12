@@ -749,10 +749,13 @@ public final class Utils
 	 * Creates a {@code String} listing all elements in the collection divided by the supplied delimiters.
 	 * <p>
 	 * Example:
+	 *
 	 * <pre>
 	 * listing(ImmutableList.of(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;), &quot;, &quot;, &quot; and&quot;);
 	 * </pre>
+	 *
 	 * Returns:
+	 *
 	 * <pre>
 	 * 1, 2 and 3
 	 * </pre>
@@ -885,6 +888,9 @@ public final class Utils
 		return max;
 	}
 
+	/**
+	 * @return the length of the longest string.
+	 */
 	public static int maxStringLength(String... strs) {
 		int max = 0;
 		for (final String str : strs) {
@@ -1088,7 +1094,7 @@ public final class Utils
 
 	/**
 	 * Shuffles an array without copying.
-	 * 
+	 *
 	 * @return the shuffled array.
 	 */
 	public static <T> T[] shuffle(T[] arr) {
@@ -1097,7 +1103,7 @@ public final class Utils
 
 	/**
 	 * Shuffles an array without copying.
-	 * 
+	 *
 	 * @return the shuffled array.
 	 */
 	public static <T> T[] shuffle(T[] arr, Random rnd) {

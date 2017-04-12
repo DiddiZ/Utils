@@ -288,6 +288,14 @@ public class Tests
 	}
 
 	@Test
+	public void testMaxStringLength() {
+		assertEquals(1, Utils.maxStringLength("1"));
+		assertEquals(2, Utils.maxStringLength("1", "12"));
+		assertEquals(0, Utils.maxStringLength(new String[]{"", ""}));
+		assertEquals(0, Utils.maxStringLength(new String[]{}));
+	}
+
+	@Test
 	public void testQuadraticAlternatingFloat() {
 		final FloatNumber number = new ModifiedFloat(new AlternatingFloat(0f, 100f, 1f, 0f), Modifiers.QUADRATIC);
 		for (int i = 0; i < 3; i++) {

@@ -9,7 +9,6 @@ public final class WildcardPatterns
 	 * Has various optimizations for patterns with no or just one wildcard.
 	 * 
 	 * @param text {@code String} with an arbitrary number of wildcards (*).
-	 * 
 	 * @see WildcardPattern
 	 */
 	public static WildcardPattern compile(String pattern) {

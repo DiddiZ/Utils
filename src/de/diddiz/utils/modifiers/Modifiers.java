@@ -97,7 +97,6 @@ public enum Modifiers implements Modifier {
 
 	/**
 	 * Creates a modifier wraps two other Modifiers.
-	 *
 	 * For {@code factors} lesser or equal to {@code stopA}, {@code modifierA} will be used, {@code modifierB} for all others.
 	 */
 	public static Modifier compositeModifier(final Modifier modifierA, final float stopA, final Modifier modifierB) {

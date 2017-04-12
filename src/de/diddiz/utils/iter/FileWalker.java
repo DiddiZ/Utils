@@ -9,7 +9,6 @@ import com.google.common.collect.AbstractIterator;
 
 /**
  * Creates an {@link java.util.Iterator Iterator} that iterates over all sub files of a folder recursively.
- *
  * Opens directories as needed while iterating, not ahead of.
  */
 public class FileWalker implements Iterable<File>

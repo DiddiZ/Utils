@@ -14,7 +14,6 @@ public class DirectoryWalker implements Iterable<File>
 
 	/**
 	 * The {@code Iterator} will iterate over the directory itself and all sub-folders in all sub-directories.
-	 * 
 	 * The {@code Iterator} only returns existing directories.
 	 * 
 	 * @param roots May be a directory or point to nothing.

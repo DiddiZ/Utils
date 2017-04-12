@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 /**
  * A simple class containing a {@link Connection}. {@code SimpleDatabase} is meant to be used for local databases like sqlite or H2.
- * 
  * Sub-classes should add methods to handle common queries, so the actual code doesn't have to handle SQL stuff.
  */
 public abstract class SimpleDatabase implements AutoCloseable
@@ -38,7 +37,6 @@ public abstract class SimpleDatabase implements AutoCloseable
 
 	/**
 	 * This method is called every time a connection is created.
-	 * 
 	 * Please use <code>CREATE TABLE IF NOT EXISTS [...]</code>.
 	 */
 	protected abstract void initializeTables(Statement st) throws SQLException;

@@ -109,7 +109,6 @@ public class DataNode extends SerializedData<String, Object>
 	 * Will overwrite existing values, if path doesn't denote a map.
 	 * 
 	 * @return New {@code YamlNode}, never {@code null}.
-	 * 
 	 * @see #getNode(String)
 	 */
 	public DataNode getOrCreateSubNode(String path) {
@@ -172,7 +171,6 @@ public class DataNode extends SerializedData<String, Object>
 	 * Return a list of all sub-nodes at this node.
 	 * 
 	 * @see #getSubNodes(String)
-	 * 
 	 * @return a {@code List}, never {@code null}
 	 */
 	public List<DataNode> getSubNodes() {

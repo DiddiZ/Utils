@@ -1,6 +1,5 @@
 package de.diddiz.utils.wildcards;
 
-
 public abstract class PatternSet
 {
 	/**

@@ -4,7 +4,6 @@ import java.util.Map;
 
 /**
  * A class that can serialize itself to a String->Object map.
- * 
  * Deserializability isn't implicitly guaranteed.
  */
 public interface DataSerializable

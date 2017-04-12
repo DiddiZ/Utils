@@ -15,15 +15,13 @@ import de.diddiz.utils.Utils;
 
 /**
  * Simple logging facility that focuses on a neat style.
- * 
  * Uses {@link System#out} as default output. Log files may be added.
  */
 public final class Log
 {
 	private static final Logger logger = Logger.getLogger(Log.class.getName());
 	private static DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-	private static final Formatter logFormatter = new Formatter()
-	{
+	private static final Formatter logFormatter = new Formatter() {
 		@Override
 		public synchronized String format(LogRecord logRecord) {
 			return (dateFormat != null ? dateFormat.format(logRecord.getMillis()) + " " : "") +
@@ -54,7 +52,6 @@ public final class Log
 
 	/**
 	 * Returns the {@link Logger} used for all logging.
-	 * 
 	 * Please don't alter the logger by changing the log level or something.
 	 */
 	public static Logger getLogger() {
@@ -74,7 +71,6 @@ public final class Log
 
 	/**
 	 * Changes the {@link DateFormat} prefix for all lines.
-	 * 
 	 * Default is <code>HH:mm:ss</code>.
 	 * 
 	 * @param dateFormat May be {@code null} to disable time prefix.

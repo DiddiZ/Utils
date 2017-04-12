@@ -11,6 +11,8 @@ import com.google.common.collect.Interners;
  * A simple {@link Interner} backed by a {@link WeakHashMap}.
  * <p>
  * This is about 2-3 times faster than {@link Interners#newWeakInterner()} and consumes about the same memory.
+ * 
+ * @author Robin Kupper
  */
 public class WeakInterner<T> implements Interner<T>
 {

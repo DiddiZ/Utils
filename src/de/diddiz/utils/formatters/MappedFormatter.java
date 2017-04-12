@@ -2,6 +2,9 @@ package de.diddiz.utils.formatters;
 
 import java.util.Map;
 
+/**
+ * @author Robin Kupper
+ */
 public class MappedFormatter<T> implements Formatter<T>
 {
 	private final Map<T, String> map;

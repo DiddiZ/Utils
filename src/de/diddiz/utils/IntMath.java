@@ -1,5 +1,8 @@
 package de.diddiz.utils;
 
+/**
+ * @author Robin Kupper
+ */
 public final class IntMath
 {
 	public static int ceil(double d) {

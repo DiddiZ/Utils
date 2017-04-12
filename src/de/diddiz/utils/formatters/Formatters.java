@@ -4,6 +4,9 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * @author Robin Kupper
+ */
 public final class Formatters
 {
 	/**

@@ -16,6 +16,8 @@ import de.diddiz.utils.Utils;
 /**
  * Simple logging facility that focuses on a neat style.
  * Uses {@link System#out} as default output. Log files may be added.
+ * 
+ * @author Robin Kupper
  */
 public final class Log
 {
@@ -60,7 +62,7 @@ public final class Log
 
 	/**
 	 * Shorthand for:
-	 * 
+	 *
 	 * <pre>
 	 * Log.getLogger().info(msg);
 	 * </pre>
@@ -72,7 +74,7 @@ public final class Log
 	/**
 	 * Changes the {@link DateFormat} prefix for all lines.
 	 * Default is <code>HH:mm:ss</code>.
-	 * 
+	 *
 	 * @param dateFormat May be {@code null} to disable time prefix.
 	 */
 	public static synchronized void setDateFormat(DateFormat dateFormat) {
@@ -81,7 +83,7 @@ public final class Log
 
 	/**
 	 * Shorthand for:
-	 * 
+	 *
 	 * <pre>
 	 * Log.getLogger().severe(msg);
 	 * </pre>
@@ -92,7 +94,7 @@ public final class Log
 
 	/**
 	 * Shorthand for:
-	 * 
+	 *
 	 * <pre>
 	 * Log.getLogger().log(Level.SEVERE, msg, thrown);
 	 * </pre>
@@ -103,7 +105,7 @@ public final class Log
 
 	/**
 	 * Shorthand for:
-	 * 
+	 *
 	 * <pre>
 	 * Log.getLogger().warning(msg, thrown);
 	 * </pre>
@@ -114,7 +116,7 @@ public final class Log
 
 	/**
 	 * Shorthand for:
-	 * 
+	 *
 	 * <pre>
 	 * Log.getLogger().log(Level.WARNING, msg, thrown);
 	 * </pre>

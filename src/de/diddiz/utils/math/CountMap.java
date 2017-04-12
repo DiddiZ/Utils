@@ -2,6 +2,9 @@ package de.diddiz.utils.math;
 
 import java.util.HashMap;
 
+/**
+ * @author Robin Kupper
+ */
 public class CountMap<K> extends HashMap<K, Counter>
 {
 	public int getCount(K key) {

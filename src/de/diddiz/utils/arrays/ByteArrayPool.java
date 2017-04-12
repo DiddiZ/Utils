@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Pool of byte arrays with a fixed length. To prevent pollution this pool has a maximum number of kept arrays.
+ *
+ * @author Robin Kupper
  */
 public class ByteArrayPool
 {

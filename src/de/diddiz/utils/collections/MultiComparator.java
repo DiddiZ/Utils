@@ -8,7 +8,7 @@ import java.util.Comparator;
  * Comparators are tired in order.
  * Return 0 only of all comparators return 0. Otherwise this returns the first non-zero return value.
  *
- * @author DiddiZ
+ * @author Robin Kupper
  */
 public class MultiComparator<T> implements Comparator<T>
 {

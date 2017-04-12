@@ -1,11 +1,14 @@
 package de.diddiz.utils;
 
+/**
+ * @author Robin Kupper
+ */
 public final class ReflectionUtils
 {
 	/**
 	 * @param clazz Class to be tested
 	 * @param inter Interface
-	 * @return If one of clazz or its superclasses implements interface inter
+	 * @return whether one of clazz or its superclasses implements inter
 	 */
 	public static boolean implementsInterface(Class<?> clazz, Class<?> inter) {
 		while (clazz != null) {

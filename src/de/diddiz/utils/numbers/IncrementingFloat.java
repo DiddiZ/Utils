@@ -1,5 +1,8 @@
 package de.diddiz.utils.numbers;
 
+/**
+ * @author Robin Kupper
+ */
 public class IncrementingFloat extends FloatNumber
 {
 	protected final float min, max, step;

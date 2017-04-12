@@ -3,6 +3,9 @@ package de.diddiz.utils.numbers;
 import static de.diddiz.utils.Utils.RANDOM;
 import java.util.Random;
 
+/**
+ * @author Robin Kupper
+ */
 public final class IntNumbers
 {
 	public static IntNumber randomIntNumber(int lowerBound, int upperBound) {

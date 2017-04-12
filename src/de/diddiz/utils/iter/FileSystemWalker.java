@@ -14,6 +14,8 @@ import com.google.common.collect.AbstractIterator;
 /**
  * Creates an {@link java.util.Iterator Iterator} that iterates over all sub paths of a set of paths recursively.
  * Opens directories as needed while iterating, not ahead of.
+ * 
+ * @author Robin Kupper
  */
 public class FileSystemWalker implements Iterable<Path>
 {

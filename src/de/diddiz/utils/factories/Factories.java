@@ -3,6 +3,9 @@ package de.diddiz.utils.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Robin Kupper
+ */
 public final class Factories
 {
 	/**

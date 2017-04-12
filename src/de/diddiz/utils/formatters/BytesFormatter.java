@@ -4,6 +4,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+/**
+ * @author Robin Kupper
+ */
 public class BytesFormatter implements Formatter<Long>
 {
 	public static final BytesFormatter INSTANCE = new BytesFormatter();

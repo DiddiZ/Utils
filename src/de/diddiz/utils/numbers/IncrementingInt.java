@@ -1,5 +1,8 @@
 package de.diddiz.utils.numbers;
 
+/**
+ * @author Robin Kupper
+ */
 public class IncrementingInt extends IntNumber
 {
 	protected final int min, max, step;

@@ -2,6 +2,9 @@ package de.diddiz.utils.numbers;
 
 import static de.diddiz.utils.FloatMath.clamp;
 
+/**
+ * @author Robin Kupper
+ */
 public class DampedDegreeFloat extends DampedFloat
 {
 	public DampedDegreeFloat(float value, float speed) {

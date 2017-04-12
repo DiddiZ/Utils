@@ -8,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class CustomInputDialog<T>
 {
 	private final JButton btnOkay = new JButton("Ok"), btnCancel = new JButton("Cancel");

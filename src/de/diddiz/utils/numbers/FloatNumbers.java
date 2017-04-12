@@ -3,6 +3,9 @@ package de.diddiz.utils.numbers;
 import static de.diddiz.utils.Utils.RANDOM;
 import java.util.Random;
 
+/**
+ * @author Robin Kupper
+ */
 public final class FloatNumbers
 {
 	public static FloatNumber randomFloatNumber(float lowerBound, float upperBound) {

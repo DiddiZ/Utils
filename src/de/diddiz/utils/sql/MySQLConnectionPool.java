@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author Robin Kupper
+ */
 public class MySQLConnectionPool implements Closeable
 {
 	private final static int POOL_SIZE = 10;

@@ -8,6 +8,8 @@ import java.sql.Statement;
 /**
  * A simple class containing a {@link Connection}. {@code SimpleDatabase} is meant to be used for local databases like sqlite or H2.
  * Sub-classes should add methods to handle common queries, so the actual code doesn't have to handle SQL stuff.
+ * 
+ * @author Robin Kupper
  */
 public abstract class SimpleDatabase implements AutoCloseable
 {

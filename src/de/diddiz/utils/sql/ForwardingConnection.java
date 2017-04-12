@@ -21,6 +21,8 @@ import java.util.concurrent.Executor;
 
 /**
  * A {@link Connection} that forwards all method calls to an underlying {@code Connection}.
+ * 
+ * @author Robin Kupper
  */
 public class ForwardingConnection implements Connection
 {

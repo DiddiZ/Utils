@@ -2,6 +2,9 @@ package de.diddiz.utils.numbers;
 
 import static de.diddiz.utils.FloatMath.clamp;
 
+/**
+ * @author Robin Kupper
+ */
 public class DampedFloat extends FloatNumber
 {
 	protected final float speed;
@@ -19,7 +22,7 @@ public class DampedFloat extends FloatNumber
 
 	/**
 	 * Equivalent to:
-	 * 
+	 *
 	 * <pre>
 	 * setTarget(target);
 	 * next();

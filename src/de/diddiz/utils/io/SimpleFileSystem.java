@@ -20,6 +20,8 @@ import com.google.common.collect.ImmutableMap;
 
 /**
  * Wrapper for a {@link FileSystem} to simplify common actions.
+ * 
+ * @author Robin Kupper
  */
 public class SimpleFileSystem implements Closeable
 {

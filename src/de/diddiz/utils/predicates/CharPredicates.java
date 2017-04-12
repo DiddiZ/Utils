@@ -3,6 +3,9 @@ package de.diddiz.utils.predicates;
 import java.util.Set;
 import java.util.function.IntPredicate;
 
+/**
+ * @author Robin Kupper
+ */
 public final class CharPredicates
 {
 	/**

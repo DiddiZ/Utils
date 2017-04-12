@@ -1,5 +1,8 @@
 package de.diddiz.utils.modifiers;
 
+/**
+ * @author Robin Kupper
+ */
 public enum Modifiers implements Modifier {
 	LINEAR {
 		@Override

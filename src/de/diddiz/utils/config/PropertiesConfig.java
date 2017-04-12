@@ -17,6 +17,9 @@ import de.diddiz.utils.Utils;
 import de.diddiz.utils.serialization.SerializedData;
 import de.diddiz.utils.serialization.SerializedDataException;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class PropertiesConfig extends SerializedData<String, String>
 {
 	private final Properties properties;
@@ -152,7 +155,7 @@ public abstract class PropertiesConfig extends SerializedData<String, String>
 
 	/**
 	 * Convenient method to easily read Properties from a resource file (most likely stored inside the jar).
-	 * 
+	 *
 	 * @param resourceName Resource name
 	 */
 	protected static Properties loadPropertiesFromResource(String resourceName) throws IOException {
@@ -161,7 +164,7 @@ public abstract class PropertiesConfig extends SerializedData<String, String>
 
 	/**
 	 * Convenient method to easily read Properties from a resource file (most likely stored inside the jar).
-	 * 
+	 *
 	 * @param resourceName Resource name
 	 * @param parent May be null
 	 */

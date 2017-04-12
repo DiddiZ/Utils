@@ -1,5 +1,8 @@
 package de.diddiz.utils.wildcards;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class PatternSet
 {
 	/**

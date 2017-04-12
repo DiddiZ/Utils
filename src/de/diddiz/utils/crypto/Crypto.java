@@ -19,6 +19,9 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * @author Robin Kupper
+ */
 public class Crypto
 {
 	/**

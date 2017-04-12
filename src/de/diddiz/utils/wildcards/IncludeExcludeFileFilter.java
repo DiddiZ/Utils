@@ -10,6 +10,8 @@ import de.diddiz.utils.logging.Log;
  * Supplied files are firstly stripped of the root path. E.g. if the root prefix is "<code>c:/programs/</code>" and the applied file is "<code>c:/programs/myfile.txt</code>","<code>myfile.txt</code>" will be used for matching.
  * <p>
  * Paths must match includes and mustn't match excludes in order to return true.
+ * 
+ * @author Robin Kupper
  */
 public final class IncludeExcludeFileFilter extends IncludeExcludeFilter<File>
 {

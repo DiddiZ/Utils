@@ -3,6 +3,9 @@ package de.diddiz.utils.wildcards;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Robin Kupper
+ */
 public final class PatternSets
 {
 	public static PatternSet createPatternSet(List<WildcardPattern> patterns) {

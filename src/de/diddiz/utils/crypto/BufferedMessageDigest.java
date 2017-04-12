@@ -9,6 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import de.diddiz.utils.ProgressListener;
 import de.diddiz.utils.Utils;
 
+/**
+ * @author Robin Kupper
+ */
 public class BufferedMessageDigest
 {
 	private final byte[] buffer;

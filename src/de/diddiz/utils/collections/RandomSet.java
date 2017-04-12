@@ -9,6 +9,9 @@ import java.util.Random;
 import java.util.function.Supplier;
 import de.diddiz.utils.Utils;
 
+/**
+ * @author Robin Kupper
+ */
 public class RandomSet<T> implements Iterable<T>, Supplier<T>
 {
 	private final List<T> values;

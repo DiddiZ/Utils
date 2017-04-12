@@ -7,6 +7,8 @@ import java.awt.event.WindowListener;
  * Empty implementation of {@link WindowListener} that does nothing at all.
  * <p>
  * Extending this allows subclasses to just override the necessary methods, instead of all.
+ *
+ * @author Robin Kupper
  */
 public abstract class AbstractWindowListener implements WindowListener
 {

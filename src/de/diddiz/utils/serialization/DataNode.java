@@ -10,6 +10,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import de.diddiz.utils.Utils;
 
+/**
+ * @author Robin Kupper
+ */
 public class DataNode extends SerializedData<String, Object>
 {
 	private final char pathSeperator;
@@ -72,7 +75,7 @@ public class DataNode extends SerializedData<String, Object>
 
 	/**
 	 * Returns all keys present at this node.
-	 * 
+	 *
 	 * @see #getKeys(String)
 	 */
 	public Set<String> getKeys() {
@@ -107,7 +110,7 @@ public class DataNode extends SerializedData<String, Object>
 	 * Creates a new {@code YamlNode}, if none is present.
 	 * <p>
 	 * Will overwrite existing values, if path doesn't denote a map.
-	 * 
+	 *
 	 * @return New {@code YamlNode}, never {@code null}.
 	 * @see #getNode(String)
 	 */
@@ -133,7 +136,7 @@ public class DataNode extends SerializedData<String, Object>
 	 * Changes to the sub node are reflected by the parent and vice versa.
 	 * <p>
 	 * Supplying an empty path will return this node.
-	 * 
+	 *
 	 * @return new {@code YamlNode} or {@code null}.
 	 */
 	@SuppressWarnings("unchecked")
@@ -150,7 +153,7 @@ public class DataNode extends SerializedData<String, Object>
 	 * Changes to the sub nodes are reflected by the parent and each other.
 	 * <p>
 	 * Supplying an empty path will return an empty list as this node isn't a list.
-	 * 
+	 *
 	 * @return a List, never {@code null}.
 	 */
 	@SuppressWarnings("unchecked")
@@ -169,7 +172,7 @@ public class DataNode extends SerializedData<String, Object>
 
 	/**
 	 * Return a list of all sub-nodes at this node.
-	 * 
+	 *
 	 * @see #getSubNodes(String)
 	 * @return a {@code List}, never {@code null}
 	 */
@@ -181,7 +184,7 @@ public class DataNode extends SerializedData<String, Object>
 	 * Return a list of all sub-nodes at the specified path.
 	 * <p>
 	 * Changes to the returned list aren't reflected.
-	 * 
+	 *
 	 * @return a {@code List}, never {@code null}
 	 */
 	@SuppressWarnings("unchecked")
@@ -197,7 +200,7 @@ public class DataNode extends SerializedData<String, Object>
 
 	/**
 	 * Return a list of all sub-nodes at this node, associated with their keys.
-	 * 
+	 *
 	 * @see #getSubNodesWithKeys(String)
 	 */
 	public List<Entry<String, DataNode>> getSubNodesWithKeys() {
@@ -210,7 +213,7 @@ public class DataNode extends SerializedData<String, Object>
 	 * The keys are the name of the parent node, not the full path.
 	 * <p>
 	 * Changes to the returned list aren't reflected.
-	 * 
+	 *
 	 * @return a {@code List}, never {@code null}
 	 */
 	@SuppressWarnings("unchecked")

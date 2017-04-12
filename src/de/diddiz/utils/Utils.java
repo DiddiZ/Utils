@@ -53,6 +53,11 @@ import com.google.common.math.DoubleMath;
 import de.diddiz.utils.formatters.BytesFormatter;
 import de.diddiz.utils.math.NotANumberException;
 
+/**
+ * Collection of general utility methods.
+ *
+ * @author Robin Kupper
+ */
 public final class Utils
 {
 	public static final String NEWLINE = System.getProperty("line.separator"), TAB = "\t";

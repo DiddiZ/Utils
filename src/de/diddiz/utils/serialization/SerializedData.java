@@ -10,6 +10,9 @@ import java.util.List;
 import de.diddiz.utils.Utils;
 import de.diddiz.utils.math.NotANumberException;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class SerializedData<K, V>
 {
 	/**

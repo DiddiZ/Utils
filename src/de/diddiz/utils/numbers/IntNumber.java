@@ -1,5 +1,8 @@
 package de.diddiz.utils.numbers;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class IntNumber extends MutableNumber
 {
 	protected int value;

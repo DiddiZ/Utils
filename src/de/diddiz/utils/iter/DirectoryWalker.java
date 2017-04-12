@@ -7,6 +7,8 @@ import com.google.common.collect.AbstractIterator;
 
 /**
  * Iterates over all sub-directories of a folder.
+ * 
+ * @author Robin Kupper
  */
 public class DirectoryWalker implements Iterable<File>
 {
@@ -15,7 +17,7 @@ public class DirectoryWalker implements Iterable<File>
 	/**
 	 * The {@code Iterator} will iterate over the directory itself and all sub-folders in all sub-directories.
 	 * The {@code Iterator} only returns existing directories.
-	 * 
+	 *
 	 * @param roots May be a directory or point to nothing.
 	 */
 	public DirectoryWalker(File... roots) {

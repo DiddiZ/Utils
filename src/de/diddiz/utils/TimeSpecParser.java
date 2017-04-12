@@ -5,6 +5,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * @author Robin Kupper
+ */
 public final class TimeSpecParser
 {
 	private static final int MILLIS_PER_MINUTE = 1000 * 60;

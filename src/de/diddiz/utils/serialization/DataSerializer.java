@@ -4,6 +4,8 @@ import java.util.Map;
 
 /**
  * Allows mass-serialization of classes that can't implement {@link DataSerializable}.
+ *
+ * @author Robin Kupper
  */
 public interface DataSerializer<T>
 {

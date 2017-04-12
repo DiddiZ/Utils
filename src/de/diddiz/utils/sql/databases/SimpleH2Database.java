@@ -3,6 +3,9 @@ package de.diddiz.utils.sql.databases;
 import java.io.File;
 import java.sql.SQLException;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class SimpleH2Database extends SimpleDatabase
 {
 	public SimpleH2Database(File databaseFile) throws SQLException {

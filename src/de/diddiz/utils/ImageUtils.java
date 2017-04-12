@@ -13,6 +13,9 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
+/**
+ * @author Robin Kupper
+ */
 public final class ImageUtils
 {
 	/**

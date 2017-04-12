@@ -11,6 +11,8 @@ import com.google.common.collect.Interner;
  * A {@link Interner} backed by a {@link WeakHashMap} designed for arrays.
  * <p>
  * Performs deep equals and deep hashing. This is necessary as naturally arrays only equals by reference.
+ * 
+ * @author Robin Kupper
  */
 public class WeakArrayInterner<T> implements Interner<T[]>
 {

@@ -1,5 +1,8 @@
 package de.diddiz.utils;
 
+/**
+ * @author Robin Kupper
+ */
 public final class FloatMath
 {
 	/**

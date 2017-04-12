@@ -2,6 +2,9 @@ package de.diddiz.utils.math;
 
 import de.diddiz.utils.FloatMath;
 
+/**
+ * @author Robin Kupper
+ */
 public class Averager
 {
 	private final int len;

@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import de.diddiz.utils.factories.Factory;
 
+/**
+ * @author Robin Kupper
+ */
 public final class ArrayUtils
 {
 	public static String[] arrayOf(Collection<String> col) {

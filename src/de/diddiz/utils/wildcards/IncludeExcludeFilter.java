@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 /**
  * Filter that returns true, if the object matches the include patterns, but doesn't match the exclude patterns.
+ * 
+ * @author Robin Kupper
  */
 public class IncludeExcludeFilter<T> implements Predicate<T>
 {

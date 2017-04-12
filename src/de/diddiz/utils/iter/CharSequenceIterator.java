@@ -3,6 +3,9 @@ package de.diddiz.utils.iter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * @author Robin Kupper
+ */
 public class CharSequenceIterator implements Iterable<Character>
 {
 	private final CharSequence chars;

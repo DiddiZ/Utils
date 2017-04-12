@@ -3,6 +3,9 @@ package de.diddiz.utils;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/**
+ * @author Robin Kupper
+ */
 public final class FileFilters
 {
 	/**

@@ -9,6 +9,8 @@ import java.awt.dnd.DropTargetListener;
  * Empty implementation of {@link DropTargetListener} that does nothing at all.
  * <p>
  * Extending this allows subclasses to just override the necessary methods, instead of all.
+ *
+ * @author Robin Kupper
  */
 public class AbstractDropTargetListener implements DropTargetListener
 {

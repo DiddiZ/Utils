@@ -4,6 +4,9 @@ import java.awt.Component;
 import java.awt.Container;
 import javax.swing.RootPaneContainer;
 
+/**
+ * @author Robin Kupper
+ */
 public class SwingUtils
 {
 	/**

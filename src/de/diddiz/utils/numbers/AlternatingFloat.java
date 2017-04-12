@@ -1,5 +1,8 @@
 package de.diddiz.utils.numbers;
 
+/**
+ * @author Robin Kupper
+ */
 public class AlternatingFloat extends IncrementingFloat
 {
 	protected float dir = 1;

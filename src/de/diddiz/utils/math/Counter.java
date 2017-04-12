@@ -22,6 +22,8 @@ import java.util.Map;
  * }
  * counter.increment();
  * </pre>
+ * 
+ * @author Robin Kupper
  */
 public class Counter
 {

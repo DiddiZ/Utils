@@ -2,6 +2,9 @@ package de.diddiz.utils.wildcards;
 
 import java.util.function.Predicate;
 
+/**
+ * @author Robin Kupper
+ */
 public abstract class WildcardPattern implements Predicate<String>
 {
 	/**

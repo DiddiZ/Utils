@@ -1,15 +1,18 @@
 package de.diddiz.utils.numbers;
 
+/**
+ * @author Robin Kupper
+ */
 public class AlternatingInt extends IncrementingInt
 {
 	protected int dir = 1;
 
-	public AlternatingInt(int min, int max, int step, int initialValue) {
-		super(min, max, step, initialValue);
-	}
-
 	public AlternatingInt(int min, int max) {
 		super(min, max);
+	}
+
+	public AlternatingInt(int min, int max, int step, int initialValue) {
+		super(min, max, step, initialValue);
 	}
 
 	@Override

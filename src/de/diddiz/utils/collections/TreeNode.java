@@ -3,6 +3,9 @@ package de.diddiz.utils.collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author Robin Kupper
+ */
 public class TreeNode<T>
 {
 	protected final T value;

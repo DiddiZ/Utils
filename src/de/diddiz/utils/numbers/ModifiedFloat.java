@@ -2,6 +2,9 @@ package de.diddiz.utils.numbers;
 
 import de.diddiz.utils.modifiers.Modifier;
 
+/**
+ * @author Robin Kupper
+ */
 public class ModifiedFloat extends FloatNumber
 {
 	protected final Modifier modifier;

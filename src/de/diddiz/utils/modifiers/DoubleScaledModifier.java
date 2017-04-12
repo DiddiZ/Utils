@@ -2,6 +2,8 @@ package de.diddiz.utils.modifiers;
 
 /**
  * A wrapper for a Modifier that divides the input by a fixed number before applying it to the Modifier and multiplies it afterwards with another fixed number to rescale it..
+ * 
+ * @author Robin Kupper
  */
 public class DoubleScaledModifier extends ScaledModifier
 {

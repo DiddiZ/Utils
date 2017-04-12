@@ -47,6 +47,9 @@ import de.diddiz.utils.wildcards.PatternSets;
 import de.diddiz.utils.wildcards.WildcardPattern;
 import de.diddiz.utils.wildcards.WildcardPatterns;
 
+/**
+ * @author Robin Kupper
+ */
 @SuppressWarnings("static-method")
 public class Tests
 {

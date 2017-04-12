@@ -6,6 +6,9 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * @author Robin Kupper
+ */
 public final class MapUtils
 {
 	/**

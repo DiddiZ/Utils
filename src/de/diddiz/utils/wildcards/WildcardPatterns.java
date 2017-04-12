@@ -3,11 +3,14 @@ package de.diddiz.utils.wildcards;
 import static de.diddiz.utils.Utils.join;
 import de.diddiz.utils.Utils;
 
+/**
+ * @author Robin Kupper
+ */
 public final class WildcardPatterns
 {
 	/**
 	 * Has various optimizations for patterns with no or just one wildcard.
-	 * 
+	 *
 	 * @param text {@code String} with an arbitrary number of wildcards (*).
 	 * @see WildcardPattern
 	 */
